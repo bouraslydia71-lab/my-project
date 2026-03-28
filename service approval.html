@@ -1,0 +1,369 @@
+<!<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+    }
+
+    /* FIXED PAGE WRAPPER */
+    .page {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: #ffffff;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(180deg, #1a2cff, #0000aa);
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      margin-bottom: 30px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: 0.3s;
+    }
+
+    .sidebar li.active,
+    .sidebar li:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .settings {
+      margin-top: auto;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    /* Topbar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .topbar input {
+      width: 300px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user img {
+      border-radius: 50%;
+    }
+
+    /* Header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+    }
+
+    .stats div {
+      background: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .filters select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    /* Content Layout */
+    .content {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* Table */
+    .table {
+      flex: 2;
+      background: white;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .header {
+      font-weight: bold;
+      background: #f9fafc;
+    }
+
+    .pending {
+      color: orange;
+    }
+
+    .approved {
+      color: green;
+    }
+
+    .rejected {
+      color: red;
+    }
+
+    /* Details */
+    .details {
+      flex: 1;
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .details img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .details h3 {
+      margin-bottom: 10px;
+    }
+
+    .details p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    /* Buttons */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .approve {
+      background: #4caf50;
+      color: white;
+    }
+
+    .reject {
+      background: #f44336;
+      color: white;
+    }
+
+    .secondary {
+      background: #eee;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+  <div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2 class="logo">AdminGuard</h2>
+      <ul>
+        <li>Dashboard</li>
+        <li>Users Management</li>
+        <li>Provider Approval</li>
+        <li class="active">Service Approval</li>
+        <li>Bookings</li>
+        <li>Reviews</li>
+        <li>Categories</li>
+        <li>Cities</li>
+      </ul>
+      <div class="settings">⚙ Settings</div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <input type="text" placeholder="Search services, providers..." />
+        <div class="user">
+          <span>Alexander Pierce</span>
+          <img src="https://i.pravatar.cc/40" />
+        </div>
+      </header>
+
+      <!-- Header -->
+      <div class="page-header">
+        <h1>Service Approval & Moderation</h1>
+        <div class="stats">
+          <div><strong>24</strong><br>Pending</div>
+          <div><strong>142</strong><br>Approved</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <select><option>Pending Review</option></select>
+        <select><option>All Categories</option></select>
+        <select><option>Last 30 Days</option></select>
+        <select><option>Newest First</option></select>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+
+        <!-- Table -->
+        <div class="table">
+          <div class="row header">
+            <span>Service</span>
+            <span>Provider</span>
+            <span>Category</span>
+            <span>Price</span>
+            <span>Status</span>
+          </div>
+
+          <div class="row">
+            <span>Luxury Penthouse Suite</span>
+            <span>Elena Rodriguez</span>
+            <span>Hotel</span>
+            <span>$450/night</span>
+            <span class="pending">Pending</span>
+          </div>
+
+          <div class="row">
+            <span>Desert Safari</span>
+            <span>Ahmed Al-Farsi</span>
+            <span>Activity</span>
+            <span>$120</span>
+            <span class="pending">Pending</span>
+          </div>
+
+          <div class="row">
+            <span>Airport Transfer</span>
+            <span>Marcus Chen</span>
+            <span>Transport</span>
+            <span>$85</span>
+            <span class="approved">Approved</span>
+          </div>
+
+          <div class="row">
+            <span>Yacht Charter</span>
+            <span>James Hook</span>
+            <span>Activity</span>
+            <span>$1200</span>
+            <span class="rejected">Rejected</span>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="details">
+          <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511" />
+          <h3>Luxury Penthouse Suite</h3>
+          <p>Experience unparalleled luxury with private terrace and ocean views.</p>
+
+          <div class="info">
+            <div><strong>$450/night</strong></div>
+            <div>Up to 12 people</div>
+          </div>
+
+          <textarea placeholder="Admin comment..."></textarea>
+
+          <div class="actions">
+            <button class="approve">Approve</button>
+            <button class="reject">Reject</button>
+            <button class="secondary">Request Changes</button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agencies</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#f4f6f8;
+}
+
+/* NAVBAR */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar .left a{
+margin-right:20px;
+cursor:pointer;
+color:#555;
+text-decoration:none;
+}
+
+.active{
+color:#2c7be5;
+font-weight:bold;
+}
+
+.logo{
+color:#2c7be5;
+}
+
+.right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.login{
+padding:6px 12px;
+border:1px solid #ccc;
+background:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+.avatar{
+width:35px;
+border-radius:50%;
+}
+
+/* HERO */
+
+.hero{
+height:400px;
+background:url("phosite3.jpg") center center no-repeat;
+background-size:cover;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+}
+
+.hero-content h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.search-bar{
+margin-top:20px;
+display:flex;
+justify-content:center;
+}
+
+.search-bar input{
+padding:12px;
+width:350px;
+border:none;
+border-radius:6px 0 0 6px;
+}
+
+.search-bar button{
+background:#2c7be5;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:0 6px 6px 0;
+cursor:pointer;
+}
+
+/* MAIN */
+.main{
+display:flex;
+padding:40px;
+gap:30px;
+}
+
+/* FILTERS */
+.filters{
+width:240px;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+.filters label{
+display:block;
+margin:8px 0;
+font-size:14px;
+}
+
+.filter-title{
+margin-top:15px;
+font-weight:bold;
+}
+
+.clear{
+margin-top:20px;
+width:100%;
+padding:10px;
+border:none;
+background:#eee;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* CONTENT */
+.content{
+flex:1;
+}
+
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+/* CARDS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
+
+.card-body{
+padding:15px;
+}
+
+.location{
+color:#888;
+font-size:13px;
+}
+
+.desc{
+margin:10px 0;
+font-size:14px;
+}
+
+.card-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.card-footer button{
+background:#2c7be5;
+color:white;
+border:none;
+padding:6px 12px;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:30px;
+margin-top:40px;
+background:#222;
+color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="left">
+    <a class="active">Agencies</a>
+    <a>Destinations</a>
+    <a>Services</a>
+  </div>
+
+  <h2 class="logo">JourneyConnect</h2>
+
+  <div class="right">
+    <button class="login">Login</button>
+    <img src="https://i.pravatar.cc/40" class="avatar">
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Find Trusted Travel Agencies</h1>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search by agency, city, or service...">
+      <button>Search</button>
+    </div>
+  </div>
+</section>
+
+<section class="main">
+
+  <aside class="filters">
+    <h3>Filters</h3>
+
+    <p class="filter-title">RATING</p>
+    <label><input type="checkbox"> ⭐⭐⭐⭐⭐</label>
+    <label><input type="checkbox"> ⭐⭐⭐⭐</label>
+    <label><input type="checkbox"> ⭐⭐⭐</label>
+
+    <p class="filter-title">SERVICE</p>
+    <label><input type="checkbox"> Hotels</label>
+    <label><input type="checkbox"> Tours</label>
+    <label><input type="checkbox"> Transport</label>
+
+    <button class="clear">Clear Filters</button>
+  </aside>
+
+  <div class="content">
+
+    <div class="top-bar">
+      <h2>Recommended Agencies</h2>
+    </div>
+
+    <div class="cards">
+
+      <!-- MANY AGENCIES -->
+
+      <div class="card">
+        <img src="https://picsum.photos/300/200">
+        <div class="card-body">
+          <h3>Summit Pathfinders</h3>
+          <p class="location">Switzerland</p>
+          <p class="desc">Mountain trekking tours.</p>
+          <div class="card-footer">
+            <span>⭐ 4.7</span>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://picsum.photos/300/201">
+        <div class="card-body">
+          <h3>Urban Explorer</h3>
+          <p class="location">Tokyo</p>
+          <p class="desc">City tours and nightlife.</p>
+          <div class="card-footer">
+            <span>⭐ 4.8</span>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://picsum.photos/300/202">
+        <div class="card-body">
+          <h3>Safari Dreams</h3>
+          <p class="location">Kenya</p>
+          <p class="desc">Wildlife safaris.</p>
+          <div class="card-footer">
+            <span>⭐ 4.9</span>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://picsum.photos/300/203">
+        <div class="card-body">
+          <h3>Desert Nomads</h3>
+          <p class="location">Morocco</p>
+          <p class="desc">Sahara tours.</p>
+          <div class="card-footer">
+            <span>⭐ 4.7</span>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://picsum.photos/300/204">
+        <div class="card-body">
+          <h3>Island Escape</h3>
+          <p class="location">Maldives</p>
+          <p class="desc">Luxury resorts.</p>
+          <div class="card-footer">
+            <span>⭐ 4.9</span>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://picsum.photos/300/205">
+        <div class="card-body">
+          <h3>Nordic Lights</h3>
+          <p class="location">Norway</p>
+          <p class="desc">Northern lights tours.</p>
+          <div class="card-footer">
+            <span>⭐ 4.8</span>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+<div class="card">
+  <img src="https://picsum.photos/300/206">
+  <div class="card-body">
+    <h3>Alpine Adventures</h3>
+    <p class="location">Austria</p>
+    <p class="desc">Ski trips and mountain hiking.</p>
+    <div class="card-footer">
+      <span>⭐ 4.6</span>
+      <button>View Details</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <img src="https://picsum.photos/300/207">
+  <div class="card-body">
+    <h3>Golden Sands Travel</h3>
+    <p class="location">Dubai</p>
+    <p class="desc">Luxury desert and city tours.</p>
+    <div class="card-footer">
+      <span>⭐ 4.8</span>
+      <button>View Details</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <img src="https://picsum.photos/300/208">
+  <div class="card-body">
+    <h3>Amazon Expeditions</h3>
+    <p class="location">Brazil</p>
+    <p class="desc">Rainforest exploration tours.</p>
+    <div class="card-footer">
+      <span>⭐ 4.7</span>
+      <button>View Details</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <img src="https://picsum.photos/300/209">
+  <div class="card-body">
+    <h3>Historic Routes</h3>
+    <p class="location">Egypt</p>
+    <p class="desc">Ancient sites and cultural trips.</p>
+    <div class="card-footer">
+      <span>⭐ 4.9</span>
+      <button>View Details</button>
+    </div>
+  </div>
+</div>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <h3>JourneyConnect</h3>
+  <p>Best agencies worldwide</p>
+</footer>
+
+</body>
+</html>

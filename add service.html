@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage Partner Portal - My Place</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .sidebar-item-active { background-color: #EFF6FF; color: #2563EB; border-radius: 8px; }
+        .card { background: white; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+        .input-field { width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; margin-top: 6px; outline: none; font-size: 14px; }
+        .input-field:focus { border-color: #3B82F6; ring: 2px ring-blue-100; }
+        .upload-zone { border: 2px dashed #E2E8F0; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; background: #fff; transition: all 0.2s; }
+        .upload-zone:hover { border-color: #3B82F6; background: #F8FAFC; }
+        .btn-primary { background-color: #2563EB; color: white; padding: 10px 24px; border-radius: 8px; font-weight: 600; }
+        .type-pill { padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; border: 1px solid #E2E8F0; }
+        .type-pill.active { background: #2563EB; color: white; border-color: #2563EB; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white">
+                <i class="fas fa-compass"></i>
+            </div>
+            <span class="font-bold text-blue-600 text-lg">Voyage Partner Portal</span>
+        </div>
+        <div class="flex items-center gap-6 w-1/3">
+            <div class="relative w-full">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg py-2 pl-10 pr-4 text-sm" placeholder="Search bookings or settings...">
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <i class="far fa-bell text-gray-500 cursor-pointer"></i>
+            <div class="flex items-center gap-3 border-l pl-4">
+                <div class="text-right">
+                    <p class="text-xs font-bold">Grand Riviera Hotel</p>
+                    <p class="text-[10px] text-gray-500">Premium Provider</p>
+                </div>
+                <img src="https://i.pravatar.cc/150?u=hotel-admin" class="w-8 h-8 rounded-full border" alt="Profile">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1">
+        <aside class="w-64 border-r border-gray-200 bg-white p-4 flex flex-col justify-between hidden lg:flex">
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <i class="fas fa-th-large w-5"></i> Dashboard
+                </a>
+                <a href="#" class="sidebar-item-active flex items-center gap-3 px-3 py-2.5">
+                    <i class="far fa-building w-5"></i> My Place
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <i class="far fa-calendar-check w-5"></i> Bookings
+                </a>
+            </nav>
+            <div class="space-y-1 pt-4 border-t">
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <i class="fas fa-cog w-5"></i> Settings
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-red-500 hover:bg-red-50 rounded-lg">
+                    <i class="fas fa-sign-out-alt w-5"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-8 max-w-7xl mx-auto w-full grid grid-cols-12 gap-8">
+            <div class="col-span-12 lg:col-span-8">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">My Place</h1>
+                        <p class="text-sm text-gray-500">Manage your business profile, pricing, and availability.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-5 py-2 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 text-sm">Discard Changes</button>
+                        <button class="btn-primary text-sm flex items-center gap-2">
+                            <i class="fas fa-check-circle"></i> Save Profile
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mb-6">
+                    <button class="type-pill active"><i class="fas fa-hotel"></i> Hotel</button>
+                    <button class="type-pill"><i class="fas fa-utensils"></i> Restaurant</button>
+                    <button class="type-pill"><i class="fas fa-briefcase"></i> Agency</button>
+                </div>
+
+                <section class="card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-blue-50 rounded flex items-center justify-center text-blue-500">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-bold">General Information</h2>
+                            <p class="text-[11px] text-gray-500">Basic details about your business to show in search results.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="text-xs font-bold text-gray-700">Business Name</label>
+                        <input type="text" class="input-field" value="Grand Riviera Resort & Spa">
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="text-xs font-bold text-gray-700">Short Description</label>
+                        <textarea class="input-field h-24 resize-none">Overlooking the azure waters of the Mediterranean, Grand Riviera offers a sanctuary of peace and luxury with world-class amenities.</textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="text-xs font-bold text-gray-700">Contact Email</label>
+                            <input type="email" class="input-field" value="contact@riviera.com">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-700">Phone Number</label>
+                            <input type="text" class="input-field" value="+30 210 1234567">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-blue-50 rounded flex items-center justify-center text-blue-500">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-bold">Location</h2>
+                            <p class="text-[11px] text-gray-500">Help travelers find your exact spot on the map.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative mb-4">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="text" class="input-field pl-10 mt-0" placeholder="Search for your address...">
+                    </div>
+
+                    <div class="relative w-full h-64 rounded-xl overflow-hidden border border-gray-200">
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200" 
+                             class="w-full h-full object-cover grayscale brightness-90" 
+                             alt="Location Map">
+                        
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="relative">
+                                <i class="fas fa-map-marker-alt text-blue-600 text-4xl drop-shadow-lg"></i>
+                                <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded shadow-md text-[10px] font-bold whitespace-nowrap">
+                                    Oia 847 02, Santorini, Greece
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-blue-50 rounded flex items-center justify-center text-blue-500">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <h2 class="font-bold">Pricing & Capacity</h2>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="text-xs font-bold text-gray-700">Price per Night</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-9 text-gray-400 text-sm">$</span>
+                                <input type="text" class="input-field pl-7" value="450">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-700">Total Room Count</label>
+                            <input type="number" class="input-field" value="24">
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="text-sm font-bold">Instant Booking</p>
+                            <p class="text-xs text-gray-500">Allow guests to confirm reservations without manual approval.</p>
+                        </div>
+                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 rounded">
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-blue-50 rounded flex items-center justify-center text-blue-500">
+                            <i class="far fa-clock"></i>
+                        </div>
+                        <h2 class="font-bold">Availability Schedule</h2>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4">
+                            <span class="w-12 text-sm font-bold text-gray-600">Mon</span>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" checked>
+                                <span class="text-xs">Open</span>
+                            </div>
+                            <div class="flex-1 flex items-center gap-2">
+                                <input type="text" class="input-field mt-0 py-1 text-center" value="09:00">
+                                <span class="text-xs">to</span>
+                                <input type="text" class="input-field mt-0 py-1 text-center" value="22:00">
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="w-12 text-sm font-bold text-gray-600">Sun</span>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox">
+                                <span class="text-xs">Open</span>
+                            </div>
+                            <div class="flex-1 flex items-center gap-2 opacity-40">
+                                <input type="text" class="input-field mt-0 py-1 text-center" value="09:00" disabled>
+                                <span class="text-xs">to</span>
+                                <input type="text" class="input-field mt-0 py-1 text-center" value="22:00" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-blue-50 rounded flex items-center justify-center text-blue-500">
+                            <i class="far fa-image"></i>
+                        </div>
+                        <h2 class="font-bold">Photos & Media</h2>
+                    </div>
+                    <div class="upload-zone mb-6">
+                        <i class="fas fa-cloud-upload-alt text-blue-500 text-3xl mb-3"></i>
+                        <p class="text-sm font-bold">Click or drag images to upload</p>
+                        <p class="text-[10px] text-gray-400 mt-1">PNG, JPG or WebP up to 10MB (Recommended: 1600x1200px)</p>
+                        <button class="mt-4 border px-4 py-1.5 rounded-lg text-xs font-bold">Select Files</button>
+                    </div>
+                    <div class="grid grid-cols-5 gap-3">
+                        <div class="relative group">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=200" class="aspect-square object-cover rounded-lg border border-blue-500 ring-2 ring-blue-100">
+                            <span class="absolute top-2 left-2 bg-blue-600 text-[8px] text-white px-1.5 py-0.5 rounded font-bold">Hero</span>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=200" class="aspect-square object-cover rounded-lg border border-gray-200">
+                        <img src="https://images.unsplash.com/photo-1544124499-58912cbddaad?auto=format&fit=crop&q=80&w=200" class="aspect-square object-cover rounded-lg border border-gray-200">
+                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=200" class="aspect-square object-cover rounded-lg border border-gray-200">
+                        <div class="aspect-square border-2 border-dashed rounded-lg flex items-center justify-center text-gray-300 text-xl cursor-pointer hover:bg-gray-50">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-span-12 lg:col-span-4">
+                <div class="sticky top-24">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Live Preview</h3>
+                        <span class="text-[10px] text-green-500 font-bold flex items-center gap-1">
+                            <i class="fas fa-check-circle"></i> Synced
+                        </span>
+                    </div>
+
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1">
+                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                <span class="text-xs font-bold">4.9</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Luxury Stay</span>
+                            <h4 class="text-lg font-bold mt-1">Grand Riviera Resort & Spa</h4>
+                            <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                                <i class="fas fa-map-marker-alt"></i> Santorini, Greece
+                            </p>
+                            <div class="mt-6 flex items-center justify-between">
+                                <div>
+                                    <p class="text-[10px] text-gray-400">Starting from</p>
+                                    <p class="text-lg font-bold text-blue-600">$450 <span class="text-xs font-normal text-gray-400">/ night</span></p>
+                                </div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-white p-5 rounded-2xl border border-gray-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold">Profile Health</p>
+                            <p class="text-xs font-bold text-blue-600">85%</p>
+                        </div>
+                        <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-blue-600 h-full w-[85%]"></div>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-3 leading-relaxed">
+                            Complete your <span class="text-blue-500 font-bold">Media Uploads</span> to reach 100% visibility.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="p-6 bg-white border-t border-gray-200 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+        <p>© 2026 Voyage Partner Portal. All rights reserved. Professional Tourism Management Suite.</p>
+        <div class="flex gap-6 mt-4 md:mt-0">
+            <a href="#">Support</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePay | Nexus Creative Cloud Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #111827;
+        }
+
+        .summary-card {
+            background-color: #F3F4F6;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .checkout-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-top: 6px;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #9CA3AF;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .pay-button {
+            background: #312EFA;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 24px;
+            transition: background 0.2s;
+        }
+
+        .pay-button:hover {
+            background: #2523D1;
+        }
+
+        .mini-badge {
+            background: #E0E7FF;
+            color: #4338CA;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-8">
+        <div class="flex items-center gap-4">
+            <a href="#" class="text-xs text-gray-400 font-medium hover:text-gray-600 transition">
+                <i class="fas fa-chevron-left mr-2"></i> Back to Merchant
+            </a>
+            <div class="h-4 w-px bg-gray-200"></div>
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-white text-[10px]">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <span class="font-bold text-blue-600 text-sm">SecurePay</span>
+            </div>
+        </div>
+        <div class="text-[10px] font-bold text-gray-400 flex items-center gap-2">
+            <i class="fas fa-lock"></i> 256-BIT SSL ENCRYPTED
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl mx-auto w-full py-12 px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <div class="lg:col-span-5 space-y-6">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-cloud text-pink-500"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">Nexus Creative Cloud</h2>
+                        <p class="text-xs text-gray-400">Order #NC-88210-ZP</p>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-sm">Service Summary</h3>
+                        <span class="mini-badge">Active</span>
+                    </div>
+
+                    <div class="space-y-6 mb-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-bold">Enterprise Design Suite</p>
+                                <p class="text-[11px] text-gray-500 mt-1 leading-relaxed">Unlimited seats, 4K rendering, and custom asset library access for your entire organization.</p>
+                            </div>
+                            <span class="text-sm font-bold">$499.00/mo</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-sm font-bold">Priority 24/7 Support</p>
+                                <p class="text-[11px] text-gray-500 mt-1">Direct access to our senior engineering team.</p>
+                            </div>
+                            <span class="text-sm font-bold">$89.00/mo</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-sm font-bold">Platform Security Pack</p>
+                                <p class="text-[11px] text-gray-500 mt-1">SSO integration and SOC2 compliance.</p>
+                            </div>
+                            <span class="text-sm font-bold">$45.00/mo</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[10px] text-gray-400 mb-6 flex items-center gap-1.5">
+                        <i class="far fa-clock"></i> Subscription will renew automatically on May 15th, 2024.
+                    </p>
+
+                    <div class="flex gap-2 mb-8">
+                        <input type="text" placeholder="Promo code" class="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2 text-xs">
+                        <button class="text-xs font-bold px-4 py-2 hover:bg-white rounded-lg transition">Apply</button>
+                    </div>
+
+                    <div class="space-y-2 pt-4 border-t border-gray-200">
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>Subtotal</span>
+                            <span>$633.00</span>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>Tax (VAT 0%)</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center pt-4">
+                            <span class="font-bold text-base">Total Amount</span>
+                            <span class="font-bold text-xl text-blue-600">$633.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-gray-200 rounded-xl p-4 flex items-center gap-3">
+                        <i class="far fa-check-circle text-gray-400"></i>
+                        <div>
+                            <p class="text-[10px] font-bold">MONEY BACK</p>
+                            <p class="text-[9px] text-gray-400">30-day guarantee</p>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-4 flex items-center gap-3">
+                        <i class="far fa-question-circle text-gray-400"></i>
+                        <div>
+                            <p class="text-[10px] font-bold">CUSTOMER HELP</p>
+                            <p class="text-[9px] text-gray-400">24/7 available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7">
+                <div class="checkout-card">
+                    <h2 class="text-2xl font-bold mb-2">Complete Your Payment</h2>
+                    <p class="text-sm text-gray-500 mb-10">Enter your payment details below to secure your subscription.</p>
+
+                    <form class="space-y-8">
+                        <div>
+                            <span class="section-label">Account Information</span>
+                            <div class="input-group">
+                                <label class="text-xs font-bold text-gray-700">Cardholder Name</label>
+                                <div class="input-wrapper">
+                                    <i class="far fa-user"></i>
+                                    <input type="text" class="form-input" value="John D. Miller">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="section-label">Card Information</span>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-700">Card Number</label>
+                                    <div class="input-wrapper">
+                                        <i class="far fa-credit-card"></i>
+                                        <input type="text" class="form-input" placeholder="0000 0000 0000 0000">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs font-bold text-gray-700">Expiration Date</label>
+                                        <div class="input-wrapper">
+                                            <i class="far fa-calendar"></i>
+                                            <input type="text" class="form-input" placeholder="MM/YY">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-gray-700">CVC / CVV</label>
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-lock"></i>
+                                            <input type="text" class="form-input" placeholder="123">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="section-label">Billing Address</span>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-700">Country</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-globe"></i>
+                                        <input type="text" class="form-input" value="United States">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-gray-700">ZIP / Postal Code</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" class="form-input pl-4" value="90210">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="pay-button">
+                            <i class="fas fa-lock text-sm opacity-50"></i> Pay $633.00 Now
+                        </button>
+
+                        <p class="text-[10px] text-gray-400 text-center leading-relaxed px-4">
+                            By clicking "Pay Now", you agree to Nexus Creative Cloud's <a href="#" class="underline">Terms of Service</a> and <a href="#" class="underline">Privacy Policy</a>. Your transaction is secured by AES-256 bank-level encryption.
+                        </p>
+
+                        <div class="flex justify-center gap-6 grayscale opacity-30 pt-4">
+                            <i class="fab fa-cc-visa text-2xl"></i>
+                            <i class="fab fa-cc-mastercard text-2xl"></i>
+                            <i class="fab fa-cc-amex text-2xl"></i>
+                            <i class="fab fa-cc-discover text-2xl"></i>
+                        </div>
+                    </form>
+                </div>
+                <p class="text-[11px] text-gray-400 text-center mt-6">
+                    <i class="fas fa-shield-alt mr-1"></i> Payments are processed securely via Stripe.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 mt-auto py-10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fas fa-shield-alt text-blue-600"></i>
+                    <span class="font-bold text-blue-600">SecurePay</span>
+                </div>
+                <p class="text-[10px] text-gray-400">© 2024 SecurePay Gateway Solutions. All rights reserved.</p>
+            </div>
+            <div class="flex gap-8 text-[11px] font-medium text-gray-500">
+                <a href="#" class="hover:text-blue-600">Privacy Policy</a>
+                <a href="#" class="hover:text-blue-600">Terms of Service</a>
+                <a href="#" class="hover:text-blue-600">Refund Policy</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

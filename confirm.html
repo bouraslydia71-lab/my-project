@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage Sign-up | Confirmation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --bg-gray: #f8fafc;
+            --border-gray: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --success-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 4rem;
+            background: white;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .support-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- Main Content --- */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 1rem;
+        }
+
+        /* Progress Stepper */
+        .stepper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            gap: 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 80px;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+
+        .step-label {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .line {
+            width: 60px;
+            height: 2px;
+            background: var(--primary-blue);
+            margin: 0 -10px 20px -10px;
+        }
+
+        /* Registration Card */
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-gray);
+            width: 100%;
+            max-width: 560px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p.subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Checkbox Rows */
+        .option-box {
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .option-box.highlight {
+            background-color: #f0fdfa;
+            border-color: #ccfbf1;
+        }
+
+        .option-box input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+        .option-text h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .option-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-back {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--primary-blue);
+            background: white;
+            color: var(--primary-blue);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-create {
+            flex: 2;
+            padding: 0.75rem;
+            border: none;
+            background: #f1f5f9;
+            color: #94a3b8;
+            border-radius: 8px;
+            cursor: not-allowed;
+            font-weight: 600;
+        }
+
+        /* Encryption Footer */
+        .encryption-notice {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Global Footer --- */
+        footer {
+            padding: 1.5rem 4rem;
+            background: white;
+            border-top: 1px solid var(--border-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-left, .footer-center, .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-center a {
+            text-decoration: none;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            header, footer { padding: 1rem; }
+            .button-group { flex-direction: column; }
+            .line { width: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+            Voyage Sign-up
+        </div>
+        <a href="#" class="support-link"><span>?</span> Support</a>
+    </header>
+
+    <main>
+        <div class="stepper">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-label">Profile</div>
+            </div>
+            <div class="line"></div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-label">Business</div>
+            </div>
+            <div class="line"></div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-label">Confirm</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h1>Final Steps</h1>
+            <p class="subtitle">Review and accept our policies to complete your registration.</p>
+
+            <div class="option-box">
+                <input type="checkbox" id="terms">
+                <div class="option-text">
+                    <label for="terms"><h4>I agree to the Terms of Service</h4></label>
+                    <p>By checking this box, you confirm that you have read and agree to our User Agreement and Privacy Policy.</p>
+                </div>
+            </div>
+
+            <div class="option-box highlight">
+                <input type="checkbox" id="newsletter" checked>
+                <div class="option-text">
+                    <label for="newsletter"><h4>Voyage Newsletter & Updates</h4></label>
+                    <p>Receive travel tips, platform updates, and exclusive partner opportunities directly in your inbox.</p>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-back">← Back</button>
+                <button class="btn-create" disabled>Create Account ✓</button>
+            </div>
+        </div>
+
+        <div class="encryption-notice">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success-green);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Your data is protected by industry-standard encryption
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <span>🛡 Secure Registration</span>
+            <span>🌐 Global Reach</span>
+        </div>
+        <div class="footer-center">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookies</a>
+        </div>
+        <div class="footer-right">
+            © 2026 Voyage Sign-up. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

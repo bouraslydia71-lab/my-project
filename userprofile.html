@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MintWellness Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+background:#f5f7f6;
+color:#333;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 40px;
+background:white;
+border-bottom:1px solid #e5e5e5;
+}
+
+.logo{
+font-weight:600;
+color:#57c2a3;
+font-size:20px;
+}
+
+.nav-links a{
+margin-right:25px;
+text-decoration:none;
+color:#555;
+font-size:14px;
+}
+
+.user{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.user img{
+width:34px;
+height:34px;
+border-radius:50%;
+}
+
+/* LAYOUT */
+
+.container{
+display:grid;
+grid-template-columns:320px 1fr;
+gap:30px;
+padding:40px;
+}
+
+/* PROFILE CARD */
+
+.card{
+background:white;
+border-radius:12px;
+padding:25px;
+border:1px solid #eee;
+margin-bottom:20px;
+}
+
+.profile{
+text-align:center;
+}
+
+.profile img{
+width:90px;
+height:90px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.profile h2{
+font-size:20px;
+margin-bottom:5px;
+}
+
+.profile p{
+font-size:13px;
+color:#777;
+margin-bottom:15px;
+}
+
+.info{
+font-size:13px;
+color:#555;
+line-height:1.8;
+margin-bottom:15px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:10px;
+border-radius:8px;
+border:none;
+margin-top:8px;
+cursor:pointer;
+}
+
+.primary{
+background:#57c2a3;
+color:white;
+}
+
+.secondary{
+background:#f1f1f1;
+}
+
+/* SECURITY CARD */
+
+.security{
+background:#e7f4ef;
+}
+
+/* BOOKINGS */
+
+.tabs{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+}
+
+.tab{
+padding:8px 15px;
+border-radius:20px;
+background:#f1f1f1;
+font-size:13px;
+}
+
+.tab.active{
+background:#e7f4ef;
+color:#57c2a3;
+}
+
+.booking{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:15px;
+border-radius:10px;
+border:1px solid #eee;
+margin-bottom:15px;
+}
+
+.booking-left{
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.booking img{
+width:60px;
+height:60px;
+border-radius:8px;
+object-fit:cover;
+}
+
+.booking-title{
+font-weight:500;
+}
+
+.booking p{
+font-size:13px;
+color:#777;
+}
+
+.price{
+font-weight:600;
+}
+
+/* ACTIVITY */
+
+.activity{
+margin-top:25px;
+}
+
+.activity-item{
+margin-bottom:15px;
+font-size:14px;
+}
+
+.activity-item span{
+display:block;
+font-size:12px;
+color:#777;
+}
+
+/* FOOTER */
+
+footer{
+background:#cfe6df;
+margin-top:40px;
+padding:40px;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+}
+
+footer h4{
+margin-bottom:10px;
+}
+
+footer p,footer a{
+font-size:13px;
+color:#444;
+text-decoration:none;
+display:block;
+margin-bottom:6px;
+}
+
+.newsletter{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
+
+.newsletter input{
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.newsletter button{
+background:#57c2a3;
+border:none;
+color:white;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.copy{
+text-align:center;
+margin-top:30px;
+font-size:12px;
+color:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">MintWellness</div>
+
+<div class="nav-links">
+<a href="#">Explore</a>
+<a href="#">Services</a>
+<a href="#">Memberships</a>
+</div>
+
+<div class="user">
+<img src="https://randomuser.me/api/portraits/women/44.jpg">
+<span>Eleanor</span>
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+<!-- LEFT SIDE -->
+
+<div>
+
+<div class="card profile">
+
+<img src="https://randomuser.me/api/portraits/women/44.jpg">
+
+<h2>Eleanor Sterling</h2>
+<p>Gold Member since March 2023</p>
+
+<div class="info">
+📧 e.sterling@example.com<br>
+📞 +1 (555) 234-8910<br>
+📍 San Francisco, CA
+</div>
+
+<button class="btn primary">Edit Profile</button>
+<button class="btn secondary">Account Settings</button>
+
+</div>
+
+<div class="card security">
+
+<h4>Security Status</h4>
+
+<p>Two-Factor Auth — Enabled</p>
+<p>Password Strength — Excellent</p>
+
+</div>
+
+<div class="card">
+
+<h4>Preferences</h4>
+
+<p>Notifications</p>
+<p>Privacy Mode</p>
+
+</div>
+
+</div>
+
+
+<!-- RIGHT SIDE -->
+
+<div>
+
+<div class="tabs">
+<div class="tab active">My Bookings</div>
+<div class="tab">My Reviews</div>
+<div class="tab">Favorites</div>
+</div>
+
+<h2 style="margin-bottom:15px;">Upcoming & Past Bookings</h2>
+
+<div class="booking">
+
+<div class="booking-left">
+
+<img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b">
+
+<div>
+<div class="booking-title">The Serenity Spa Retreat</div>
+<p>Oct 12, 2024 • Napa Valley</p>
+</div>
+
+</div>
+
+<div class="price">$450</div>
+
+</div>
+
+<div class="booking">
+
+<div class="booking-left">
+
+<img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3">
+
+<div>
+<div class="booking-title">Zen Garden Yoga Session</div>
+<p>Sep 28, 2024 • Downtown Studio</p>
+</div>
+
+</div>
+
+<div class="price">$45</div>
+
+</div>
+
+<div class="booking">
+
+<div class="booking-left">
+
+<img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511">
+
+<div>
+<div class="booking-title">Mindfulness Weekend Workshop</div>
+<p>Aug 15, 2024 • Big Sur Coastal</p>
+</div>
+
+</div>
+
+<div class="price">$890</div>
+
+</div>
+
+<div class="activity">
+
+<h3 style="margin-bottom:10px;">Recent Activity</h3>
+
+<div class="activity-item">
+Booking Confirmed
+<span>2 hours ago</span>
+</div>
+
+<div class="activity-item">
+Review Published
+<span>Yesterday</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-grid">
+
+<div>
+<h4>MintWellness</h4>
+<p>Elevating your wellness journey through curated luxury experiences.</p>
+</div>
+
+<div>
+<h4>Quick Links</h4>
+<a href="#">How it Works</a>
+<a href="#">Pricing Plans</a>
+<a href="#">Partners</a>
+</div>
+
+<div>
+<h4>Support</h4>
+<a href="#">Help Center</a>
+<a href="#">Terms of Service</a>
+<a href="#">Privacy Policy</a>
+</div>
+
+<div>
+<h4>Stay Inspired</h4>
+
+<div class="newsletter">
+<input placeholder="Your email">
+<button>Join</button>
+</div>
+
+</div>
+
+</div>
+
+<div class="copy">
+© 2026 MintWellness International
+</div>
+
+</footer>
+
+</body>
+</html>

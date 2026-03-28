@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TerraExplore Full Pro</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{font-family:'Inter',sans-serif}
+.hero{background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') center/cover}
+.overlay{background:rgba(0,0,0,.55)}
+.card{transition:.3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 25px 50px rgba(0,0,0,.15)}
+.fade{animation:fade .8s ease}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+.heart.active{color:red}
+</style>
+</head>
+
+<body class="bg-[#f7f9fc]">
+
+<!-- HEADER -->
+<header class="flex justify-between items-center px-12 py-4 bg-white shadow-sm">
+  <div class="text-blue-600 font-bold text-lg">TerraExplore</div>
+  <nav class="hidden md:flex gap-6 text-sm">
+    <a>Home</a><a>Destinations</a><a>Services</a>
+    <a class="text-blue-600 border-b-2 border-blue-600 pb-1">Activities</a>
+    <a>Agencies</a><a>Contact</a>
+  </nav>
+  <div class="flex items-center gap-4">
+    🔍
+    <img src="https://i.pravatar.cc/40" class="w-8 h-8 rounded-full">
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero h-[420px] flex items-center justify-center text-center relative">
+  <div class="overlay absolute inset-0"></div>
+  <div class="relative text-white max-w-2xl fade">
+    <span class="bg-white/20 px-4 py-1 rounded-full text-sm">Explore the Unexplored</span>
+    <h1 class="text-5xl font-bold mt-4">Discover Amazing Activities</h1>
+    <p class="mt-4 text-gray-200">From high-altitude adventures to tranquil retreats</p>
+
+    <div class="mt-6 bg-white rounded-full flex overflow-hidden shadow-lg">
+      <input id="search" class="px-4 py-3 w-56 outline-none text-gray-700" placeholder="Where are you going?">
+      <input class="px-4 py-3 w-48 outline-none text-gray-700 border-l" placeholder="Activity Category">
+      <button onclick="searchCards()" class="bg-blue-600 text-white px-6 py-3">Search Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<div class="flex px-12 py-10 gap-8">
+
+<!-- SIDEBAR -->
+<aside class="w-72 bg-white p-6 rounded-xl shadow">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="font-semibold">Filters</h3>
+    <button class="text-blue-600 text-sm" onclick="resetFilters()">Reset All</button>
+  </div>
+
+  <!-- CATEGORY -->
+  <div class="border-b pb-4 mb-4">
+    <p class="font-medium mb-2">Category</p>
+    <label class="block text-sm"><input type="checkbox" value="Adventure" onchange="filterCards()"> Adventure</label>
+    <label class="block text-sm"><input type="checkbox" value="Cultural" onchange="filterCards()"> Cultural</label>
+    <label class="block text-sm"><input type="checkbox" value="Relaxation" onchange="filterCards()"> Relaxation</label>
+    <label class="block text-sm"><input type="checkbox" value="Sports" onchange="filterCards()"> Sports</label>
+    <label class="block text-sm"><input type="checkbox" value="Wildlife" onchange="filterCards()"> Wildlife</label>
+  </div>
+
+  <!-- PRICE -->
+  <div class="border-b pb-4 mb-4">
+    <p class="font-medium mb-2">Price Range</p>
+    <input type="range" min="0" max="500" class="w-full" oninput="priceFilter(this.value)">
+    <div class="flex justify-between text-xs text-gray-400 mt-1">
+      <span>$0</span><span>$500+</span>
+    </div>
+  </div>
+
+  <!-- RATING -->
+  <div class="border-b pb-4 mb-4">
+    <p class="font-medium mb-2">Rating</p>
+    <label class="block text-sm"><input type="checkbox" value="5" onchange="filterCards()"> ⭐⭐⭐⭐⭐</label>
+    <label class="block text-sm"><input type="checkbox" value="4" onchange="filterCards()"> ⭐⭐⭐⭐ & up</label>
+    <label class="block text-sm"><input type="checkbox" value="3" onchange="filterCards()"> ⭐⭐⭐ & up</label>
+  </div>
+
+  <!-- LOCATIONS -->
+  <div>
+    <p class="font-medium mb-2">Popular Locations</p>
+    <label class="block text-sm"><input type="checkbox"> Bali, Indonesia</label>
+    <label class="block text-sm"><input type="checkbox"> Swiss Alps</label>
+    <label class="block text-sm"><input type="checkbox"> Kyoto, Japan</label>
+    <label class="block text-sm"><input type="checkbox"> Amalfi Coast</label>
+    <label class="block text-sm"><input type="checkbox"> Patagonia</label>
+  </div>
+</aside>
+
+<!-- CONTENT -->
+<div class="flex-1">
+
+<div class="flex justify-between mb-6">
+  <h2 class="font-semibold">Showing Activities</h2>
+  <select onchange="sortCards(this.value)" class="border p-2 rounded">
+    <option value="default">Most Popular</option>
+    <option value="low">Price Low</option>
+    <option value="high">Price High</option>
+  </select>
+</div>
+
+<div id="cards" class="grid grid-cols-3 gap-6">
+
+<!-- CARD -->
+<div class="card bg-white rounded-xl overflow-hidden" data-name="paragliding" data-category="Adventure" data-price="185">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Alpine Paragliding</h4>
+    <p class="text-sm text-gray-500">Interlaken</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">185</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="temple" data-category="Cultural" data-price="65">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1526483360412-f4dbaf036963" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Temple Tour</h4>
+    <p class="text-sm text-gray-500">Kyoto</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">65</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MORE CARDS -->
+<div class="card bg-white rounded-xl overflow-hidden" data-name="yacht" data-category="Relaxation" data-price="210">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Sunset Yacht Cruise</h4>
+    <p class="text-sm text-gray-500">Amalfi</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">210</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="desert" data-category="Adventure" data-price="120">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Desert Stargazing</h4>
+    <p class="text-sm text-gray-500">Morocco</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">120</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="reef" data-category="Adventure" data-price="195">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Reef Diving</h4>
+    <p class="text-sm text-gray-500">Australia</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">195</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="ski" data-category="Adventure" data-price="250">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Ski Experience</h4>
+    <p class="text-sm text-gray-500">Swiss Alps</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">250</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="hiking" data-category="Adventure" data-price="90">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Mountain Hiking</h4>
+    <p class="text-sm text-gray-500">Patagonia</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">90</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="city" data-category="Cultural" data-price="70">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">City Walking Tour</h4>
+    <p class="text-sm text-gray-500">Paris</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">70</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="food" data-category="Cultural" data-price="85">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9" class="h-40 w-full object-cover">
+    <span onclick="toggleHeart(this)" class="heart absolute top-3 right-3 cursor-pointer text-xl">♡</span>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold">Food Tasting Tour</h4>
+    <p class="text-sm text-gray-500">Italy</p>
+    <div class="flex justify-between mt-3">
+      <span class="price">85</span>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- EXTRA 7 CARDS -->
+<div class="card bg-white rounded-xl overflow-hidden" data-name="kayak" data-category="Sports" data-price="110">
+  <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Sea Kayaking</h4><p class="text-sm text-gray-500">Bali</p><div class="flex justify-between mt-3"><span>110</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="camp" data-category="Wildlife" data-price="140">
+  <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Safari Camping</h4><p class="text-sm text-gray-500">Kenya</p><div class="flex justify-between mt-3"><span>140</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="museum" data-category="Cultural" data-price="40">
+  <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Museum Tour</h4><p class="text-sm text-gray-500">London</p><div class="flex justify-between mt-3"><span>40</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="surf" data-category="Sports" data-price="95">
+  <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Surf Lessons</h4><p class="text-sm text-gray-500">Hawaii</p><div class="flex justify-between mt-3"><span>95</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="balloon" data-category="Adventure" data-price="180">
+  <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Hot Air Balloon</h4><p class="text-sm text-gray-500">Turkey</p><div class="flex justify-between mt-3"><span>180</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="spa" data-category="Relaxation" data-price="130">
+  <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Luxury Spa Day</h4><p class="text-sm text-gray-500">Dubai</p><div class="flex justify-between mt-3"><span>130</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+<div class="card bg-white rounded-xl overflow-hidden" data-name="bike" data-category="Sports" data-price="75">
+  <img src="https://images.unsplash.com/photo-1526483360412-f4dbaf036963" class="h-40 w-full object-cover">
+  <div class="p-4"><h4 class="font-semibold">Mountain Biking</h4><p class="text-sm text-gray-500">Canada</p><div class="flex justify-between mt-3"><span>75</span><button class="bg-blue-600 text-white px-3 py-1 rounded">Book</button></div></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+function toggleHeart(el){el.classList.toggle('active');el.innerHTML=el.classList.contains('active')?'♥':'♡'}
+
+function filterCards(){
+let checked=[...document.querySelectorAll('aside input:checked')].map(i=>i.value)
+document.querySelectorAll('.card').forEach(card=>{
+if(checked.length==0||checked.includes(card.dataset.category))card.style.display='block'
+else card.style.display='none'
+})}
+
+function searchCards(){
+let val=document.getElementById('search').value.toLowerCase()
+document.querySelectorAll('.card').forEach(c=>{
+c.style.display=c.dataset.name.includes(val)?'block':'none'
+})}
+
+function sortCards(type){
+let container=document.getElementById('cards')
+let cards=[...container.children]
+cards.sort((a,b)=>type==='low'?a.dataset.price-b.dataset.price:b.dataset.price-a.dataset.price)
+cards.forEach(c=>container.appendChild(c))
+}
+</script>
+
+</body>
+</html>

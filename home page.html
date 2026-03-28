@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalWander</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Poppins",sans-serif;
+}
+
+body{
+background:#f6f8fb;
+color:#333;
+}
+
+.container{
+width:1200px;
+margin:auto;
+}
+
+/* NAVBAR */
+
+nav{
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 0;
+}
+
+.logo{
+font-weight:700;
+font-size:20px;
+color:#1e73ff;
+text-decoration: none; /* Removed underline */
+}
+
+.menu{
+display:flex;
+gap:30px;
+align-items:center;
+}
+
+.menu a{
+text-decoration:none;
+color:#444;
+font-size:14px;
+}
+
+/* LOGIN */
+.login{
+padding:8px 18px;
+border:1px solid #1e73ff;
+border-radius:20px;
+color:#1e73ff;
+text-decoration:none;
+font-size:14px;
+transition:0.3s;
+}
+
+.login:hover{
+background:#1e73ff;
+color:white;
+}
+
+/* HERO */
+
+.hero{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:70px 0;
+}
+
+.hero-text{
+max-width:520px;
+}
+
+.hero-text h1{
+font-size:48px;
+line-height:1.2;
+margin-bottom:20px;
+}
+
+.hero-text span{
+color:#1e73ff;
+}
+
+.hero-text p{
+color:#666;
+margin-bottom:30px;
+}
+
+.hero-image img{
+width:420px;
+border-radius:25px;
+}
+
+/* SEARCH */
+
+.search{
+background:white;
+padding:10px 15px;
+border-radius:30px;
+display:flex;
+align-items:center;
+gap:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+max-width:500px;
+}
+
+.search input{
+border:none;
+outline:none;
+font-size:13px;
+padding:8px 10px;
+flex:1;
+min-width:0;
+}
+
+.search button{
+background:#1e73ff;
+border:none;
+color:white;
+width:35px;
+height:35px;
+border-radius:50%;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:14px;
+}
+
+/* SECTION */
+
+.section{
+padding:60px 0;
+}
+
+.section h2{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.section p{
+color:#777;
+margin-bottom:30px;
+}
+
+/* DESTINATIONS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.card-body{
+padding:15px;
+}
+
+.price{
+color:#1e73ff;
+font-weight:600;
+}
+
+/* HOTELS */
+
+.grid-4{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.hotel img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.hotel{
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.hotel button{
+margin-top:10px;
+padding:8px 15px;
+border:none;
+background:#1e73ff;
+color:white;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* EXPERIENCES */
+
+.exp-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+}
+
+.exp{
+position:relative;
+border-radius:20px;
+overflow:hidden;
+}
+
+.exp img{
+width:100%;
+height:240px;
+object-fit:cover;
+}
+
+.exp-title{
+position:absolute;
+bottom:15px;
+left:20px;
+color:white;
+font-weight:600;
+font-size:18px;
+}
+
+/* TESTIMONIALS */
+
+.testimonials{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+}
+
+.testimonial{
+background:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.testimonial img{
+width:60px;
+height:60px;
+border-radius:50%;
+margin-bottom:15px;
+}
+
+/* FOOTER */
+
+footer{
+background:white;
+margin-top:60px;
+padding:40px 0;
+border-top:1px solid #eee;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:40px;
+}
+
+footer h4{
+margin-bottom:15px;
+}
+
+footer p, footer a{
+font-size:14px;
+color:#666;
+text-decoration:none;
+display:block;
+margin-bottom:8px;
+}
+
+.copy{
+text-align:center;
+margin-top:30px;
+font-size:13px;
+color:#888;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="container navbar">
+
+<a href="home page.html" class="logo">GlobalWander</a>
+
+<div class="menu">
+<a href="#">Destinations</a>
+<a href="#">Flights</a>
+<a href="#">Hotels</a>
+<a href="#">Restaurants</a>
+<a href="#">Excursions</a>
+<a href="#">Deals</a>
+<a href="role.html" class="login">Sign up</a>
+</div>
+
+</div>
+</nav>
+
+<section class="hero container">
+
+<div class="hero-text">
+<h1>Your Journey Starts <span>Right Here.</span></h1>
+<p>Explore hand-picked destinations, luxury stays, and hidden culinary gems curated by world travelers.</p>
+
+<div class="search">
+<input placeholder="Where to?">
+<input placeholder="Dates">
+<input placeholder="Duration">
+<button>🔍</button>
+</div>
+
+</div>
+
+<div class="hero-image">
+<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+</div>
+
+</section>
+
+<section class="section container">
+<h2>Popular Destinations</h2>
+<p>Most loved places by our global community this month.</p>
+
+<div class="cards">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+<div class="card-body">
+<h3>Santorini Sunset Bliss</h3>
+<p>Starts from <span class="price">$1200</span></p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb">
+<div class="card-body">
+<h3>Kyoto Zen Gardens</h3>
+<p>Starts from <span class="price">$1850</span></p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<div class="card-body">
+<h3>Amalfi Coast Drive</h3>
+<p>Starts from <span class="price">$2100</span></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section container">
+<h2>Featured Stays</h2>
+
+<div class="grid-4">
+<div class="hotel">
+<img src="https://images.unsplash.com/photo-1566073771259-6a8506099945">
+<h4>The Azure Resort</h4>
+<p>$450 / night</p>
+<button>View</button>
+</div>
+
+<div class="hotel">
+<img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511">
+<h4>Mountain Echo Lodge</h4>
+<p>$280 / night</p>
+<button>View</button>
+</div>
+
+<div class="hotel">
+<img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb">
+<h4>Urban Luxe Suites</h4>
+<p>$520 / night</p>
+<button>View</button>
+</div>
+
+<div class="hotel">
+<img src="https://images.unsplash.com/photo-1551776235-dde6d4829808">
+<h4>Paradise Bay Resort</h4>
+<p>$390 / night</p>
+<button>View</button>
+</div>
+</div>
+</section>
+
+<section class="section container">
+<h2>Unforgettable Experiences</h2>
+
+<div class="exp-grid">
+<div class="exp">
+<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+<div class="exp-title">Secret Island Kayaking</div>
+</div>
+
+<div class="exp">
+<img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1">
+<div class="exp-title">Traditional Cooking Masterclass</div>
+</div>
+
+<div class="exp">
+<img src="https://images.unsplash.com/photo-1464822759844-d150ad6d1d33">
+<div class="exp-title">High-Altitude Hiking</div>
+</div>
+</div>
+</section>
+
+<section class="section container">
+<h2>What Our Travelers Say</h2>
+
+<div class="testimonials">
+<div class="testimonial">
+<img src="https://randomuser.me/api/portraits/women/44.jpg">
+<p>"The search tool is intuitive and the excursions were amazing."</p>
+<h4>Elena Rodriguez</h4>
+</div>
+
+<div class="testimonial">
+<img src="https://randomuser.me/api/portraits/men/32.jpg">
+<p>"GlobalWander helped me plan business trips perfectly."</p>
+<h4>Marcus Thorne</h4>
+</div>
+
+<div class="testimonial">
+<img src="https://randomuser.me/api/portraits/men/45.jpg">
+<p>"Our honeymoon was unforgettable. Highly recommended!"</p>
+<h4>Sarah & James</h4>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container footer-grid">
+
+<div>
+<h4>GlobalWander</h4>
+<p>Empowering travelers to discover hidden gems since 2012.</p>
+</div>
+
+<div>
+<h4>Quick Links</h4>
+<a href="#">About</a>
+<a href="#">Destinations</a>
+<a href="#">Privacy Policy</a>
+</div>
+
+<div>
+<h4>Resources</h4>
+<a href="#">Travel Blog</a>
+<a href="#">Support</a>
+<a href="#">FAQs</a>
+</div>
+
+<div>
+<h4>Contact</h4>
+<p>+1 800 WANDER</p>
+<p>hello@globalwander.com</p>
+</div>
+
+</div>
+
+<div class="copy">
+© 2024 GlobalWander. All rights reserved.
+</div>
+</footer>
+
+</body>
+</html>

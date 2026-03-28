@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JourneyConnect - Services</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+background:#f6f8fb;
+color:#333;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 40px;
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.logo{
+color:#2f7df6;
+font-weight:600;
+font-size:18px;
+}
+
+.nav-links a{
+margin-right:20px;
+text-decoration:none;
+color:#555;
+font-size:14px;
+}
+
+/* HEADER */
+
+.header{
+padding:30px 40px;
+}
+
+.breadcrumb{
+font-size:13px;
+color:#888;
+margin-bottom:10px;
+}
+
+.header h1{
+font-size:26px;
+margin-bottom:10px;
+}
+
+.header span{
+color:#2f7df6;
+}
+
+.header p{
+color:#777;
+}
+
+/* FILTERS */
+
+.filters{
+background:white;
+margin:20px 40px;
+padding:20px;
+border-radius:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+}
+
+.filter-group{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.tag{
+padding:6px 12px;
+border-radius:20px;
+background:#f1f1f1;
+font-size:13px;
+}
+
+.tag.active{
+background:#2f7df6;
+color:white;
+}
+
+.slider{
+width:150px;
+}
+
+select,button{
+padding:8px 12px;
+border-radius:6px;
+border:1px solid #ddd;
+}
+
+.reset{
+background:#eef4ff;
+color:#2f7df6;
+border:none;
+}
+
+/* GRID */
+
+.grid{
+padding:20px 40px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+border:1px solid #eee;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card-body{
+padding:15px;
+}
+
+.card h3{
+font-size:16px;
+margin-bottom:5px;
+}
+
+.card p{
+font-size:13px;
+color:#777;
+margin-bottom:10px;
+}
+
+.price{
+color:#2f7df6;
+font-weight:600;
+}
+
+.card-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:10px;
+}
+
+.btn{
+background:#2f7df6;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* CTA */
+
+.cta{
+margin:30px 40px;
+background:#eaf1ff;
+padding:40px;
+text-align:center;
+border-radius:12px;
+}
+
+.cta h2{
+margin-bottom:10px;
+}
+
+.cta p{
+color:#666;
+margin-bottom:15px;
+}
+
+/* PAGINATION */
+
+.pagination{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-bottom:30px;
+}
+
+.page{
+padding:8px 12px;
+border:1px solid #ddd;
+border-radius:6px;
+cursor:pointer;
+}
+
+.page.active{
+background:#2f7df6;
+color:white;
+border:none;
+}
+
+/* FOOTER */
+
+footer{
+background:white;
+padding:40px;
+border-top:1px solid #eee;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+}
+
+footer h4{
+margin-bottom:10px;
+}
+
+footer p,footer a{
+font-size:13px;
+color:#555;
+display:block;
+margin-bottom:6px;
+text-decoration:none;
+}
+
+.copy{
+text-align:center;
+margin-top:20px;
+font-size:12px;
+color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+<div class="logo">JourneyConnect</div>
+<div class="nav-links">
+<a href="#">Agencies</a>
+<a href="#">Destinations</a>
+<a href="#">Services</a>
+</div>
+</div>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="breadcrumb">Home › Agencies › Atlas Global Travels</div>
+
+<h1>Atlas Global Travels <span>Services</span></h1>
+
+<p>Discover curated experiences and premium transport solutions.</p>
+
+</div>
+
+
+<!-- FILTERS -->
+
+<div class="filters">
+
+<div class="filter-group">
+<span class="tag active">All</span>
+<span class="tag">Hotel</span>
+<span class="tag">Tour</span>
+<span class="tag">Transport</span>
+</div>
+
+<div class="filter-group">
+<input class="slider" type="range">
+<select>
+<option>Any Rating</option>
+</select>
+<button class="reset">Reset Filters</button>
+</div>
+
+</div>
+
+
+<!-- GRID -->
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+<div class="card-body">
+<h3>Aegean Sea Luxury Cruise</h3>
+<p>Luxury Mediterranean escape experience.</p>
+<div class="card-footer">
+<span class="price">$1,299</span>
+<button class="btn">Book Now</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511">
+<div class="card-body">
+<h3>Kyoto Heritage Sanctuary</h3>
+<p>Traditional Japanese retreat.</p>
+<div class="card-footer">
+<span class="price">$450</span>
+<button class="btn">Book Now</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<div class="card-body">
+<h3>Alpine Explorer Express</h3>
+<p>Scenic Swiss Alps journey.</p>
+<div class="card-footer">
+<span class="price">$320</span>
+<button class="btn">Book Now</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+<div class="card-body">
+<h3>Sahara Desert Glamping</h3>
+<p>Luxury desert camping experience.</p>
+<div class="card-footer">
+<span class="price">$850</span>
+<button class="btn">Book Now</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
+<div class="card-body">
+<h3>Private Amalfi Transfer</h3>
+<p>Private chauffeur service.</p>
+<div class="card-footer">
+<span class="price">$180</span>
+<button class="btn">Book Now</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc">
+<div class="card-body">
+<h3>Nordic Aurora Igloo</h3>
+<p>Sleep under the northern lights.</p>
+<div class="card-footer">
+<span class="price">$600</span>
+<button class="btn">Book Now</button>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<!-- CTA -->
+
+<div class="cta">
+<h2>Can't find what you're looking for?</h2>
+<p>Contact the agency for a personalized travel plan.</p>
+<button class="btn">Contact Agency</button>
+</div>
+
+
+<!-- PAGINATION -->
+
+<div class="pagination">
+<div class="page active">1</div>
+<div class="page">2</div>
+<div class="page">3</div>
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-grid">
+
+<div>
+<h4>JourneyConnect</h4>
+<p>Connecting travelers worldwide.</p>
+</div>
+
+<div>
+<h4>Platform</h4>
+<a href="#">Find Agencies</a>
+<a href="#">Destinations</a>
+<a href="#">Help Center</a>
+</div>
+
+<div>
+<h4>For Agencies</h4>
+<a href="#">List Service</a>
+<a href="#">Dashboard</a>
+</div>
+
+<div>
+<h4>Contact</h4>
+<p>support@journeyconnect.com</p>
+</div>
+
+</div>
+
+<div class="copy">© 2026 JourneyConnect</div>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust Connect | Hotels in Barcelona</title>
+    <style>
+        :root {
+            --primary-blue: #0066FF;
+            --bg-gray: #F9FAFB;
+            --border-color: #E5E7EB;
+            --text-main: #111827;
+            --text-secondary: #6B7280;
+            --accent-green: #10B981;
+            --slider-gray: #E5E7EB;
+            --thumb-color: #6B7280;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: white;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        /* --- Header --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo { font-weight: 800; font-size: 1.2rem; color: var(--text-main); }
+        .nav-links a { margin: 0 15px; text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; }
+        .search-input-nav { background: var(--bg-gray); border: none; padding: 8px 15px; border-radius: 6px; font-size: 0.85rem; width: 250px; }
+
+        /* --- Layout --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 40px;
+            padding: 30px 50px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* --- Sidebar Filters & Custom Range Slider --- */
+        .sidebar h2 { font-size: 1rem; display: flex; justify-content: space-between; margin-bottom: 25px; }
+        .clear-all { color: var(--primary-blue); font-size: 0.8rem; cursor: pointer; font-weight: normal; }
+
+        .filter-group { margin-bottom: 30px; }
+        .filter-group h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 15px; }
+
+        /* Custom Slider Styling */
+        .slider-container { width: 100%; margin-top: 10px; }
+        
+        .range-input {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: var(--slider-gray);
+            outline: none;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+
+        /* Thumb for Chrome/Safari/Edge */
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--thumb-color);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        /* Thumb for Firefox */
+        .range-input::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            background: var(--thumb-color);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .price-labels { display: flex; justify-content: space-between; margin-top: 10px; }
+        .price-box-label { 
+            background: white; 
+            border: 1px solid var(--border-color); 
+            padding: 6px 10px; 
+            border-radius: 6px; 
+            font-size: 0.85rem; 
+            color: var(--text-main);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .checkbox-list label { display: block; font-size: 0.9rem; margin-bottom: 10px; cursor: pointer; color: #374151; }
+        .checkbox-list input { margin-right: 10px; }
+
+        /* --- Results Column --- */
+        .results-header { margin-bottom: 25px; }
+        .results-header h1 { font-size: 1.8rem; margin: 0; }
+        .results-header p { color: var(--text-secondary); margin-top: 5px; }
+
+        .hotel-card {
+            display: flex;
+            gap: 20px;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hotel-img { width: 240px; height: 180px; background: #EEE; border-radius: 8px; background-size: cover; background-position: center; }
+
+        .hotel-info { flex: 1; }
+        .hotel-info h3 { margin: 0; font-size: 1.25rem; }
+        .location { font-size: 0.85rem; color: var(--text-secondary); margin: 5px 0 12px 0; }
+        .description { font-size: 0.9rem; color: #4B5563; line-height: 1.5; margin-bottom: 15px; }
+        
+        .tags { display: flex; gap: 8px; }
+        .tag { background: #F3F4F6; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; color: var(--text-secondary); }
+
+        .hotel-pricing { text-align: right; min-width: 150px; display: flex; flex-direction: column; justify-content: space-between; }
+        .starting-from { font-size: 0.75rem; color: var(--text-secondary); }
+        .price-night { font-size: 1.4rem; font-weight: 700; display: block; margin: 4px 0; }
+        .btn-book { background: var(--primary-blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; }
+
+        /* --- Right Info Sidebar --- */
+        .info-card { background: #F9FAFB; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #F3F4F6; }
+        .verified-badge { color: var(--accent-green); font-weight: bold; font-size: 0.85rem; margin-bottom: 10px; display: block; }
+        .info-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin: 0; }
+        .feature-item { margin-bottom: 15px; }
+        .feature-item strong { display: block; font-size: 0.85rem; margin-bottom: 3px; }
+
+        /* --- Footer --- */
+        .footer { background: #111827; color: white; padding: 50px; margin-top: 50px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        .footer h5 { font-size: 0.9rem; margin-bottom: 20px; color: #9CA3AF; }
+        .footer p, .footer a { font-size: 0.85rem; color: #D1D5DB; text-decoration: none; display: block; margin-bottom: 10px; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .main-container { grid-template-columns: 240px 1fr; }
+            .info-sidebar { display: none; }
+        }
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; padding: 20px; }
+            .sidebar { display: none; }
+            .hotel-card { flex-direction: column; }
+            .hotel-img { width: 100%; }
+            .navbar { padding: 15px 20px; }
+            .footer { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Wanderlust Connect</div>
+        <nav class="nav-links">
+            <a href="#">Hotels</a>
+            <a href="#">Restaurants</a>
+            <a href="#">Excursions</a>
+        </nav>
+        <input type="text" class="search-input-nav" placeholder="Q Search destinations">
+    </header>
+
+    <main class="main-container">
+        <aside class="sidebar">
+            <h2>Filters <span class="clear-all">Clear All</span></h2>
+            
+            <div class="filter-group">
+                <h4>Price Range</h4>
+                <div class="slider-container">
+                    <input type="range" class="range-input" min="100" max="1000" value="500" id="priceRange">
+                    <div class="price-labels">
+                        <div class="price-box-label" id="minLabel">$100</div>
+                        <div class="price-box-label" id="maxLabel">$1000+</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h4>Star Rating</h4>
+                <div class="checkbox-list">
+                    <label><input type="checkbox"> 5 Stars</label>
+                    <label><input type="checkbox" checked> 4 Stars</label>
+                    <label><input type="checkbox"> 3 Stars</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h4>Category</h4>
+                <div class="checkbox-list">
+                    <label><input type="checkbox" checked> Hotel</label>
+                    <label><input type="checkbox"> Boutique</label>
+                    <label><input type="checkbox"> Resort</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h4>Travel Dates</h4>
+                <div class="price-box-label" style="width: 100%; box-sizing: border-box; text-align: left;">May 12 - May 19, 2026</div>
+            </div>
+        </aside>
+
+        <section class="results-feed">
+            <div class="results-header">
+                <h1>Hotels in Barcelona</h1>
+                <p>42 properties found for your dates • SORT BY: <strong>Most Popular</strong></p>
+            </div>
+
+            <article class="hotel-card">
+                <div class="hotel-img" style="background-image: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="hotel-info">
+                    <h3>W Barcelona</h3>
+                    <p class="location">La Barceloneta, Barcelona</p>
+                    <p class="description">Iconic sail-shaped building offering luxury rooms and a panoramic bar with breathtaking views of the Mediterranean.</p>
+                    <div class="tags">
+                        <span class="tag">Beachfront</span>
+                        <span class="tag">Infinity Pool</span>
+                    </div>
+                </div>
+                <div class="hotel-pricing">
+                    <span class="starting-from">Starting from</span>
+                    <span class="price-night">$450/night</span>
+                    <button class="btn-book">Book Now</button>
+                </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="hotel-img" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="hotel-info">
+                    <h3>Hotel Arts Barcelona</h3>
+                    <p class="location">Port Olympic, Barcelona</p>
+                    <p class="description">A contemporary landmark on the waterfront, featuring a Michelin-starred restaurant and stunning sea views.</p>
+                    <div class="tags">
+                        <span class="tag">Michelin Dining</span>
+                        <span class="tag">Sea View</span>
+                    </div>
+                </div>
+                <div class="hotel-pricing">
+                    <span class="starting-from">Starting from</span>
+                    <span class="price-night">$380/night</span>
+                    <button class="btn-book">Book Now</button>
+                </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="hotel-img" style="background-image: url('https://images.unsplash.com/photo-1551882547-ff43c63fedfe?auto=format&fit=crop&w=400&q=80');"></div>
+                <div class="hotel-info">
+                    <h3>Majestic Hotel & Spa</h3>
+                    <p class="location">Eixample, Barcelona</p>
+                    <p class="description">A symbol of 5-star hotel excellence since 1918, located on the prestigious Passeig de Gràcia.</p>
+                    <div class="tags">
+                        <span class="tag">Historical</span>
+                        <span class="tag">Luxury Spa</span>
+                    </div>
+                </div>
+                <div class="hotel-pricing">
+                    <span class="starting-from">Starting from</span>
+                    <span class="price-night">$320/night</span>
+                    <button class="btn-book">Book Now</button>
+                </div>
+            </article>
+
+            <button class="btn-book" style="background: var(--bg-gray); color: var(--text-main); border: 1px solid var(--border-color); width: auto; margin: 0 auto; display: block;">Load More Results</button>
+        </section>
+
+        <aside class="info-sidebar">
+            <div class="info-card">
+                <span class="verified-badge">Wanderlust Verified</span>
+                <p>All hotels in Barcelona have been hand-picked and verified by our experts for quality and safety.</p>
+            </div>
+
+            <div class="info-card">
+                <div class="feature-item">
+                    <strong>Breakfast Included</strong>
+                    <p>Most Barcelona stays offer a traditional Catalan breakfast spread.</p>
+                </div>
+                <div class="feature-item">
+                    <strong>Free High-Speed Wi-Fi</strong>
+                    <p>Stay connected with the world during your travel.</p>
+                </div>
+                <div class="feature-item">
+                    <strong>Air Conditioning</strong>
+                    <p>Climate control is standard in all our listed premium hotels.</p>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="footer">
+        <div>
+            <h5>Wanderlust Connect</h5>
+            <p>Connecting travelers with authentic local experiences, world-class stays, and hidden gems across the globe.</p>
+        </div>
+        <div>
+            <h5>Services</h5>
+            <a href="#">Hotel Bookings</a>
+            <a href="#">Restaurant Reservations</a>
+            <a href="#">Local Excursions</a>
+        </div>
+        <div>
+            <h5>Company</h5>
+            <a href="#">About Us</a>
+            <a href="#">Partner Program</a>
+            <a href="#">Careers</a>
+        </div>
+        <div>
+            <h5>Contact</h5>
+            <p>support@wanderlust.com</p>
+            <p>+1 (555) 000-1234</p>
+            <p>Global Headquarters</p>
+        </div>
+    </footer>
+
+    <script>
+        const rangeInput = document.getElementById('priceRange');
+        
+        // Updates the blue progress track based on thumb position
+        function updateSlider() {
+            const min = rangeInput.min;
+            const max = rangeInput.max;
+            const val = rangeInput.value;
+            const percentage = (val - min) / (max - min) * 100;
+            
+            // Set gradient: Blue for progress, Gray for remaining track
+            rangeInput.style.background = `linear-gradient(to right, #0066FF 0%, #0066FF ${percentage}%, #E5E7EB ${percentage}%, #E5E7EB 100%)`;
+        }
+
+        // Listen for user input
+        rangeInput.addEventListener('input', updateSlider);
+        
+        // Initialize on page load
+        window.onload = updateSlider;
+    </script>
+</body>
+</html>

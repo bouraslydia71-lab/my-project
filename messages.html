@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JourneyConnect Chat</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+padding:15px 30px;
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.logo{
+color:#2f7df6;
+font-weight:600;
+}
+
+/* LAYOUT */
+
+.wrapper{
+display:grid;
+grid-template-columns:280px 1fr 320px;
+height:calc(100vh - 60px);
+}
+
+/* LEFT PANEL */
+
+.sidebar{
+background:white;
+border-right:1px solid #eee;
+padding:15px;
+}
+
+.search{
+width:100%;
+padding:8px;
+border:1px solid #ddd;
+border-radius:6px;
+margin-bottom:15px;
+}
+
+.chat-item{
+display:flex;
+gap:10px;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+margin-bottom:8px;
+}
+
+.chat-item.active{
+background:#eef4ff;
+}
+
+.chat-item img{
+width:40px;
+height:40px;
+border-radius:50%;
+}
+
+/* CHAT */
+
+.chat{
+display:flex;
+flex-direction:column;
+}
+
+.chat-header{
+padding:15px;
+background:white;
+border-bottom:1px solid #eee;
+font-weight:500;
+}
+
+.messages{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* MESSAGE */
+
+.msg{
+max-width:60%;
+padding:12px 15px;
+border-radius:15px;
+margin-bottom:10px;
+font-size:14px;
+}
+
+.left{
+background:white;
+border:1px solid #eee;
+}
+
+.right{
+background:#2f7df6;
+color:white;
+margin-left:auto;
+}
+
+/* INPUT */
+
+.input-box{
+display:flex;
+padding:15px;
+background:white;
+border-top:1px solid #eee;
+}
+
+.input-box input{
+flex:1;
+padding:10px;
+border-radius:20px;
+border:1px solid #ddd;
+}
+
+.send{
+margin-left:10px;
+background:#2f7df6;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* RIGHT PANEL */
+
+.info{
+background:white;
+border-left:1px solid #eee;
+padding:20px;
+}
+
+.profile{
+text-align:center;
+}
+
+.profile img{
+width:80px;
+height:80px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.media-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:10px;
+}
+
+.media-grid img{
+width:100%;
+height:70px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.btn{
+width:100%;
+padding:10px;
+border-radius:6px;
+background:#2f7df6;
+color:white;
+border:none;
+margin-top:10px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo">JourneyConnect</div>
+<div>Login</div>
+</div>
+
+<div class="wrapper">
+
+<!-- LEFT SIDEBAR -->
+<div class="sidebar">
+
+<input class="search" placeholder="Search agencies...">
+
+<div class="chat-item active">
+<img src="https://randomuser.me/api/portraits/men/32.jpg">
+<div>
+<strong>Alpine Escapes</strong><br>
+<span style="font-size:12px;color:#777;">Your itinerary is ready</span>
+</div>
+</div>
+
+<div class="chat-item">
+<img src="https://randomuser.me/api/portraits/men/45.jpg">
+<div>
+<strong>Safari Sunsets</strong><br>
+<span style="font-size:12px;color:#777;">Vehicle confirmed</span>
+</div>
+</div>
+
+</div>
+
+<!-- CHAT CENTER -->
+<div class="chat">
+
+<div class="chat-header">
+Alpine Escapes (Active)
+</div>
+
+<div class="messages" id="messages">
+
+<div class="msg left">Hello John! How can I help?</div>
+
+</div>
+
+<div class="input-box">
+<input id="messageInput" placeholder="Type your message...">
+<button class="send" onclick="sendMessage()">Send</button>
+</div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="info">
+
+<div class="profile">
+<img src="https://randomuser.me/api/portraits/men/32.jpg">
+<h3>Alpine Escapes</h3>
+<p style="font-size:13px;color:#777;">Luxury travel boutique</p>
+<button class="btn">View Agency Profile</button>
+</div>
+
+<h4 style="margin-top:20px;">Shared Media</h4>
+
+<div class="media-grid">
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+<img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
+<img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb">
+<img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d">
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const text = input.value.trim();
+
+    if(text === "") return;
+
+    const container = document.getElementById("messages");
+
+    const msg = document.createElement("div");
+    msg.classList.add("msg","right");
+    msg.innerText = text;
+
+    container.appendChild(msg);
+
+    container.scrollTop = container.scrollHeight;
+
+    input.value = "";
+}
+
+document.getElementById("messageInput")
+.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        sendMessage();
+    }
+});
+
+</script>
+
+</body>
+</html>

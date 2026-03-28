@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadNexus - Choose Your Role</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0095FF;
+            --text-dark: #1A1A1A;
+            --text-muted: #666666;
+            --border-light: #E0E0E0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.5;
+            background-color: #ffffff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 80px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
+        .subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 60px; }
+
+        .role-container { display: flex; gap: 24px; justify-content: center; margin-bottom: 40px; }
+
+        .role-card {
+            flex: 1;
+            padding: 40px 30px;
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            max-width: 420px;
+        }
+
+        .role-card.active {
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 149, 255, 0.1);
+        }
+
+        .check-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--primary-blue);
+            opacity: 0;
+            font-weight: bold;
+        }
+
+        .role-card.active .check-icon { opacity: 1; }
+
+        .icon-box {
+            width: 64px; height: 64px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px auto; font-size: 32px;
+        }
+
+        .tourist-icon { background-color: #E6F4FF; color: var(--primary-blue); }
+        .provider-icon { background-color: #E6FBF0; color: #00BA88; }
+
+        .indicator { height: 4px; width: 80px; background: #EEEEEE; margin: 0 auto; border-radius: 2px; }
+        .active .indicator { background: var(--primary-blue); }
+
+        .get-started-btn {
+            background-color: var(--primary-blue);
+            color: white; border: none;
+            padding: 16px 48px; font-size: 18px; font-weight: 600;
+            border-radius: 50px; cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .get-started-btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="home page.html" class="logo">NomadNexus</a>
+    </header>
+
+    <main>
+        <h1>Choose Your Role</h1>
+        <p class="subtitle">Select your perspective to continue.</p>
+
+        <div class="role-container">
+            <!-- Tourist Card -->
+            <div class="role-card active" id="touristCard">
+                <div class="check-icon">✓</div>
+                <div class="icon-box tourist-icon">✈️</div>
+                <h3>Tourist</h3>
+                <p>Find unique experiences and book stays.</p>
+                <div class="indicator"></div>
+            </div>
+
+            <!-- Service Provider Card -->
+            <div class="role-card" id="providerCard">
+                <div class="check-icon">✓</div>
+                <div class="icon-box provider-icon">💼</div>
+                <h3>Service Provider</h3>
+                <p>List properties and offer local services.</p>
+                <div class="indicator"></div>
+            </div>
+        </div>
+
+        <button class="get-started-btn" id="startBtn">Get Started &nbsp; ❯</button>
+    </main>
+
+    <script>
+        const touristCard = document.getElementById('touristCard');
+        const providerCard = document.getElementById('providerCard');
+        const startBtn = document.getElementById('startBtn');
+
+        // Toggle Active State
+        touristCard.addEventListener('click', () => {
+            touristCard.classList.add('active');
+            providerCard.classList.remove('active');
+        });
+
+        providerCard.addEventListener('click', () => {
+            providerCard.classList.add('active');
+            touristCard.classList.remove('active');
+        });
+
+        // Redirect Logic
+        startBtn.addEventListener('click', () => {
+            if (touristCard.classList.contains('active')) {
+                window.location.href = 'user profile2.html';
+            } else if (providerCard.classList.contains('active')) {
+                // IMPORTANT: Ensure this filename matches your file exactly!
+                window.location.href = 'busines info for profile.html';
+            }
+        });
+    </script>
+</body>
+</html>
