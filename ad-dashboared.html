@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #2563eb;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .wave-bg {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-xl z-20 flex flex-col transition-all duration-300" id="sidebar">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+                        <i class="fas fa-plane text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-gray-900">Trip Pilot</h1>
+                        <p class="text-xs text-gray-500">Tourism Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                <a href="#" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-primary-700 bg-primary-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-chart-pie w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+        
+                <a href="ad-booking.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-calendar-check w-5"></i>
+                    <span>Bookings</span>
+                    <span class="ml-auto bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded-full">5 New</span>
+                </a>
+                <a href="ad-cust.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-users w-5"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="ad-hotels.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-hotel w-5"></i>
+                    <span>Hotels</span>
+                </a>
+                <a href="ad-rest.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                   <i class="fa fa-utensils w-5"></i>
+                   <span>Restaurant</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-zazoua-700 hover:bg-slate-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-comments w-5 text-center"></i>
+                    <span>Messagerie</span>
+                    <span class="ml-auto bg-zazoua-100 text-zazoua-700 text-xs font-bold px-2 py-1 rounded-full"></span>
+                </a>
+                
+                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-cog w-5"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+    
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto wave-bg">
+            <!-- Top Header -->
+            <header class="glass-effect sticky top-0 z-10 px-8 py-4 border-b border-white/50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="fas fa-bars text-gray-600"></i>
+                        </button>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Dashboard</h2>
+                            <p class="text-sm text-gray-500">Welcome back, Administrator</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <div class="hidden md:flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                            <i class="fas fa-search text-gray-400"></i>
+                            <input type="text" placeholder="Search destinations, bookings..." class="bg-transparent border-none outline-none text-sm w-64 text-gray-700 placeholder-gray-400">
+                        </div>
+
+                        <button class="relative p-2 hover:bg-white/80 rounded-full transition-all">
+                            <i class="fas fa-bell text-gray-600 text-xl"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        </button>
+
+                        <div class="flex items-center gap-3 pl-6 border-l border-gray-200">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-semibold text-gray-900">ADMIN</p>
+                                <p class="text-xs text-gray-500">Super Admin</p>
+                            </div>
+                            <div class="relative">
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full"> 
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="p-8 space-y-8 animate-fade-in">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600">
+                                    <i class="fas fa-suitcase-rolling text-xl"></i>
+                                </div>
+                                <span class="text-green-500 text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-up text-xs"></i> 12.5%
+                                </span>
+                            </div>
+                            <p class="text-gray-500 text-sm font-medium">Total Bookings</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mt-1">2,847</h3>
+                            <p class="text-xs text-gray-400 mt-2">+234 this month</p>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-dollar-sign text-xl"></i>
+                                </div>
+                                <span class="text-green-500 text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-up text-xs"></i> 8.2%
+                                </span>
+                            </div>
+                            <p class="text-gray-500 text-sm font-medium">Revenue</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mt-1">$48.2K</h3>
+                            <p class="text-xs text-gray-400 mt-2">+$3.2k this month</p>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-600">
+                                    <i class="fas fa-users text-xl"></i>
+                                </div>
+                                <span class="text-green-500 text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-up text-xs"></i> 5.1%
+                                </span>
+                            </div>
+                            <p class="text-gray-500 text-sm font-medium">Active Users</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mt-1">1,429</h3>
+                            <p class="text-xs text-gray-400 mt-2">+89 new users</p>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
+                                    <i class="fas fa-map-marked-alt text-xl"></i>
+                                </div>
+                                <span class="text-gray-500 text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-minus text-xs"></i> 0%
+                                </span>
+                            </div>
+                            <p class="text-gray-500 text-sm font-medium">Destinations</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mt-1">156</h3>
+                            <p class="text-xs text-gray-400 mt-2">Across 42 countries</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Chart -->
+                    <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">Booking Trends</h3>
+                                <p class="text-sm text-gray-500">Monthly booking statistics</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 text-sm font-medium text-primary-700 bg-primary-50 rounded-lg">Month</button>
+                                <button class="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg">Year</button>
+                            </div>
+                        </div>
+                        <div class="h-80">
+                            <canvas id="bookingChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Popular Destinations -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">Top Destinations</h3>
+                                <p class="text-sm text-gray-500">Most booked locations</p>
+                            </div>
+                            <button class="text-primary-600 hover:text-primary-700 text-sm font-medium">View All</button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=100&h=100&fit=crop" alt="Bali" class="w-12 h-12 rounded-lg object-cover">
+                                    <div class="absolute -bottom-1 -right-1 bg-yellow-400 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">1</div>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">Bali, Indonesia</h4>
+                                    <p class="text-sm text-gray-500">842 bookings</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900">$142k</p>
+                                    <p class="text-xs text-green-500">+12%</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=100&h=100&fit=crop" alt="Paris" class="w-12 h-12 rounded-lg object-cover">
+                                    <div class="absolute -bottom-1 -right-1 bg-gray-300 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">2</div>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">Paris, France</h4>
+                                    <p class="text-sm text-gray-500">756 bookings</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900">$198k</p>
+                                    <p class="text-xs text-green-500">+8%</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=100&h=100&fit=crop" alt="Maldives" class="w-12 h-12 rounded-lg object-cover">
+                                    <div class="absolute -bottom-1 -right-1 bg-orange-400 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">3</div>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">Maldives</h4>
+                                    <p class="text-sm text-gray-500">634 bookings</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900">$312k</p>
+                                    <p class="text-xs text-green-500">+15%</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=100&h=100&fit=crop" alt="Tokyo" class="w-12 h-12 rounded-lg object-cover">
+                                    <div class="absolute -bottom-1 -right-1 bg-gray-200 text-gray-600 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">4</div>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">Tokyo, Japan</h4>
+                                    <p class="text-sm text-gray-500">521 bookings</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900">$167k</p>
+                                    <p class="text-xs text-red-500">-3%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings Table -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Recent Bookings</h3>
+                            <p class="text-sm text-gray-500">Latest travel reservations</p>
+                        </div>
+                        
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50/50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Booking ID</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Destination</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Amount</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50/50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-600">#BK-2026-001</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover" alt="User">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">Sarah </p>
+                                                <p class="text-xs text-gray-500">sarah@email.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-plane text-primary-400"></i>
+                                            <span class="text-sm text-gray-700">Santorini, Greece</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Apr 5, 2026</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">$2,450</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full border border-green-200">Confirmed</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        <button class="text-gray-400 hover:text-primary-600 transition-colors p-2 hover:bg-primary-50 rounded-lg">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-600">#BK-2026-002</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover" alt="User">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">Ali</p>
+                                                <p class="text-xs text-gray-500">Ali@email.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-plane text-primary-400"></i>
+                                            <span class="text-sm text-gray-700">Kyoto, Japan</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Apr 4, 2026</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">$3,200</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-3 py-1 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full border border-yellow-200">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        <button class="text-gray-400 hover:text-primary-600 transition-colors p-2 hover:bg-primary-50 rounded-lg">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-600">#BK-2026-003</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover" alt="User">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">liza</p>
+                                                <p class="text-xs text-gray-500">liza@email.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-plane text-primary-400"></i>
+                                            <span class="text-sm text-gray-700">Machu Picchu, Peru</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Apr 3, 2026</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">$4,100</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full border border-blue-200">In Progress</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        <button class="text-gray-400 hover:text-primary-600 transition-colors p-2 hover:bg-primary-50 rounded-lg">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-600">#BK-2026-004</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover" alt="User">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">mohamed</p>
+                                                <p class="text-xs text-gray-500">mohamed@email.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-plane text-primary-400"></i>
+                                            <span class="text-sm text-gray-700">Dubai, UAE</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Apr 2, 2026</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">$5,800</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full border border-green-200">Confirmed</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        <button class="text-gray-400 hover:text-primary-600 transition-colors p-2 hover:bg-primary-50 rounded-lg">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle Sidebar for Mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        // Chart Configuration
+        const ctx = document.getElementById('bookingChart').getContext('2d');
+        const bookingChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Bookings',
+                    data: [320, 450, 380, 520, 480, 600],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#2563eb',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }, {
+                    label: 'Revenue (k)',
+                    data: [240, 320, 280, 400, 360, 480],
+                    borderColor: '#06b6d4',
+                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#06b6d4',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8,
+                            padding: 20,
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 11
+                            },
+                            color: '#6b7280'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 11
+                            },
+                            color: '#6b7280'
+                        }
+                    }
+                }
+            }
+        });
+
+        
+    </script>
+</body>
+</html>
