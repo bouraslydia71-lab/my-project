@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Admin Dashboard - Travel Programme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #3b82f6;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #374151;
+            background: white;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .label-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cover-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .add-photo-box {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-photo-box:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .itinerary-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            background: white;
+        }
+
+        .day-badge {
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .wave-bg {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100%);
+        }
+
+        .btn-primary {
+            background: #111827;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #374151;
+        }
+
+        .btn-outline {
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            background: #f9fafb;
+        }
+
+        .btn-ghost {
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ghost:hover {
+            background: #f9fafb;
+        }
+
+        .btn-blue {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-blue:hover {
+            background: #1d4ed8;
+        }
+
+        .program-card {
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden-section {
+            display: none;
+        }
+
+        .visible-section {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-draft {
+            background: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+<base target="_blank">
+</head>
+
+<body class="bg-gray-50 font-sans text-gray-800">
+
+<div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-xl z-20 flex flex-col transition-all duration-300" id="sidebar">
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+                    <i class="fas fa-plane text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl text-gray-900">Trip Pilot</h1>
+                    <p class="text-xs text-gray-500">Tourism Management</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-chart-pie w-5"></i>
+                <span>Dashboard</span>
+            </a>
+    
+            <a href="ad-booking.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-calendar-check w-5"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="ad-cust.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-users w-5"></i>
+                <span>Customers</span>
+            </a>
+            <a href="ad-hotels.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-hotel w-5"></i>
+                <span>Hotels</span>
+            </a>
+            <a href="ad-rest.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+               <i class="fa fa-utensils w-5"></i>
+               <span>Restaurant</span>
+            </a>
+            <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-comments w-5 text-center"></i>
+                <span>Messagerie</span>
+                <span class="ml-auto bg-primary-100 text-primary-700 text-xs font-bold px-2 py-1 rounded-full">3</span>
+            </a>
+            
+            <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-chart-line w-5"></i>
+                <span>Activity</span>
+            </a>
+            <a href="#" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-primary-700 bg-primary-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-route w-5"></i>
+                <span>Travelprogramme</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto wave-bg">
+        <!-- Top Header -->
+        <header class="glass-effect sticky top-0 z-10 px-8 py-4 border-b border-white/50">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Travel Programme</h2>
+                        <p class="text-sm text-gray-500">Welcome back, Administrator</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="hidden md:flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                        <i class="fas fa-search text-gray-400"></i>
+                        <input type="text" placeholder="Search destinations, bookings..." class="bg-transparent border-none outline-none text-sm w-64 text-gray-700 placeholder-gray-400">
+                    </div>
+
+                    <button class="relative p-2 hover:bg-white/80 rounded-full transition-all">
+                        <i class="fas fa-bell text-gray-600 text-xl"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                    </button>
+
+                    <div class="flex items-center gap-3 pl-6 border-l border-gray-200">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-900">ADMIN</p>
+                            <p class="text-xs text-gray-500">Super Admin</p>
+                        </div>
+                        <div class="relative">
+                            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full"> 
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="p-8">
+            <!-- Page Header -->
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Travel Programmes</h1>
+                    <p class="text-sm text-gray-500 mt-1">Manage and create travel programs for your destinations</p>
+                </div>
+                <button onclick="showAddProgram()" class="btn-blue flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    Add Programme
+                </button>
+            </div>
+
+            <!-- Programs List View -->
+            <div id="programsList" class="visible-section">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Program Card 1 -->
+                    <div class="card program-card overflow-hidden">
+                        <div class="h-40 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&h=300&fit=crop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="status-badge status-active">
+                                    <i class="fas fa-check-circle text-xs"></i>
+                                    Active
+                                </span>
+                                <span class="text-sm text-gray-500">3 days</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 text-lg mb-1">Amalfi Coast Adventure</h3>
+                            <p class="text-sm text-gray-500 mb-3">Italy, Amalfi Coast</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-lg font-bold text-gray-900">€1,250</span>
+                                <span class="text-sm text-gray-500">per person</span>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button onclick="editProgram(1)" class="flex-1 btn-outline text-sm py-2">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                                <button class="flex-1 btn-primary text-sm py-2">
+                                    <i class="fas fa-eye mr-1"></i> Preview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program Card 2 -->
+                    <div class="card program-card overflow-hidden">
+                        <div class="h-40 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&h=300&fit=crop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="status-badge status-draft">
+                                    <i class="fas fa-clock text-xs"></i>
+                                    Draft
+                                </span>
+                                <span class="text-sm text-gray-500">5 days</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 text-lg mb-1">Kyoto Cultural Tour</h3>
+                            <p class="text-sm text-gray-500 mb-3">Japan, Kyoto</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-lg font-bold text-gray-900">€2,100</span>
+                                <span class="text-sm text-gray-500">per person</span>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button onclick="editProgram(2)" class="flex-1 btn-outline text-sm py-2">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                                <button class="flex-1 btn-primary text-sm py-2">
+                                    <i class="fas fa-eye mr-1"></i> Preview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program Card 3 -->
+                    <div class="card program-card overflow-hidden">
+                        <div class="h-40 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=600&h=300&fit=crop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="status-badge status-active">
+                                    <i class="fas fa-check-circle text-xs"></i>
+                                    Active
+                                </span>
+                                <span class="text-sm text-gray-500">7 days</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 text-lg mb-1">Santorini Sunset Escape</h3>
+                            <p class="text-sm text-gray-500 mb-3">Greece, Santorini</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-lg font-bold text-gray-900">€1,890</span>
+                                <span class="text-sm text-gray-500">per person</span>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button onclick="editProgram(3)" class="flex-1 btn-outline text-sm py-2">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                                <button class="flex-1 btn-primary text-sm py-2">
+                                    <i class="fas fa-eye mr-1"></i> Preview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Program Card -->
+                    <div class="card border-2 border-dashed border-gray-300 flex flex-col items-center justify-center p-8 cursor-pointer hover:border-primary-400 hover:bg-primary-50/50 transition-all" onclick="showAddProgram()">
+                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-plus text-primary-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Create New Program</h3>
+                        <p class="text-sm text-gray-500 text-center">Add a new travel program with itinerary and details</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Program Form (Hidden by default) -->
+            <div id="addProgramForm" class="hidden-section">
+                <!-- Back Button -->
+                <button onclick="showProgramsList()" class="mb-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Programs</span>
+                </button>
+
+                <!-- Travel Program Form -->
+                <div class="card p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Create Travel Program</h3>
+                            <p class="text-sm text-gray-500">Create and manage a trip program tied to this place.</p>
+                        </div>
+                        <i class="fas fa-info-circle text-gray-400"></i>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <!-- Left: Form -->
+                        <div class="col-span-2">
+                            <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Trip Overview</h4>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="label-text">Destination</label>
+                                    <input type="text" placeholder="e.g. Italy, Amalfi Coast" class="input-field">
+                                </div>
+                                <div>
+                                    <label class="label-text">Duration</label>
+                                    <input type="text" placeholder="e.g. 5 days, 7 days" class="input-field">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <label class="label-text">Price per person</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">€</span>
+                                        <input type="text" placeholder="0.00" class="input-field pl-8">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="label-text">Travel Type</label>
+                                    <select class="input-field">
+                                        <option>Luxury</option>
+                                        <option>Standard</option>
+                                        <option>Budget</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Logistics & Capacity</h4>
+                            
+                            <div class="mb-4">
+                                <label class="label-text">Departure Location</label>
+                                <input type="text" placeholder="e.g. Naples International Airport" class="input-field">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="label-text">Available Dates</label>
+                                    <div class="relative">
+                                        <i class="far fa-calendar absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                        <input type="text" placeholder="Select date range" class="input-field pl-10">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="label-text">Number of Seats</label>
+                                    <input type="text" placeholder="e.g. 12" class="input-field">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Trip Gallery -->
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Trip Gallery</h4>
+                                <button class="text-sm text-primary-600 font-medium hover:text-primary-700">+ Add Photos</button>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="gallery-item h-28 bg-gray-100 flex items-center justify-center">
+                                    <i class="fas fa-image text-gray-400 text-2xl"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="gallery-item h-20 bg-gray-100 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400"></i>
+                                    </div>
+                                    <div class="gallery-item h-20 bg-gray-100 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="gallery-item h-20 bg-gray-100 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400"></i>
+                                    </div>
+                                    <div class="add-photo-box h-20">
+                                        <i class="fas fa-plus text-gray-400"></i>
+                                        <span class="text-xs text-gray-500">Add Photo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Itinerary Builder -->
+                <div class="card p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">Itinerary Builder</h3>
+                    <p class="text-sm text-gray-500 mb-6">Create each day's activities and details. You can reorder days using the handle.</p>
+
+                    <div class="space-y-4" id="itineraryDays">
+                        <!-- Day 1 -->
+                        <div class="itinerary-card">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="day-badge">Day 1</span>
+                                <input type="text" value="Arrival & Beach Time" class="flex-1 font-semibold text-gray-900 border-none bg-transparent focus:outline-none focus:ring-0 p-0">
+                                <button onclick="removeDay(this)" class="text-gray-400 hover:text-red-500 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <textarea class="w-full text-sm text-gray-600 border border-gray-200 rounded-lg p-3 resize-none focus:outline-none focus:border-primary-400" rows="2" placeholder="Describe the day's activities...">Welcome greeting at Naples International Airport, private chauffeur transfer to Positano, and a relaxing afternoon at the resort's private beach club with complementary cocktails.</textarea>
+                        </div>
+
+                        <!-- Day 2 -->
+                        <div class="itinerary-card">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="day-badge">Day 2</span>
+                                <input type="text" value="Island Tour & Hidden Grottos" class="flex-1 font-semibold text-gray-900 border-none bg-transparent focus:outline-none focus:ring-0 p-0">
+                                <button onclick="removeDay(this)" class="text-gray-400 hover:text-red-500 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <textarea class="w-full text-sm text-gray-600 border border-gray-200 rounded-lg p-3 resize-none focus:outline-none focus:border-primary-400" rows="2" placeholder="Describe the day's activities...">A full-day private boat excursion exploring the coastline of Capri. Visit the Blue Grotto, enjoy lunch on deck, and swim in secluded coves only accessible by sea.</textarea>
+                        </div>
+
+                        <!-- Day 3 -->
+                        <div class="itinerary-card">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="day-badge">Day 3</span>
+                                <input type="text" value="Cliffside Hiking & Departure" class="flex-1 font-semibold text-gray-900 border-none bg-transparent focus:outline-none focus:ring-0 p-0">
+                                <button onclick="removeDay(this)" class="text-gray-400 hover:text-red-500 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <textarea class="w-full text-sm text-gray-600 border border-gray-200 rounded-lg p-3 resize-none focus:outline-none focus:border-primary-400" rows="2" placeholder="Describe the day's activities...">Guided morning hike through the Path of the Gods, followed by a local organic wine tasting. Final farewell brunch before afternoon airport transfer.</textarea>
+                        </div>
+                    </div>
+
+                    <button onclick="addDay()" class="mt-4 px-4 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-600 hover:border-primary-400 hover:text-primary-600 transition-colors flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        Add Another Day
+                    </button>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                    <p class="text-sm text-gray-500">Last saved: Today at 2:45 PM</p>
+                    <div class="flex gap-3">
+                        <button onclick="showProgramsList()" class="btn-outline">Cancel</button>
+                        <button class="btn-outline">Preview Trip Page</button>
+                        <button onclick="saveProgram()" class="btn-primary">Save Program</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="px-8 py-6 border-t border-gray-200 bg-white mt-8">
+            <div class="flex items-center justify-between">
+                <div class="text-xs text-gray-500">
+                    <p class="font-medium text-gray-700 uppercase tracking-wide">Provider Dashboard</p>
+                    <p>© 2024 PlacePilot. All rights reserved.</p>
+                </div>
+                <div class="flex gap-6 text-xs text-gray-500">
+                    <a href="#" class="hover:text-gray-700">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-700">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-700">Help Center</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('-translate-x-full');
+}
+
+function showAddProgram() {
+    document.getElementById('programsList').classList.remove('visible-section');
+    document.getElementById('programsList').classList.add('hidden-section');
+    document.getElementById('addProgramForm').classList.remove('hidden-section');
+    document.getElementById('addProgramForm').classList.add('visible-section');
+}
+
+function showProgramsList() {
+    document.getElementById('addProgramForm').classList.remove('visible-section');
+    document.getElementById('addProgramForm').classList.add('hidden-section');
+    document.getElementById('programsList').classList.remove('hidden-section');
+    document.getElementById('programsList').classList.add('visible-section');
+}
+
+function editProgram(id) {
+    showAddProgram();
+    // Here you would load the program data based on the ID
+    console.log('Editing program:', id);
+}
+
+let dayCount = 3;
+
+function addDay() {
+    dayCount++;
+    const itineraryContainer = document.getElementById('itineraryDays');
+    const newDay = document.createElement('div');
+    newDay.className = 'itinerary-card';
+    newDay.innerHTML = `
+        <div class="flex items-center gap-3 mb-2">
+            <span class="day-badge">Day ${dayCount}</span>
+            <input type="text" placeholder="Day Title" class="flex-1 font-semibold text-gray-900 border-none bg-transparent focus:outline-none focus:ring-0 p-0">
+            <button onclick="removeDay(this)" class="text-gray-400 hover:text-red-500 transition-colors">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+        <textarea class="w-full text-sm text-gray-600 border border-gray-200 rounded-lg p-3 resize-none focus:outline-none focus:border-primary-400" rows="2" placeholder="Describe the day's activities..."></textarea>
+    `;
+    itineraryContainer.appendChild(newDay);
+}
+
+function removeDay(button) {
+    const dayCard = button.closest('.itinerary-card');
+    dayCard.remove();
+    // Renumber the days
+    const days = document.querySelectorAll('.day-badge');
+    days.forEach((day, index) => {
+        day.textContent = `Day ${index + 1}`;
+    });
+    dayCount = days.length;
+}
+
+function saveProgram() {
+    // Show a success message
+    alert('Program saved successfully!');
+    showProgramsList();
+}
+</script>
+
+</body>
+</html>
