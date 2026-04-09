@@ -1,501 +1,4166 @@
-<!DOCTYPE html>
+                       <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GlobalWander</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Pilot | Curated Journeys</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        
+        /* Hero Section with Background */
+        .hero-wrapper {
+            position: relative;
+            min-height: 750px;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 30px;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+        
+        /* Background Slider with 10 images */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: slideShow 50s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        @keyframes slideShow {
+            0%, 8% {
+                background-image: url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&h=1080&fit=crop");
+            }
+            10%, 18% {
+                background-image: url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&h=1080&fit=crop");
+            }
+            20%, 28% {
+                background-image: url("https://images.unsplash.com/photo-1540959733332-bab4deabeeaf?w=1920&h=1080&fit=crop");
+            }
+            30%, 38% {
+                background-image: url("https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1920&h=1080&fit=crop");
+            }
+            40%, 48% {
+                background-image: url("https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&h=1080&fit=crop");
+            }
+            50%, 58% {
+                background-image: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920&h=1080&fit=crop");
+            }
+            60%, 68% {
+                background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&h=1080&fit=crop");
+            }
+            70%, 78% {
+                background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920&h=1080&fit=crop");
+            }
+            80%, 88% {
+                background-image: url("https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&h=1080&fit=crop");
+            }
+            90%, 98% {
+                background-image: url("https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1920&h=1080&fit=crop");
+            }
+            100% {
+                background-image: url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&h=1080&fit=crop");
+            }
+        }
+        
+        /* Dark Overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
+        }
+        
+        /* Static Navigation */
+        .nav-static {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 0 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+        
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .menu a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        .menu a:hover {
+            color: white;
+        }
+        
+        .menu a:hover::after {
+            width: 100%;
+        }
+        
+        .login-btn {
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .login-btn:hover {
+            background: white;
+            color: #0f172a;
+        }
+        
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 750px;
+            padding: 120px 80px 80px;
+        }
+        
+        .hero-text {
+            max-width: 700px;
+        }
+        
+        .hero-text h1 {
+            font-size: 52px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hero-text span {
+            color: #60a5fa;
+        }
+        
+        .hero-text p {
+            color: rgba(255,255,255,0.95);
+            font-size: 16px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.3);
+        }
+        
+        /* Search Bar - Enhanced */
+        .search-widget {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            max-width: 800px;
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .search-field {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            padding: 8px 10px;
+            flex: 1;
+            min-width: 0;
+            color: #334155;
+            font-family: inherit;
+        }
+        
+        .search-field::placeholder {
+            color: #94a3b8;
+        }
+        
+        /* Date input styling */
+        input[type="date"].search-field {
+            position: relative;
+        }
+        
+        input[type="date"].search-field::-webkit-calendar-picker-indicator {
+            filter: invert(0.5);
+            cursor: pointer;
+        }
+        
+        /* Number input styling */
+        input[type="number"].search-field {
+            -moz-appearance: textfield;
+        }
+        
+        input[type="number"].search-field::-webkit-outer-spin-button,
+        input[type="number"].search-field::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .search-btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .search-btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        
+        /* Content Sections */
+        .content-section {
+            position: relative;
+            z-index: 10;
+            padding: 60px 5%;
+            background: #f6f8fb;
+        }
+        
+        .section-header {
+            text-align: left;
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-header h2 {
+            font-size: 28px;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .section-header p {
+            color: #777;
+            font-size: 16px;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .card:hover .card-image {
+            transform: scale(1.08);
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .card-body h3 {
+            font-size: 18px;
+            color: #0f172a;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .card-body p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .price {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        /* Hotels Grid */
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hotel-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .hotel-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .hotel-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .hotel-card h4 {
+            font-size: 17px;
+            color: #0f172a;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .hotel-card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .view-btn {
+            width: 100%;
+            padding: 8px 15px;
+            border: none;
+            background: #3b82f6;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn:hover {
+            background: #2563eb;
+        }
+        
+        /* Activities Grid */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .activity-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 240px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        
+        .activity-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        
+        .activity-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .activity-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+        }
+        
+        .activity-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            color: white;
+        }
+        
+        .activity-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(59, 130, 246, 0.9);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .activity-title {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-section {
+            position: relative;
+            z-index: 10;
+            padding: 60px 5%;
+            background: #f6f8fb;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .testimonial-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+        
+        .testimonial-card h4 {
+            font-size: 16px;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .testimonial-stars {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 10px;
+            color: #fbbf24;
+        }
+        
+        .testimonial-card p {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        /* Review Section */
+        .review-section {
+            position: relative;
+            z-index: 10;
+            padding: 60px 5%;
+            background: white;
+        }
+        
+        .review-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .review-section h2 {
+            font-size: 28px;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        
+        .review-section > p {
+            color: #777;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .review-form {
+            background: #f6f8fb;
+            padding: 40px;
+            border-radius: 24px;
+            margin-bottom: 40px;
+        }
+        
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .star-icon {
+            cursor: pointer;
+            color: #cbd5e1;
+            transition: all 0.2s ease;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .star-icon:hover,
+        .star-icon.active {
+            color: #fbbf24;
+            fill: #fbbf24;
+            transform: scale(1.1);
+        }
+        
+        .review-form textarea {
+            width: 100%;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #0f172a;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 150px;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+        
+        .review-form textarea::placeholder {
+            color: #94a3b8;
+        }
+        
+        .review-form input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #0f172a;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+        
+        .review-form input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .submit-review {
+            background: #3b82f6;
+            color: white;
+            padding: 16px 50px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-review:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        /* New Reviews Display Section */
+        .new-reviews-section {
+            margin-top: 40px;
+            text-align: left;
+        }
+        
+        .new-reviews-section h3 {
+            font-size: 22px;
+            color: #0f172a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .new-reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .new-review-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #3b82f6;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .new-review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .new-review-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .new-review-info h4 {
+            font-size: 16px;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        
+        .new-review-stars {
+            display: flex;
+            gap: 2px;
+            color: #fbbf24;
+        }
+        
+        .new-review-date {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        
+        .new-review-text {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .no-reviews {
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px;
+            font-style: italic;
+        }
+        
+        /* Contact Footer */
+        .contact-footer {
+            position: relative;
+            z-index: 10;
+            background: white;
+            padding: 40px 5%;
+            color: #0f172a;
+            margin-top: 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+        
+        .contact-brand h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .contact-brand p {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .contact-col h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        .contact-col ul {
+            list-style: none;
+        }
+        
+        .contact-col ul li {
+            margin-bottom: 12px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .contact-col ul li svg {
+            width: 18px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+            text-align: center;
+            color: #94a3b8;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+        
+        /* Success Message */
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Search Results Page */
+        .search-results-page {
+            display: none;
+            min-height: 100vh;
+            background: #f6f8fb;
+        }
+        
+        .search-results-page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .results-header {
+            background: white;
+            padding: 30px 5%;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .results-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .results-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .results-header p {
+            color: #64748b;
+        }
+        
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .back-home-btn:hover {
+            color: #2563eb;
+        }
+        
+        /* Program Cards in Results */
+        .program-list {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        
+        .program-detail-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .program-detail-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .program-main {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+        }
+        
+        .program-gallery {
+            height: 100%;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .program-badge-large {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .program-info {
+            padding: 30px;
+        }
+        
+        .program-info h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        
+        .program-meta-large {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .meta-item svg {
+            width: 20px;
+            height: 20px;
+            color: #3b82f6;
+        }
+        
+        .program-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #475569;
+        }
+        
+        .highlight-item svg {
+            width: 20px;
+            height: 20px;
+            color: #10b981;
+            flex-shrink: 0;
+        }
+        
+        .program-price-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price-display {
+            font-size: 36px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .price-display span {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 400;
+        }
+        
+        .view-program-btn {
+            background: #3b82f6;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-program-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        /* Full Program Modal */
+        .program-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 3000;
+            overflow-y: auto;
+        }
+        
+        .program-modal.active {
+            display: block;
+        }
+        
+        .program-modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 50px auto;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-hero {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        
+        .modal-close-btn:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 40px;
+        }
+        
+        .modal-body h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .day-by-day {
+            margin: 30px 0;
+        }
+        
+        .day-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .day-item:last-child {
+            border-bottom: none;
+        }
+        
+        .day-number {
+            width: 50px;
+            height: 50px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .day-content h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        
+        .day-content p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .included-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 16px;
+            margin: 25px 0;
+        }
+        
+        .included-section h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        
+        .included-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .included-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #475569;
+        }
+        
+        .payment-section {
+            background: #0f172a;
+            color: white;
+            padding: 30px;
+            margin: 30px -40px -40px -40px;
+        }
+        
+        .payment-form {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .payment-form input {
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            font-size: 15px;
+        }
+        
+        .pay-now-btn {
+            background: #10b981;
+            color: white;
+            padding: 16px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .pay-now-btn:hover {
+            background: #059669;
+        }
+        
+        /* Results Page Grid Layouts */
+        .results-grid-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        
+        .results-section-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .results-section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: #3b82f6;
+            border-radius: 2px;
+        }
+        
+        .results-hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .results-activities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        .results-restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        /* Activity Card for Results */
+        .result-activity-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 200px;
+            cursor: pointer;
+        }
+        
+        .result-activity-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .result-activity-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .result-activity-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+        }
+        
+        .result-activity-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            color: white;
+        }
+        
+        .result-activity-price {
+            display: inline-block;
+            background: #3b82f6;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        /* Restaurant Card */
+        .restaurant-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .restaurant-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .restaurant-card-body {
+            padding: 15px;
+        }
+        
+        .restaurant-card h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #0f172a;
+        }
+        
+        .restaurant-card p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .restaurant-price {
+            color: #059669;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        /* POPUP MODAL STYLES - From Activities & Restaurants */
+        .popup-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .popup-modal.active {
+            display: flex;
+        }
+        
+        .popup-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: popupSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes popupSlide {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        .popup-close:hover {
+            background: #ff4757;
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .popup-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 24px 24px 0 0;
+        }
+        
+        .popup-body {
+            padding: 30px;
+        }
+        
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .popup-title-section h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        
+        .popup-location {
+            color: #64748b;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .popup-price-section {
+            text-align: right;
+        }
+        
+        .popup-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        
+        .popup-price span {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+        
+        .popup-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+        
+        .popup-rating-stars {
+            color: #fbbf24;
+            font-size: 18px;
+        }
+        
+        .popup-rating-value {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 18px;
+        }
+        
+        .popup-reviews {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        .popup-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #dbeafe;
+            color: #3b82f6;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .popup-description {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+        
+        .popup-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .popup-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        
+        .popup-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .popup-feature-text h4 {
+            font-size: 14px;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+        
+        .popup-feature-text p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+        
+        .popup-includes {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .popup-includes h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        
+        .popup-includes ul {
+            list-style: none;
+            color: #64748b;
+            line-height: 2;
+        }
+        
+        .popup-includes li:before {
+            content: "✓ ";
+            color: #22c55e;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .popup-booking-section {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 25px;
+        }
+        
+        .popup-booking-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+        
+        .popup-form-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .popup-form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .popup-form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .popup-form-group input,
+        .popup-form-group select {
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            background: white;
+        }
+        
+        .popup-form-group input:focus,
+        .popup-form-group select:focus {
+            border-color: #3b82f6;
+        }
+        
+        .guest-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .guest-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: #f1f5f9;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #64748b;
+        }
+        
+        .guest-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .guest-count {
+            font-size: 16px;
+            font-weight: 700;
+            min-width: 30px;
+            text-align: center;
+            color: #0f172a;
+        }
+        
+        .popup-total-section {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .popup-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .popup-total-row.final {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .popup-reserve-btn {
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .popup-reserve-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        /* PAYMENT MODAL */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .payment-modal.active {
+            display: flex;
+        }
+        
+        .payment-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: paymentSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        @keyframes paymentSlide {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .payment-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .payment-close:hover {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .payment-title {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        
+        .payment-subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .payment-amount {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .payment-amount-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .payment-amount-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .payment-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .payment-form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .payment-form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .payment-form-group input:focus {
+            border-color: #3b82f6;
+        }
+        
+        .payment-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .payment-method {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 24px;
+        }
+        
+        .payment-method:hover,
+        .payment-method.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .pay-btn {
+            width: 100%;
+            padding: 16px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pay-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
 
-<style>
+        /* QR CODE MODAL */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .qr-modal.active {
+            display: flex;
+        }
+        
+        .qr-content {
+            background: white;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            animation: qrSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        @keyframes qrSlide {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .qr-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .qr-close:hover {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .qr-icon {
+            width: 80px;
+            height: 80px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+        
+        .qr-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        
+        .qr-subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        
+        .qr-code-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #0f172a 25%, transparent 25%), 
+                        linear-gradient(225deg, #0f172a 25%, transparent 25%), 
+                        linear-gradient(45deg, #0f172a 25%, transparent 25%), 
+                        linear-gradient(315deg, #0f172a 25%, transparent 25%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 0, 10px -10px, 0px 10px;
+            position: relative;
+            border-radius: 10px;
+        }
+        
+        .qr-code::after {
+            content: "🎫";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            background: white;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        
+        .qr-details {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .qr-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .qr-detail-row:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .qr-download-btn {
+            width: 100%;
+            padding: 14px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .qr-download-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+        
+        .qr-done-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .qr-done-btn:hover {
+            border-color: #0f172a;
+            color: #0f172a;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Poppins",sans-serif;
-}
-
-body{
-background:#f6f8fb;
-color:#333;
-}
-
-.container{
-width:1200px;
-margin:auto;
-}
-
-/* NAVBAR */
-
-nav{
-background:white;
-border-bottom:1px solid #eee;
-}
-
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 0;
-}
-
-.logo{
-font-weight:700;
-font-size:20px;
-color:#1e73ff;
-text-decoration: none; /* Removed underline */
-}
-
-.menu{
-display:flex;
-gap:30px;
-align-items:center;
-}
-
-.menu a{
-text-decoration:none;
-color:#444;
-font-size:14px;
-}
-
-/* LOGIN */
-.login{
-padding:8px 18px;
-border:1px solid #1e73ff;
-border-radius:20px;
-color:#1e73ff;
-text-decoration:none;
-font-size:14px;
-transition:0.3s;
-}
-
-.login:hover{
-background:#1e73ff;
-color:white;
-}
-
-/* HERO */
-
-.hero{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:70px 0;
-}
-
-.hero-text{
-max-width:520px;
-}
-
-.hero-text h1{
-font-size:48px;
-line-height:1.2;
-margin-bottom:20px;
-}
-
-.hero-text span{
-color:#1e73ff;
-}
-
-.hero-text p{
-color:#666;
-margin-bottom:30px;
-}
-
-.hero-image img{
-width:420px;
-border-radius:25px;
-}
-
-/* SEARCH */
-
-.search{
-background:white;
-padding:10px 15px;
-border-radius:30px;
-display:flex;
-align-items:center;
-gap:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.08);
-max-width:500px;
-}
-
-.search input{
-border:none;
-outline:none;
-font-size:13px;
-padding:8px 10px;
-flex:1;
-min-width:0;
-}
-
-.search button{
-background:#1e73ff;
-border:none;
-color:white;
-width:35px;
-height:35px;
-border-radius:50%;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:14px;
-}
-
-/* SECTION */
-
-.section{
-padding:60px 0;
-}
-
-.section h2{
-font-size:28px;
-margin-bottom:10px;
-}
-
-.section p{
-color:#777;
-margin-bottom:30px;
-}
-
-/* DESTINATIONS */
-
-.cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
-}
-
-.card{
-background:white;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.card img{
-width:100%;
-height:200px;
-object-fit:cover;
-}
-
-.card-body{
-padding:15px;
-}
-
-.price{
-color:#1e73ff;
-font-weight:600;
-}
-
-/* HOTELS */
-
-.grid-4{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
-}
-
-.hotel img{
-width:100%;
-height:150px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.hotel{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-.hotel button{
-margin-top:10px;
-padding:8px 15px;
-border:none;
-background:#1e73ff;
-color:white;
-border-radius:20px;
-cursor:pointer;
-}
-
-/* EXPERIENCES */
-
-.exp-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
-}
-
-.exp{
-position:relative;
-border-radius:20px;
-overflow:hidden;
-}
-
-.exp img{
-width:100%;
-height:240px;
-object-fit:cover;
-}
-
-.exp-title{
-position:absolute;
-bottom:15px;
-left:20px;
-color:white;
-font-weight:600;
-font-size:18px;
-}
-
-/* TESTIMONIALS */
-
-.testimonials{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
-}
-
-.testimonial{
-background:white;
-padding:25px;
-border-radius:15px;
-text-align:center;
-box-shadow:0 10px 20px rgba(0,0,0,0.08);
-}
-
-.testimonial img{
-width:60px;
-height:60px;
-border-radius:50%;
-margin-bottom:15px;
-}
-
-/* FOOTER */
-
-footer{
-background:white;
-margin-top:60px;
-padding:40px 0;
-border-top:1px solid #eee;
-}
-
-.footer-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:40px;
-}
-
-footer h4{
-margin-bottom:15px;
-}
-
-footer p, footer a{
-font-size:14px;
-color:#666;
-text-decoration:none;
-display:block;
-margin-bottom:8px;
-}
-
-.copy{
-text-align:center;
-margin-top:30px;
-font-size:13px;
-color:#888;
-}
-
-</style>
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .cards-grid, .activities-grid, .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hotels-grid, .results-hotels-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .results-activities-grid, .results-restaurants-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            .program-main {
+                grid-template-columns: 1fr;
+            }
+            .program-gallery {
+                height: 250px;
+                min-height: auto;
+            }
+            .popup-form-row {
+                grid-template-columns: 1fr;
+            }
+            .popup-features {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+            .cards-grid, .hotels-grid, .activities-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .results-hotels-grid, .results-activities-grid, .results-restaurants-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            .hero-content {
+                padding: 100px 30px 60px;
+            }
+            .search-widget {
+                flex-direction: column;
+                border-radius: 20px;
+                padding: 15px;
+            }
+            .search-field {
+                width: 100%;
+                border-bottom: 1px solid #e2e8f0;
+                padding: 12px;
+            }
+            .search-field:last-of-type {
+                border-bottom: none;
+            }
+            .search-btn {
+                width: 100%;
+                border-radius: 12px;
+                margin-top: 10px;
+                height: 40px;
+            }
+            .nav-static {
+                width: 95%;
+                padding: 0 20px;
+            }
+            .hero-wrapper {
+                border-radius: 0;
+                min-height: 600px;
+            }
+            .new-reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            .program-highlights, .included-grid {
+                grid-template-columns: 1fr;
+            }
+            .program-price-box {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .popup-image {
+                height: 250px;
+            }
+            .popup-header {
+                flex-direction: column;
+            }
+            .popup-price-section {
+                text-align: left;
+            }
+            .payment-row {
+                grid-template-columns: 1fr;
+            }
+            .qr-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<nav>
-<div class="container navbar">
+    <!-- Main Page -->
+    <div class="main-content" id="mainPage">
+        <!-- Hero Section with Background -->
+        <div class="hero-wrapper">
+            <!-- Background Slider with 10 Images -->
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
 
-<a href="home page.html" class="logo">GlobalWander</a>
+            <!-- Static Navigation -->
+            <nav class="nav-static">
+                <div class="navbar">
+                    <a href="index.html" class="logo">Trip Pilot</a>
+                    <div class="menu">
+                        <a href="flights.html">Flights</a>
+                        <a href="hotelsdef.html">Hotels</a>
+                        <a href="activities.html">Activities</a>
+                        <a href="restau.html">Restaurants</a>
+                        <a href="role.html" class="login-btn">Sign up</a>
+                    </div>
+                </div>
+            </nav>
 
-<div class="menu">
-<a href="#">Destinations</a>
-<a href="#">Flights</a>
-<a href="#">Hotels</a>
-<a href="#">Restaurants</a>
-<a href="#">Excursions</a>
-<a href="#">Deals</a>
-<a href="role.html" class="login">Sign up</a>
-</div>
+            <!-- Hero Content with Search Inside -->
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Your Journey Starts <span>Right Here.</span></h1>
+                    <p>Explore hand-picked destinations, luxury stays, and hidden culinary gems curated by world travelers.</p>
+                    
+                    <!-- Enhanced Search Bar with Date, Travelers, and Duration -->
+                    <div class="search-widget">
+                        <input type="text" class="search-field" id="destinationInput" placeholder="Where to?">
+                        <input type="date" class="search-field" id="checkInDate" placeholder="Check-in">
+                        <input type="date" class="search-field" id="checkOutDate" placeholder="Check-out">
+                        <input type="number" class="search-field" id="travelersInput" placeholder="Travelers" min="1" max="20" value="2">
+                        <input type="number" class="search-field" id="durationInput" placeholder="Duration (days)" min="1" max="30" value="5">
+                        <button class="search-btn" onclick="searchPrograms()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</div>
-</nav>
+        <!-- Popular Destinations -->
+        <section class="content-section" id="destinations">
+            <div class="section-header">
+                <h2>Popular Destinations</h2>
+                <p>Most loved places by our global community this month.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card" onclick="quickSearch('Santorini')">
+                    <img src="https://images.unsplash.com/photo-1613395877344-13d4c79e4284?w=800&h=600&fit=crop" class="card-image" alt="Santorini">
+                    <div class="card-body">
+                        <h3>Santorini, Greece</h3>
+                        <p>Starts from <span class="price">$1,200</span></p>
+                    </div>
+                </div>
+                <div class="card" onclick="quickSearch('Paris')">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&h=600&fit=crop" class="card-image" alt="Paris">
+                    <div class="card-body">
+                        <h3>Paris, France</h3>
+                        <p>Starts from <span class="price">$1,500</span></p>
+                    </div>
+                </div>
+                <div class="card" onclick="quickSearch('Tokyo')">
+                    <img src="https://images.unsplash.com/photo-1540959733332-bab4deabeeaf?w=800&h=600&fit=crop" class="card-image" alt="Tokyo">
+                    <div class="card-body">
+                        <h3>Tokyo, Japan</h3>
+                        <p>Starts from <span class="price">$1,800</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<section class="hero container">
+        <!-- Featured Stays -->
+        <section class="content-section" id="hotels">
+            <div class="section-header">
+                <h2>Featured Stays</h2>
+                <p>Handpicked accommodations for comfort and luxury.</p>
+            </div>
+            <div class="hotels-grid">
+                <div class="hotel-card" onclick="openHotelPopup('Maldives Overwater Villa', 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop', 850, 'Maldives', 4.9, 'Experience ultimate luxury in your private overwater villa with direct ocean access and panoramic views.')">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop" alt="Maldives Resort">
+                    <h4>Maldives Overwater Villa</h4>
+                    <p>$850 / night</p>
+                    <button class="view-btn">View Details</button>
+                </div>
+                <div class="hotel-card" onclick="openHotelPopup('Swiss Alpine Lodge', 'https://images.unsplash.com/photo-1518733057094-95b53143d2a7?w=600&h=400&fit=crop', 420, 'Swiss Alps', 4.8, 'Cozy mountain retreat with stunning alpine views, fireplace, and world-class skiing access.')">
+                    <img src="https://images.unsplash.com/photo-1518733057094-95b53143d2a7?w=600&h=400&fit=crop" alt="Mountain Lodge">
+                    <h4>Swiss Alpine Lodge</h4>
+                    <p>$420 / night</p>
+                    <button class="view-btn">View Details</button>
+                </div>
+                <div class="hotel-card" onclick="openHotelPopup('Tokyo Skyline Suite', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop', 650, 'Tokyo, Japan', 4.7, 'Luxury suite in the heart of Tokyo with breathtaking city skyline views and premium amenities.')">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop" alt="City Hotel">
+                    <h4>Tokyo Skyline Suite</h4>
+                    <p>$650 / night</p>
+                    <button class="view-btn">View Details</button>
+                </div>
+                <div class="hotel-card" onclick="openHotelPopup('Bali Beach Resort', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop', 380, 'Bali, Indonesia', 4.6, 'Tropical paradise with private beach access, infinity pool, and traditional Balinese hospitality.')">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop" alt="Beach Resort">
+                    <h4>Bali Beach Resort</h4>
+                    <p>$380 / night</p>
+                    <button class="view-btn">View Details</button>
+                </div>
+            </div>
+        </section>
 
-<div class="hero-text">
-<h1>Your Journey Starts <span>Right Here.</span></h1>
-<p>Explore hand-picked destinations, luxury stays, and hidden culinary gems curated by world travelers.</p>
+        <!-- Activities Section -->
+        <section class="content-section" id="activities">
+            <div class="section-header">
+                <h2>Unforgettable Experiences</h2>
+                <p>Unique activities curated for unforgettable memories.</p>
+            </div>
+            <div class="activities-grid">
+                <div class="activity-card" onclick="openActivityPopup('Cappadocia Balloon Ride', 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?w=800&h=600&fit=crop', 220, 'Cappadocia, Turkey', 'Adventure', 4.9, 'Soar above the fairy chimneys at sunrise for a breathtaking experience.', '3 hours', 'Max 16 people')">
+                    <img src="https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?w=800&h=600&fit=crop" alt="Hot Air Balloon">
+                    <div class="activity-overlay"></div>
+                    <div class="activity-content">
+                        <span class="activity-tag">Adventure</span>
+                        <h3 class="activity-title">Cappadocia Balloon Ride</h3>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="openActivityPopup('Amalfi Coast Drive', 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&h=600&fit=crop', 180, 'Amalfi, Italy', 'Scenic', 4.8, 'Drive the legendary coastal road in a vintage convertible.', '6 hours', 'Max 4 people')">
+                    <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&h=600&fit=crop" alt="Amalfi Coast">
+                    <div class="activity-overlay"></div>
+                    <div class="activity-content">
+                        <span class="activity-tag">Scenic</span>
+                        <h3 class="activity-title">Amalfi Coast Drive</h3>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="openActivityPopup('Northern Lights Hunt', 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&h=600&fit=crop', 150, 'Tromsø, Norway', 'Nature', 4.9, 'Chase the aurora borealis with expert guides.', '5 hours', 'Max 12 people')">
+                    <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&h=600&fit=crop" alt="Northern Lights">
+                    <div class="activity-overlay"></div>
+                    <div class="activity-content">
+                        <span class="activity-tag">Nature</span>
+                        <h3 class="activity-title">Northern Lights Hunt</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div class="search">
-<input placeholder="Where to?">
-<input placeholder="Dates">
-<input placeholder="Duration">
-<button>🔍</button>
-</div>
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <div class="section-header" style="text-align: center;">
+                <h2>What Our Travelers Say</h2>
+                <p>Real stories from people who explored with us.</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <div class="testimonial-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" alt="Elena">
+                    <div class="testimonial-stars">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 
+                       <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                    </div>
+                    <h4>Elena Rodriguez</h4>
+                    <p>"The search tool is intuitive and the activities were amazing. Best trip planning experience ever!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" alt="Marcus">
+                    <div class="testimonial-stars">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                    </div>
+                    <h4>Marcus Thorne</h4>
+                    <p>"Trip Pilot helped me plan business trips perfectly. Efficient and reliable every time."</p>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop" alt="Sarah">
+                    <div class="testimonial-stars">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                    </div>
+                    <h4>Sarah & James Mitchell</h4>
+                    <p>"Our honeymoon was absolutely perfect thanks to Trip Pilot. Every detail was thoughtfully arranged."</p>
+                </div>
+            </div>
+        </section>
 
-</div>
+        <!-- Review Section -->
+        <section class="review-section">
+            <div class="review-container">
+                <h2>Share Your Experience</h2>
+                <p>We'd love to hear about your journey with Trip Pilot</p>
+                
+                <div class="success-message" id="successMessage">
+                    ✓ Your review has been posted successfully!
+                </div>
+                
+                <div class="review-form">
+                    <div class="star-rating" id="starRating">
+                        <svg class="star-icon" data-rating="1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <svg class="star-icon" data-rating="2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <svg class="star-icon" data-rating="3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <svg class="star-icon" data-rating="4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <svg class="star-icon" data-rating="5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    
+                    <input type="text" placeholder="Your Name" id="reviewerName">
+                    <input type="email" placeholder="Your Email" id="reviewerEmail">
+                    <textarea placeholder="Tell us about your experience..." id="reviewText"></textarea>
+                    
+                    <button class="submit-review" onclick="submitReview()">Submit Review</button>
+                </div>
+                
+                <!-- New Reviews Display Section -->
+                <div class="new-reviews-section" id="newReviewsSection" style="display: none;">
+                    <h3>Recent Reviews</h3>
+                    <div class="new-reviews-grid" id="newReviewsGrid">
+                        <!-- New reviews will appear here -->
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div class="hero-image">
-<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
-</div>
+        <!-- Contact Footer -->
+        <footer class="contact-footer">
+            <div class="contact-grid">
+                <div class="contact-brand">
+                    <h3>Trip Pilot</h3>
+                    <p>Curating extraordinary travel experiences since 2020. From hidden gems to world-class luxury, we help you discover the unforgettable.</p>
+                    <div class="social-links">
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+                    </div>
+                </div>
+                
+                <div class="contact-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> hello@trippilot.com</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> +1 (555) 123-4567</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> 123 Travel Street, NY</li>
+                    </ul>
+                </div>
+                
+                <div class="contact-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg> <a href="flights.html" style="color: inherit; text-decoration: none;">Flights</a></li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg> <a href="hotelsdef.html" style="color: inherit; text-decoration: none;">Hotels</a></li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg> <a href="activities.html" style="color: inherit; text-decoration: none;">Activities</a></li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg> <a href="restau.html" style="color: inherit; text-decoration: none;">Restaurants</a></li>
+                    </ul>
+                </div>
+                
+                <div class="contact-col">
+                    <h4>Working Hours</h4>
+                    <ul>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Mon - Fri: 9AM - 8PM</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Saturday: 10AM - 6PM</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Sunday: Closed</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Trip Pilot. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
 
-</section>
+    <!-- Search Results Page -->
+    <div class="search-results-page" id="searchResultsPage">
+        <div class="results-header">
+            <div class="results-header-content">
+                <a class="back-home-btn" onclick="goBackToHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Home
+                </a>
+                <h1>Available Programs for <span id="searchDestinationName">Paris</span></h1>
+                <p id="searchMetaInfo">Showing curated travel packages with flights, hotels, and daily itineraries</p>
+            </div>
+        </div>
 
-<section class="section container">
-<h2>Popular Destinations</h2>
-<p>Most loved places by our global community this month.</p>
+        <!-- Programs Section -->
+        <div class="program-list" id="programsList">
+            <!-- Programs will be injected here -->
+        </div>
 
-<div class="cards">
-<div class="card">
-<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
-<div class="card-body">
-<h3>Santorini Sunset Bliss</h3>
-<p>Starts from <span class="price">$1200</span></p>
-</div>
-</div>
+        <!-- Hotels Section -->
+        <div class="results-grid-section">
+            <h2 class="results-section-title">Available Hotels</h2>
+            <div class="results-hotels-grid" id="resultsHotels">
+                <!-- Hotels injected here -->
+            </div>
+        </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb">
-<div class="card-body">
-<h3>Kyoto Zen Gardens</h3>
-<p>Starts from <span class="price">$1850</span></p>
-</div>
-</div>
+        <!-- Activities Section -->
+        <div class="results-grid-section">
+            <h2 class="results-section-title">Activities & Experiences</h2>
+            <div class="results-activities-grid" id="resultsActivities">
+                <!-- Activities injected here -->
+            </div>
+        </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-<div class="card-body">
-<h3>Amalfi Coast Drive</h3>
-<p>Starts from <span class="price">$2100</span></p>
-</div>
-</div>
-</div>
-</section>
+        <!-- Restaurants Section -->
+        <div class="results-grid-section">
+            <h2 class="results-section-title">Recommended Restaurants</h2>
+            <div class="results-restaurants-grid" id="resultsRestaurants">
+                <!-- Restaurants injected here -->
+            </div>
+        </div>
+    </div>
 
-<section class="section container">
-<h2>Featured Stays</h2>
+    <!-- Full Program Detail Modal -->
+    <div class="program-modal" id="programModal">
+        <div class="program-modal-content">
+            <div class="modal-hero" id="modalHero">
+                <button class="modal-close-btn" onclick="closeProgramModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 id="modalTitle">Program Title</h2>
+                
+                <div class="program-meta-large" id="modalMeta">
+                    <!-- Meta info injected here -->
+                </div>
 
-<div class="grid-4">
-<div class="hotel">
-<img src="https://images.unsplash.com/photo-1566073771259-6a8506099945">
-<h4>The Azure Resort</h4>
-<p>$450 / night</p>
-<button>View</button>
-</div>
+                <div class="day-by-day" id="modalDays">
+                    <!-- Day by day itinerary -->
+                </div>
 
-<div class="hotel">
-<img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511">
-<h4>Mountain Echo Lodge</h4>
-<p>$280 / night</p>
-<button>View</button>
-</div>
+                <div class="included-section">
+                    <h4>What's Included</h4>
+                    <div class="included-grid" id="modalIncluded">
+                        <!-- Included items -->
+                    </div>
+                </div>
 
-<div class="hotel">
-<img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb">
-<h4>Urban Luxe Suites</h4>
-<p>$520 / night</p>
-<button>View</button>
-</div>
+                <div class="included-section" style="background: #eff6ff;">
+                    <h4>Your Hotel</h4>
+                    <div id="modalHotel">
+                        <!-- Hotel details -->
+                    </div>
+                </div>
 
-<div class="hotel">
-<img src="https://images.unsplash.com/photo-1551776235-dde6d4829808">
-<h4>Paradise Bay Resort</h4>
-<p>$390 / night</p>
-<button>View</button>
-</div>
-</div>
-</section>
+                <div class="included-section" style="background: #f0fdf4;">
+                    <h4>Your Flight</h4>
+                    <div id="modalFlight">
+                        <!-- Flight details -->
+                    </div>
+                </div>
 
-<section class="section container">
-<h2>Unforgettable Experiences</h2>
+                <div class="payment-section">
+                    <h3 style="margin-bottom: 20px; font-size: 24px;">Complete Your Booking</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                        <span>Total Price</span>
+                        <span style="font-size: 32px; font-weight: 700;" id="modalPrice">$2,499</span>
+                    </div>
+                    <div class="payment-form">
+                        <input type="text" placeholder="Full Name" id="payName">
+                        <input type="email" placeholder="Email Address" id="payEmail">
+                        <input type="text" placeholder="Card Number" id="payCard">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <input type="text" placeholder="MM/YY">
+                            <input type="text" placeholder="CVC">
+                        </div>
+                        <button class="pay-now-btn" onclick="processPayment()">Pay Now & Confirm Booking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="exp-grid">
-<div class="exp">
-<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
-<div class="exp-title">Secret Island Kayaking</div>
-</div>
+    <!-- HOTEL POPUP MODAL -->
+    <div id="hotelPopup" class="popup-modal">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closeHotelPopup()">&times;</button>
+            <img id="hotelPopupImage" class="popup-image" src="" alt="">
+            <div class="popup-body">
+                <div class="popup-header">
+                    <div class="popup-title-section">
+                        <span class="popup-tag">Luxury Hotel</span>
+                        <h2 id="hotelPopupName">Hotel Name</h2>
+                        <div class="popup-location" id="hotelPopupLocation">📍 Location</div>
+                        <div class="popup-rating">
+                            <span class="popup-rating-stars" id="hotelPopupStars">★★★★★</span>
+                            <span class="popup-rating-value" id="hotelPopupRating">4.9</span>
+                            <span class="popup-reviews">2,847 reviews</span>
+                        </div>
+                    </div>
+                    <div class="popup-price-section">
+                        <div class="popup-price" id="hotelPopupPrice">$850<span>/night</span></div>
+                    </div>
+                </div>
+                
+                <p class="popup-description" id="hotelPopupDescription">
+                    Experience luxury accommodation with world-class amenities and breathtaking views.
+                </p>
+                
+                <div class="popup-features">
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">🛏️</div>
+                        <div class="popup-feature-text">
+                            <h4>Room Type</h4>
+                            <p>Deluxe Suite</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">👥</div>
+                        <div class="popup-feature-text">
+                            <h4>Capacity</h4>
+                            <p>2-4 Guests</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">🍽️</div>
+                        <div class="popup-feature-text">
+                            <h4>Breakfast</h4>
+                            <p>Included</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">🏊</div>
+                        <div class="popup-feature-text">
+                            <h4>Pool</h4>
+                            <p>Infinity Pool</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="popup-includes">
+                    <h3>Amenities</h3>
+                    <ul>
+                        <li>Free WiFi</li>
+                        <li>Spa & Wellness Center</li>
+                        <li>24/7 Room Service</li>
+                        <li>Airport Transfer</li>
+                        <li>Fitness Center</li>
+                    </ul>
+                </div>
+                
+                <div class="popup-booking-section">
+                    <h3 class="popup-booking-title">Book Your Stay</h3>
+                    <div class="popup-form-row">
+                        <div class="popup-form-group">
+                            <label>Check-in Date</label>
+                            <input type="date" id="hotelCheckIn" required>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Check-out Date</label>
+                            <input type="date" id="hotelCheckOut" required>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Guests</label>
+                            <div class="guest-selector">
+                                <button class="guest-btn" onclick="changeHotelGuests(-1)">-</button>
+                                <span class="guest-count" id="hotelGuestCount">2</span>
+                                <button class="guest-btn" onclick="changeHotelGuests(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="popup-form-row">
+                        <div class="popup-form-group" style="grid-column: span 2;">
+                            <label>Your Name</label>
+                            <input type="text" id="hotelGuestName" placeholder="Full name" required>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Email</label>
+                            <input type="email" id="hotelGuestEmail" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="popup-total-section">
+                        <div class="popup-total-row">
+                            <span>Price per night</span>
+                            <span id="hotelPricePerNight">$850</span>
+                        </div>
+                        <div class="popup-total-row">
+                            <span>Nights</span>
+                            <span id="hotelNights">3</span>
+                        </div>
+                        <div class="popup-total-row">
+                            <span>Taxes & Fees</span>
+                            <span id="hotelTaxes">$255</span>
+                        </div>
+                        <div class="popup-total-row final">
+                            <span>Total</span>
+                            <span id="hotelTotal">$2,805</span>
+                        </div>
+                    </div>
+                    
+                    <button class="popup-reserve-btn" onclick="proceedToHotelPayment()">Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="exp">
-<img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1">
-<div class="exp-title">Traditional Cooking Masterclass</div>
-</div>
+    <!-- ACTIVITY POPUP MODAL -->
+    <div id="activityPopup" class="popup-modal">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closeActivityPopup()">&times;</button>
+            <img id="activityPopupImage" class="popup-image" src="" alt="">
+            <div class="popup-body">
+                <div class="popup-header">
+                    <div class="popup-title-section">
+                        <span class="popup-tag" id="activityPopupTag">Adventure</span>
+                        <h2 id="activityPopupName">Activity Name</h2>
+                        <div class="popup-location" id="activityPopupLocation">📍 Location</div>
+                        <div class="popup-rating">
+                            <span class="popup-rating-stars" id="activityPopupStars">★★★★★</span>
+                            <span class="popup-rating-value" id="activityPopupRating">4.9</span>
+                            <span class="popup-reviews">2,847 reviews</span>
+                        </div>
+                    </div>
+                    <div class="popup-price-section">
+                        <div class="popup-price" id="activityPopupPrice">$220<span>/person</span></div>
+                    </div>
+                </div>
+                
+                <p class="popup-description" id="activityPopupDescription">
+                    Prepare for an unforgettable adventure with professional guides and premium equipment.
+                </p>
+                
+                <div class="popup-features">
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">⏱️</div>
+                        <div class="popup-feature-text">
+                            <h4>Duration</h4>
+                            <p id="activityPopupDuration">4-5 hours</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">👥</div>
+                        <div class="popup-feature-text">
+                            <h4>Group Size</h4>
+                            <p id="activityPopupGroup">Max 12 people</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">🗣️</div>
+                        <div class="popup-feature-text">
+                            <h4>Languages</h4>
+                            <p>English, Local</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">📱</div>
+                        <div class="popup-feature-text">
+                            <h4>Booking</h4>
+                            <p>Instant confirmation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="popup-includes">
+                    <h3>What's Included</h3>
+                    <ul id="activityPopupIncludes">
+                        <li>Professional guide</li>
+                        <li>All necessary equipment</li>
+                        <li>Safety briefing and insurance</li>
+                        <li>Photos of your experience</li>
+                        <li>Refreshments</li>
+                    </ul>
+                </div>
+                
+                <div class="popup-booking-section">
+                    <h3 class="popup-booking-title">Book Your Experience</h3>
+                    <div class="popup-form-row">
+                        <div class="popup-form-group">
+                            <label>Select Date</label>
+                            <input type="date" id="activityDate" required>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Guests</label>
+                            <div class="guest-selector">
+                                <button class="guest-btn" onclick="changeActivityGuests(-1)">-</button>
+                                <span class="guest-count" id="activityGuestCount">1</span>
+                                <button class="guest-btn" onclick="changeActivityGuests(1)">+</button>
+                            </div>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="activityGuestName" placeholder="Full name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="popup-form-group" style="margin-bottom: 20px;">
+                        <label>Email</label>
+                        <input type="email" id="activityGuestEmail" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="popup-form-group" style="margin-bottom: 20px;">
+                        <label>Special Requests (Optional)</label>
+                        <input type="text" id="activityRequests" placeholder="Dietary requirements, accessibility needs, etc.">
+                    </div>
+                    
+                    <div class="popup-total-section">
+                        <div class="popup-total-row">
+                            <span>Experience Price</span>
+                            <span id="activitySubtotal">$220</span>
+                        </div>
+                        <div class="popup-total-row">
+                            <span>Service Fee</span>
+                            <span>$15</span>
+                        </div>
+                        <div class="popup-total-row final">
+                            <span>Total</span>
+                            <span id="activityTotal">$235</span>
+                        </div>
+                    </div>
+                    
+                    <button class="popup-reserve-btn" onclick="proceedToActivityPayment()">Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="exp">
-<img src="https://images.unsplash.com/photo-1464822759844-d150ad6d1d33">
-<div class="exp-title">High-Altitude Hiking</div>
-</div>
-</div>
-</section>
+    <!-- RESTAURANT POPUP MODAL -->
+    <div id="restaurantPopup" class="popup-modal">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closeRestaurantPopup()">&times;</button>
+            <img id="restaurantPopupImage" class="popup-image" src="" alt="">
+            <div class="popup-body">
+                <div class="popup-header">
+                    <div class="popup-title-section">
+                        <span class="popup-tag" id="restaurantPopupTag">Fine Dining</span>
+                        <h2 id="restaurantPopupName">Restaurant Name</h2>
+                        <div class="popup-location" id="restaurantPopupLocation">📍 Location</div>
+                        <div class="popup-rating">
+                            <span class="popup-rating-stars" id="restaurantPopupStars">★★★★★</span>
+                            <span class="popup-rating-value" id="restaurantPopupRating">4.9</span>
+                            <span class="popup-reviews">2,847 reviews</span>
+                        </div>
+                    </div>
+                    <div class="popup-price-section">
+                        <div class="popup-price" id="restaurantPopupPrice">$$$</div>
+                    </div>
+                </div>
+                
+                <p class="popup-description" id="restaurantPopupDescription">
+                    Experience exceptional dining with carefully crafted dishes using the freshest local ingredients.
+                </p>
+                
+                <div class="popup-features">
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">🍽️</div>
+                        <div class="popup-feature-text">
+                            <h4>Cuisine</h4>
+                            <p id="restaurantPopupCuisine">Italian Seafood</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">⏰</div>
+                        <div class="popup-feature-text">
+                            <h4>Hours</h4>
+                            <p id="restaurantPopupHours">12:00 PM - 11:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">👨‍🍳</div>
+                        <div class="popup-feature-text">
+                            <h4>Chef</h4>
+                            <p>Award-winning</p>
+                        </div>
+                    </div>
+                    <div class="popup-feature">
+                        <div class="popup-feature-icon">🌿</div>
+                        <div class="popup-feature-text">
+                            <h4>Dietary</h4>
+                            <p>Vegetarian, Gluten-free</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="popup-includes">
+                    <h3>Highlights</h3>
+                    <ul id="restaurantPopupHighlights">
+                        <li>Michelin-starred cuisine</li>
+                        <li>Waterfront dining</li>
+                        <li>Fresh local ingredients</li>
+                        <li>Extensive wine selection</li>
+                        <li>Romantic atmosphere</li>
+                    </ul>
+                </div>
+                
+                <div class="popup-booking-section">
+                    <h3 class="popup-booking-title">Reserve Your Table</h3>
+                    <div class="popup-form-row">
+                        <div class="popup-form-group">
+                            <label>Date</label>
+                            <input type="date" id="restaurantDate" required>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Time</label>
+                            <select id="restaurantTime" required>
+                                <option>17:00</option>
+                                <option>18:00</option>
+                                <option>19:00</option>
+                                <option>20:00</option>
+                                <option>21:00</option>
+                            </select>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Guests</label>
+                            <div class="guest-selector">
+                                <button class="guest-btn" onclick="changeRestaurantGuests(-1)">-</button>
+                                <span class="guest-count" id="restaurantGuestCount">2</span>
+                                <button class="guest-btn" onclick="changeRestaurantGuests(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="popup-form-row">
+                        <div class="popup-form-group" style="grid-column: span 2;">
+                            <label>Your Name</label>
+                            <input type="text" id="restaurantGuestName" placeholder="Full name" required>
+                        </div>
+                        <div class="popup-form-group">
+                            <label>Email</label>
+                            <input type="email" id="restaurantGuestEmail" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="popup-form-group" style="margin-bottom: 20px;">
+                        <label>Special Requests (Optional)</label>
+                        <input type="text" id="restaurantRequests" placeholder="Allergies, special occasions, seating preferences...">
+                    </div>
+                    
+                    <div class="popup-total-section">
+                        <div class="popup-total-row">
+                            <span>Table Reservation</span>
+                            <span>Free</span>
+                        </div>
+                        <div class="popup-total-row final">
+                            <span>Total Deposit</span>
+                            <span id="restaurantTotal">$0</span>
+                        </div>
+                    </div>
+                    
+                    <button class="popup-reserve-btn" onclick="submitRestaurantBooking()">Confirm Reservation</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<section class="section container">
-<h2>What Our Travelers Say</h2>
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-content">
+            <button class="payment-close" onclick="closePaymentModal()">&times;</button>
+            <h2 class="payment-title">Complete Your Booking</h2>
+            <p class="payment-subtitle">Enter your payment details to secure your spot</p>
+            
+            <div class="payment-amount">
+                <div class="payment-amount-label">Total Amount</div>
+                <div class="payment-amount-value" id="paymentAmount">$235</div>
+            </div>
+            
+            <div class="payment-methods">
+                <div class="payment-method active" onclick="selectPayment(this)">💳</div>
+                <div class="payment-method" onclick="selectPayment(this)">📱</div>
+                <div class="payment-method" onclick="selectPayment(this)">💰</div>
+            </div>
+            
+            <div class="payment-form-group">
+                <label>Cardholder Name</label>
+                <input type="text" id="cardName" placeholder="Name on card">
+            </div>
+            
+            <div class="payment-form-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            
+            <div class="payment-row">
+                <div class="payment-form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="payment-form-group">
+                    <label>CVV</label>
+                    <input type="text" id="cardCvv" placeholder="123" maxlength="3">
+                </div>
+            </div>
+            
+            <button class="pay-btn" onclick="processFinalPayment()">Pay Now</button>
+        </div>
+    </div>
 
-<div class="testimonials">
-<div class="testimonial">
-<img src="https://randomuser.me/api/portraits/women/44.jpg">
-<p>"The search tool is intuitive and the excursions were amazing."</p>
-<h4>Elena Rodriguez</h4>
-</div>
+    <!-- QR CODE MODAL -->
+    <div id="qrModal" class="qr-modal">
+        <div class="qr-content">
+            <button class="qr-close" onclick="closeQrModal()">&times;</button>
+            <div class="qr-icon">✓</div>
+            <h2 class="qr-title">Payment Successful!</h2>
+            <p class="qr-subtitle">Show this QR code to access your booking</p>
+            
+            <div class="qr-code-container">
+                <div class="qr-code" id="qrCode"></div>
+            </div>
+            
+            <div class="qr-details">
+                <div class="qr-detail-row">
+                    <span id="qrItemLabel">Activity</span>
+                    <span id="qrItemName">Item Name</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Date</span>
+                    <span id="qrDate">Jan 1, 2026</span>
+                </div>
+                <div class="qr-detail-row" id="qrTimeRow" style="display: none;">
+                    <span>Time</span>
+                    <span id="qrTime">19:00</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Guests</span>
+                    <span id="qrGuests">2 people</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Booking Ref</span>
+                    <span id="qrRef">#TRP-123456</span>
+                </div>
+            </div>
+            
+            <button class="qr-download-btn" onclick="downloadQR()">📥 Download QR Code</button>
+            <button class="qr-done-btn" onclick="closeQrModal()">Done</button>
+        </div>
+    </div>
 
-<div class="testimonial">
-<img src="https://randomuser.me/api/portraits/men/32.jpg">
-<p>"GlobalWander helped me plan business trips perfectly."</p>
-<h4>Marcus Thorne</h4>
-</div>
+    <script>
+        // Store search parameters
+        let searchParams = {
+            destination: '',
+            checkIn: '',
+            checkOut: '',
+            travelers: 2,
+            duration: 5
+        };
 
-<div class="testimonial">
-<img src="https://randomuser.me/api/portraits/men/45.jpg">
-<p>"Our honeymoon was unforgettable. Highly recommended!"</p>
-<h4>Sarah & James</h4>
-</div>
-</div>
-</section>
+        // Current booking data
+        let currentBooking = {
+            type: '', // 'hotel', 'activity', 'restaurant', 'program'
+            item: null,
+            guests: 1,
+            date: '',
+            time: '',
+            total: 0,
+            name: '',
+            email: '',
+            ref: ''
+        };
 
-<footer>
-<div class="container footer-grid">
+        // Program Data with duration-based filtering
+        const destinationsData = {
+            paris: {
+                name: "Paris",
+                country: "France",
+                programs: [
+                    {
+                        id: 1,
+                        title: "Romantic Paris Escape",
+                        image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&h=600&fit=crop",
+                        duration: 5,
+                        durationText: "5 Days / 4 Nights",
+                        price: 2499,
+                        hotel: {
+                            name: "Hotel Le Marais Boutique",
+                            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop",
+                            stars: 4,
+                            location: "Heart of Le Marais district",
+                            amenities: ["Free WiFi", "Breakfast included", "Air conditioning", "Concierge"]
+                        },
+                        flight: {
+                            airline: "Air France",
+                            departure: "10:30 AM - JFK",
+                            arrival: "11:45 PM - CDG",
+                            returnDep: "2:00 PM - CDG",
+                            returnArr: "5:30 PM - JFK",
+                            class: "Economy"
+                        },
+                        days: [
+                            { day: 1, title: "Arrival & Seine Cruise", desc: "Arrive at CDG, transfer to hotel. Evening Seine river cruise with champagne." },
+                            { day: 2, title: "Eiffel Tower & Louvre", desc: "Morning visit to Eiffel Tower summit. Afternoon at Louvre Museum with guided tour." },
+                            { day: 3, title: "Montmartre & Sacré-Cœur", desc: "Explore artistic Montmartre, visit Sacré-Cœur Basilica, evening at Moulin Rouge." },
+                            { day: 4, title: "Versailles Day Trip", desc: "Full day at Palace of Versailles including gardens and Marie Antoinette's estate." },
+                            { day: 5, title: "Departure", desc: "Last-minute shopping on Champs-Élysées, transfer to airport for departure." }
+                        ],
+                        includes: ["Round-trip flights", "4-star boutique hotel", "Daily breakfast", "Seine cruise", "Museum passes", "Airport transfers"]
+                    },
+                    {
+                        id: 2,
+                        title: "Paris Luxury Experience",
+                        image: "https://images.unsplash.com/photo-1549144511-f099e773c147?w=800&h=600&fit=crop",
+                        duration: 7,
+                        durationText: "7 Days / 6 Nights",
+                        price: 4599,
+                        hotel: {
+                            name: "The Ritz Paris",
+                            image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop",
+                            stars: 5,
+                            location: "Place Vendôme",
+                            amenities: ["Spa & Wellness", "Michelin dining", "Butler service", "Limousine"]
+                        },
+                        flight: {
+                            airline: "Air France Business",
+                            departure: "9:00 AM - JFK",
+                            arrival: "10:30 PM - CDG",
+                            returnDep: "1:00 PM - CDG",
+                            returnArr: "4:30 PM - JFK",
+                            class: "Business"
+                        },
+                        days: [
+                            { day: 1, title: "VIP Arrival", desc: "Business class arrival, limousine transfer to The Ritz, welcome dinner at hotel." },
+                            { day: 2, title: "Private Louvre Tour", desc: "After-hours private tour of Louvre with curator. Evening opera at Palais Garnier." },
+                            { day: 3, title: "Champagne Region", desc: "Private day trip to Reims, tour of Dom Pérignon cellars, tasting lunch." },
+                            { day: 4, title: "Fashion & Art", desc: "Personal shopping on Avenue Montaigne, private gallery openings." },
+                            { day: 5, title: "Versailles Exclusive", desc: "Private after-hours tour of Versailles, dinner in the Hall of Mirrors." },
+                            { day: 6, title: "Culinary Masterclass", desc: "Cooking class with Michelin-starred chef, wine pairing dinner." },
+                            { day: 7, title: "Departure", desc: "Spa morning, limousine transfer to CDG for business class departure." }
+                        ],
+                        includes: ["Business class flights", "5-star palace hotel", "All meals", "Private tours", "Chauffeur", "Spa access"]
+                    }
+                ],
+                hotels: [
+                    { name: "Hotel Le Marais", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop", price: 280, priceText: "$280/night", rating: 4.8, desc: "Boutique hotel in historic district", location: "Le Marais, Paris" },
+                    { name: "Eiffel View Suites", image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop", price: 450, priceText: "$450/night", rating: 4.9, desc: "Rooms with iconic tower views", location: "7th Arrondissement, Paris" },
+                    { name: "Parisian Palace", image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop", price: 890, priceText: "$890/night", rating: 5.0, desc: "Ultimate luxury experience", location: "Place Vendôme, Paris" },
+                    { name: "Montmartre Inn", image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop", price: 180, priceText: "$180/night", rating: 4.5, desc: "Artistic quarter charm", location: "Montmartre, Paris" }
+                ],
+                activities: [
+                    { name: "Eiffel Tower Summit", image: "https://images.unsplash.com/photo-1511739001486-6bfe10ce7859?w=600&h=400&fit=crop", price: 35, priceText: "$35", desc: "Skip-the-line access to top", duration: "2 hours", group: "Max 20 people", includes: ["Priority access", "Expert guide", "Small group"] },
+                    { name: "Louvre Museum Tour", image: "https://images.unsplash.com/photo-1565099824688-e93eb20fe622?w=600&h=400&fit=crop", price: 65, priceText: "$65", desc: "Guided tour with art expert", duration: "3 hours", group: "Max 12 people", includes: ["Licensed guide", "Skip-the-line", "Audio headset"] },
+                    { name: "Seine Dinner Cruise", image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&h=400&fit=crop", price: 120, priceText: "$120", desc: "Gourmet meal on the river", duration: "2.5 hours", group: "Max 50 people", includes: ["3-course meal", "Wine", "Live music"] },
+                    { name: "Versailles Day Trip", image: "https://images.unsplash.com/photo-1539650116455-251d9a063595?w=600&h=400&fit=crop", price: 95, priceText: "$95", desc: "Palace and gardens tour", duration: "8 hours", group: "Max 15 people", includes: ["Transport", "Guide", "Palace entry"] }
+                ],
+                restaurants: [
+                    { name: "Le Petit Bistro", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop", price: "$$$", cuisine: "French", desc: "Authentic French cuisine", location: "Saint-Germain", rating: 4.7, hours: "12:00 PM - 10:30 PM" },
+                    { name: "Seine Terrace", image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&h=400&fit=crop", price: "$$$$", cuisine: "Seafood", desc: "Riverside dining experience", location: "Seine Riverbank", rating: 4.9, hours: "7:00 PM - 11:00 PM" },
+                    { name: "Montmartre Cafe", image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&h=400&fit=crop", price: "$$", cuisine: "Cafe", desc: "Artistic quarter favorite", location: "Montmartre", rating: 4.5, hours: "8:00 AM - 8:00 PM" }
+                ]
+            },
+            rome: {
+                name: "Rome",
+                country: "Italy",
+                programs: [
+                    {
+                        id: 3,
+                        title: "Classic Rome Experience",
+                        image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=600&fit=crop",
+                        duration: 5,
+                        durationText: "5 Days / 4 Nights",
+                        price: 2199,
+                        hotel: {
+                            name: "Hotel Artis",
+                            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop",
+                            stars: 4,
+                            location: "Near Colosseum",
+                            amenities: ["Rooftop terrace", "Breakfast buffet", "Free WiFi", "Bar"]
+                        },
+                        flight: {
+                            airline: "ITA Airways",
+                            departure: "9:45 PM - JFK",
+                            arrival: "12:30 PM +1 - FCO",
+                            returnDep: "3:00 PM - FCO",
+                            returnArr: "6:45 PM - JFK",
+                            class: "Economy"
+                        },
+                        days: [
+                            { day: 1, title: "Arrival & Colosseum", desc: "Arrive at Fiumicino, transfer to hotel. Evening visit to Colosseum." },
+                            { day: 2, title: "Vatican City", desc: "Full day at Vatican Museums, Sistine Chapel, and St. Peter's Basilica." },
+                            { day: 3, title: "Ancient Rome", desc: "Roman Forum, Pantheon, Trevi Fountain, and Spanish Steps." },
+                            { day: 4, title: "Food & Culture", desc: "Trastevere food tour, cooking class, and wine tasting." },
+                            { day: 5, title: "Departure", desc: "Morning at leisure, transfer to airport for departure." }
+                        ],
+                        includes: ["Round-trip flights", "4-star hotel", "Daily breakfast", "Vatican tour", "Cooking class", "Airport transfers"]
+                    },
+                    {
+                        id: 4,
+                        title: "Roman Luxury Escape",
+                        image: "https://images.unsplash.com/photo-1529260830199-42c42dda5f3d?w=800&h=600&fit=crop",
+                        duration: 6,
+                        durationText: "6 Days / 5 Nights",
+                        price: 3899,
+                        hotel: {
+                            name: "Hotel de Russie",
+                            image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop",
+                            stars: 5,
+                            location: "Via del Babuino",
+                            amenities: ["Secret garden", "Spa", "Michelin restaurant", "Concierge"]
+                        },
+                        flight: {
+                            airline: "ITA Airways Business",
+                            departure: "8:30 PM - JFK",
+                            arrival: "11:15 AM +1 - FCO",
+                            returnDep: "2:00 PM - FCO",
+                            returnArr: "5:45 PM - JFK",
+                            class: "Business"
+                        },
+                        days: [
+                            { day: 1, title: "VIP Arrival", desc: "Business class arrival, luxury transfer to hotel, welcome dinner." },
+                            { day: 2, title: "Private Vatican", desc: "After-hours private Vatican tour, exclusive dinner in Vatican gardens." },
+                            { day: 3, title: "Ancient Rome", desc: "Private Colosseum underground tour, Roman Forum with archaeologist." },
+                            { day: 4, title: "Tuscany Day", desc: "Private day trip to Tuscany, wine estates, and medieval towns." },
+                            { day: 5, title: "Culinary Rome", desc: "Michelin dining experience, gelato making class." },
+                            { day: 6, title: "Departure", desc: "Spa morning, luxury transfer to FCO for business class departure." }
+                        ],
+                        includes: ["Business class flights", "5-star luxury hotel", "All meals", "Private tours", "Tuscany excursion", "Spa access"]
+                    }
+                ],
+                hotels: [
+                    { name: "Hotel Artis", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop", price: 220, priceText: "$220/night", rating: 4.6, desc: "Near Colosseum", location: "Monti, Rome" },
+                    { name: "Roman Forum Hotel", image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop", price: 340, priceText: "$340/night", rating: 4.8, desc: "Ancient Rome views", location: "Via dei Fori Imperiali" },
+                    { name: "Vatican Suites", image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop", price: 280, priceText: "$280/night", rating: 4.7, desc: "Steps from St. Peter's", location: "Vatican City" },
+                    { name: "Trastevere Charm", image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop", price: 190, priceText: "$190/night", rating: 4.5, desc: "Authentic neighborhood", location: "Trastevere" }
+                ],
+                activities: [
+                    { name: "Vatican Museums", image: "https://images.unsplash.com/photo-1541549267016-8641299627a4?w=600&h=400&fit=crop", price: 55, priceText: "$55", desc: "Sistine Chapel & more", duration: "4 hours", group: "Max 20 people", includes: ["Skip-the-line", "Expert guide", "Audio guide"] },
+                    { name: "Colosseum Underground", image: "https://images.unsplash.com/photo-1552483338-096df187e7b0?w=600&h=400&fit=crop", price: 45, priceText: "$45", desc: "Arena floor access", duration: "3 hours", group: "Max 15 people", includes: ["Underground tour", "Arena access", "Guide"] },
+                    { name: "Pasta Making Class", image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&h=400&fit=crop", price: 85, priceText: "$85", desc: "Learn from nonna", duration: "3 hours", group: "Max 10 people", includes: ["Ingredients", "Wine", "Recipe book"] },
+                    { name: "Vespa Tour", image: "https://images.unsplash.com/photo-1523527927320-5024ba7eb53e?w=600&h=400&fit=crop", price: 120, priceText: "$120", desc: "Zip through the city", duration: "4 hours", group: "Max 6 people", includes: ["Vespa rental", "Helmet", "Guide"] }
+                ],
+                restaurants: [
+                    { name: "Trattoria Da Enzo", image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&h=400&fit=crop", price: "$$", cuisine: "Roman", desc: "Authentic Roman pasta", location: "Trastevere", rating: 4.8, hours: "12:30 PM - 11:00 PM" },
+                    { name: "Roscioli", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop", price: "$$$", cuisine: "Italian", desc: "Gourmet carbonara", location: "Campo de' Fiori", rating: 4.9, hours: "12:30 PM - 3:00 PM, 7:00 PM - 11:00 PM" },
+                    { name: "Pizzarium", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop", price: "$", cuisine: "Pizza", desc: "Best pizza al taglio", location: "Near Vatican", rating: 4.7, hours: "11:00 AM - 10:00 PM" }
+                ]
+            },
+            tokyo: {
+                name: "Tokyo",
+                country: "Japan",
+                programs: [
+                    {
+                        id: 5,
+                        title: "Tokyo Cultural Immersion",
+                        image: "https://images.unsplash.com/photo-1540959733332-bab4deabeeaf?w=800&h=600&fit=crop",
+                        duration: 6,
+                        durationText: "6 Days / 5 Nights",
+                        price: 2899,
+                        hotel: {
+                            name: "Shibuya Excel Hotel",
+                            image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&h=300&fit=crop",
+                            stars: 4,
+                            location: "Shibuya Crossing",
+                            amenities: ["City views", "Rooftop bar", "Free WiFi", "Fitness center"]
+                        },
+                        flight: {
+                            airline: "Japan Airlines",
+                            departure: "11:00 AM - JFK",
+                            arrival: "3:00 PM +1 - NRT",
+                            returnDep: "5:00 PM - NRT",
+                            returnArr: "10:00 AM - JFK",
+                            class: "Economy"
+                        },
+                        days: [
+                            { day: 1, title: "Arrival in Tokyo", desc: "Arrive at Narita, express train to hotel. Evening exploration of Shibuya." },
+                            { day: 2, title: "Ancient & Modern", desc: "Morning at Senso-ji Temple, afternoon in Akihabara, evening in Shinjuku." },
+                            { day: 3, title: "Mt. Fuji Day Trip", desc: "Full day excursion to Mt. Fuji 5th Station and Lake Kawaguchi." },
+                            { day: 4, title: "Food & Culture", desc: "Tsukiji Outer Market tour, sushi making class, tea ceremony experience." },
+                            { day: 5, title: "Harajuku & Meiji", desc: "Meiji Shrine, Harajuku fashion district, Omotesando architecture tour." },
+                            { day: 6, title: "Departure", desc: "Last-minute shopping, transfer to Narita for departure." }
+                        ],
+                        includes: ["Round-trip flights", "4-star hotel", "JR Pass", "Guided tours", "Cooking class", "Airport transfers"]
+                    }
+                ],
+                hotels: [
+                    { name: "Shibuya Excel", image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&h=400&fit=crop", price: 240, priceText: "$240/night", rating: 4.6, desc: "Heart of Shibuya", location: "Shibuya, Tokyo" },
+                    { name: "Park Hyatt Tokyo", image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop", price: 650, priceText: "$650/night", rating: 4.9, desc: "Lost in Translation views", location: "Shinjuku" },
+                    { name: "Asakusa Ryokan", image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop", price: 180, priceText: "$180/night", rating: 4.7, desc: "Traditional experience", location: "Asakusa" },
+                    { name: "Ginza Grand", image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop", price: 420, priceText: "$420/night", rating: 4.8, desc: "Luxury shopping district", location: "Ginza" }
+                ],
+                activities: [
+                    { name: "Tsukiji Food Tour", image: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop", price: 85, priceText: "$85", desc: "Sushi breakfast tour", duration: "4 hours", group: "Max 8 people", includes: ["Breakfast", "Guide", "Market tour"] },
+                    { name: "Sumo Wrestling", image: "https://images.unsplash.com/photo-1542052125323-b5fd4c79e4284?w=600&h=400&fit=crop", price: 65, priceText: "$65", desc: "Watch morning practice", duration: "3 hours", group: "Max 20 people", includes: ["Entry", "Guide", "Chanko lunch"] },
+                    { name: "Robot Restaurant", image: "https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=600&h=400&fit=crop", price: 60, priceText: "$60", desc: "Shinjuku spectacle", duration: "1.5 hours", group: "Open seating", includes: ["Show ticket", "One drink"] },
+                    { name: "Tea Ceremony", image: "https://images.unsplash.com/photo-1545579133-99c993cb80bc?w=600&h=400&fit=crop", price: 45, priceText: "$45", desc: "Traditional matcha", duration: "1 hour", group: "Max 6 people", includes: ["Tea", "Wagashi", "Kimono option"] }
+                ],
+                restaurants: [
+                    { name: "Sukiyabashi Jiro", image: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop", price: "$$$$", cuisine: "Sushi", desc: "World-famous sushi", location: "Ginza", rating: 4.9, hours: "11:30 AM - 2:00 PM, 5:00 PM - 8:30 PM" },
+                    { name: "Ichiran Ramen", image: "https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=600&h=400&fit=crop", price: "$", cuisine: "Ramen", desc: "Perfect tonkotsu", location: "Multiple locations", rating: 4.6, hours: "24 hours" },
+                    { name: "Gonpachi", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop", price: "$$", cuisine: "Izakaya", desc: "Kill Bill restaurant", location: "Nishi-Azabu", rating: 4.5, hours: "11:30 AM - 3:00 AM" }
+                ]
+            },
+            santorini: {
+                name: "Santorini",
+                country: "Greece",
+                programs: [
+                    {
+                        id: 6,
+                        title: "Santorini Dream Vacation",
+                        image: "https://images.unsplash.com/photo-1613395877344-13d4c79e4284?w=800&h=600&fit=crop",
+                        duration: 5,
+                        durationText: "5 Days / 4 Nights",
+                        price: 3200,
+                        hotel: {
+                            name: "Canaves Oia Suites",
+                            image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&h=300&fit=crop",
+                            stars: 5,
+                            location: "Oia Caldera",
+                            amenities: ["Private pool", "Caldera view", "Breakfast included", "Airport transfer"]
+                        },
+                        flight: {
+                            airline: "Emirates via Athens",
+                            departure: "11:30 PM - JFK",
+                            arrival: "5:00 PM +1 - JTR",
+                            returnDep: "6:00 PM - JTR",
+                            returnArr: "2:00 PM - JFK",
+                            class: "Economy"
+                        },
+                        days: [
+                            { day: 1, title: "Arrival in Paradise", desc: "Arrive at Santorini, transfer to Oia. Sunset dinner at hotel." },
+                            { day: 2, title: "Island Exploration", desc: "Fira town walk, cable car ride, Archaeological Museum visit." },
+                            { day: 3, title: "Catamaran Cruise", desc: "Full-day sailing around caldera, hot springs, BBQ lunch on board." },
+                            { day: 4, title: "Wine & History", desc: "Ancient Akrotiri tour, wine tasting at 3 wineries, sunset in Oia." },
+                            { day: 5, title: "Departure", desc: "Relaxing morning, transfer to airport for departure." }
+                        ],
+                        includes: ["Flights via Athens", "Luxury suite", "Catamaran cruise", "Wine tours", "All transfers", "Breakfast daily"]
+                    }
+                ],
+                hotels: [
+                    { name: "Canaves Oia", image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&h=400&fit=crop", price: 890, priceText: "$890/night", rating: 5.0, desc: "Ultimate luxury", location: "Oia" },
+                    { name: "Imerovigli Suites", image: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=600&h=400&fit=crop", price: 450, priceText: "$450/night", rating: 4.8, desc: "Quiet location", location: "Imerovigli" },
+                    { name: "Fira Central", image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop", price: 280, priceText: "$280/night", rating: 4.6, desc: "Heart of the action", location: "Fira" },
+                    { name: "Kamari Beach", image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop", price: 190, priceText: "$190/night", rating: 4.5, desc: "Black sand beach", location: "Kamari" }
+                ],
+                activities: [
+                    { name: "Sunset Cruise", image: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=600&h=400&fit=crop", price: 150, priceText: "$150", desc: "Catamaran with dinner", duration: "5 hours", group: "Max 20 people", includes: ["BBQ dinner", "Drinks", "Snorkeling"] },
+                    { name: "Wine Tour", image: "https://images.unsplash.com/photo-1516594915307-8f0ed7b9539f?w=600&h=400&fit=crop", price: 95, priceText: "$95", desc: "3 wineries tasting", duration: "4 hours", group: "Max 12 people", includes: ["3 wineries", "15+ wines", "Local snacks"] },
+                    { name: "Volcano Hike", image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&h=400&fit=crop", price: 45, priceText: "$45", desc: "Nea Kameni tour", duration: "3 hours", group: "Max 25 people", includes: ["Boat transfer", "Guide", "Mud bath"] },
+                    { name: "Photography Tour", image: "https://images.unsplash.com/photo-1613395877344-13d4c79e4284?w=600&h=400&fit=crop", price: 120, priceText: "$120", desc: "Best spots at golden hour", duration: "4 hours", group: "Max 6 people", includes: ["Pro photographer", "Editing tips", "Digital photos"] }
+                ],
+                restaurants: [
+                    { name: "Ambrosia", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop", price: "$$$$", cuisine: "Mediterranean", desc: "Oia sunset dining", location: "Oia Castle", rating: 4.9, hours: "6:00 PM - 11:00 PM" },
+                    { name: "Metaxi Mas", image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&h=400&fit=crop", price: "$$", cuisine: "Greek", desc: "Local favorite", location: "Exo Gonia", rating: 4.8, hours: "1:00 PM - 11:00 PM" },
+                    { name: "Lucky Souvlaki", image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&h=400&fit=crop", price: "$", cuisine: "Street food", desc: "Best souvlaki on island", location: "Fira", rating: 4.6, hours: "10:00 AM - 2:00 AM" }
+                ]
+            }
+        };
 
-<div>
-<h4>GlobalWander</h4>
-<p>Empowering travelers to discover hidden gems since 2012.</p>
-</div>
+        let selectedProgram = null;
 
-<div>
-<h4>Quick Links</h4>
-<a href="#">About</a>
-<a href="#">Destinations</a>
-<a href="#">Privacy Policy</a>
-</div>
+        // Set default dates
+        function initializeDates() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('checkInDate').value = today.toISOString().split('T')[0];
+            document.getElementById('checkInDate').min = today.toISOString().split('T')[0];
+            
+            document.getElementById('checkOutDate').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('checkOutDate').min = tomorrow.toISOString().split('T')[0];
+        }
 
-<div>
-<h4>Resources</h4>
-<a href="#">Travel Blog</a>
-<a href="#">Support</a>
-<a href="#">FAQs</a>
-</div>
+        // Enhanced search function with date, travelers, and duration filtering
+        function searchPrograms() {
+            const destination = document.getElementById('destinationInput').value.toLowerCase().trim();
+            const checkIn = document.getElementById('checkInDate').value;
+            const checkOut = document.getElementById('checkOutDate').value;
+            const travelers = parseInt(document.getElementById('travelersInput').value) || 2;
+            const duration = parseInt(document.getElementById('durationInput').value) || 5;
 
-<div>
-<h4>Contact</h4>
-<p>+1 800 WANDER</p>
-<p>hello@globalwander.com</p>
-</div>
+            if (!destination) {
+                alert('Please enter a destination');
+                return;
+            }
 
-</div>
+            if (!checkIn || !checkOut) {
+                alert('Please select check-in and check-out dates');
+                return;
+            }
 
-<div class="copy">
-© 2024 GlobalWander. All rights reserved.
-</div>
-</footer>
+            // Calculate actual duration from dates
+            const startDate = new Date(checkIn);
+            const endDate = new Date(checkOut);
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Store search params
+            searchParams = { 
+                destination, 
+                checkIn, 
+                checkOut, 
+                travelers, 
+                duration: diffDays 
+            };
+
+            // Find matching destination
+            let destKey = null;
+            
+            if (destinationsData[destination]) {
+                destKey = destination;
+            } else {
+                for (let key in destinationsData) {
+                    if (destination.includes(key) || key.includes(destination)) {
+                        destKey = key;
+                        break;
+                    }
+                }
+            }
+
+            if (!destKey) {
+                if (destination.includes('roma') || destination.includes('italy')) destKey = 'rome';
+                else if (destination.includes('paris') || destination.includes('france')) destKey = 'paris';
+                else if (destination.includes('tokyo') || destination.includes('japan')) destKey = 'tokyo';
+                else if (destination.includes('santorini') || destination.includes('greece')) destKey = 'santorini';
+            }
+
+            if (destKey && destinationsData[destKey]) {
+                showResults(destKey, travelers, diffDays);
+            } else {
+                alert('Destination not found. Try: Paris, Rome, Tokyo, or Santorini');
+            }
+        }
+
+        function quickSearch(city) {
+            document.getElementById('destinationInput').value = city;
+            // Set dates for quick search
+            const today = new Date();
+            const future = new Date(today);
+            future.setDate(future.getDate() + 5);
+            document.getElementById('checkInDate').value = today.toISOString().split('T')[0];
+            document.getElementById('checkOutDate').value = future.toISOString().split('T')[0];
+            searchPrograms();
+        }
+
+        function showResults(destKey, guests, requestedDuration) {
+            const data = destinationsData[destKey];
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('searchResultsPage').classList.add('active');
+            
+            document.getElementById('searchDestinationName').textContent = data.name;
+            document.getElementById('searchMetaInfo').textContent = 
+                `Showing curated travel packages for ${guests} guests, ${requestedDuration} days from ${searchParams.checkIn} to ${searchParams.checkOut}`;
+
+            // Filter programs by duration (show programs that match or are close to requested duration)
+            const filteredPrograms = data.programs.filter(program => {
+                // Show programs within +/- 2 days of requested duration, or all if no exact match
+                return Math.abs(program.duration - requestedDuration) <= 2 || program.duration >= requestedDuration;
+            });
+
+            // Render Programs with duration filtering
+            const programsContainer = document.getElementById('programsList');
+            if (filteredPrograms.length > 0) {
+                programsContainer.innerHTML = filteredPrograms.map(program => `
+                    <div class="program-detail-card">
+                        <div class="program-main">
+                            <div class="program-gallery" style="background-image: url(${program.image})">
+                                <span class="program-badge-large">${program.durationText}</span>
+                            </div>
+                            <div class="program-info">
+                                <div>
+                                    <h2>${program.title}</h2>
+                                    <div class="program-meta-large">
+                                        <div class="meta-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                            ${program.durationText}
+                                        </div>
+                                        <div class="meta-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                            ${guests} Guests
+                                        </div>
+                                        <div class="meta-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                            ${program.hotel.name}
+                                        </div>
+                                    </div>
+                                    <div class="program-highlights">
+                                        ${program.includes.slice(0, 4).map(item => `
+                                            <div class="highlight-item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                                ${item}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                <div class="program-price-box">
+                                    <div class="price-display">
+                                        $${(program.price * guests).toLocaleString()}
+                                        <span>total for ${guests} guests</span>
+                                    </div>
+                                    <button class="view-program-btn" onclick="openProgramDetail(${program.id}, ${guests})">
+                                        View Program & Pay
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                programsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #64748b;">
+                        <h3>No exact duration matches found</h3>
+                        <p>Showing all available programs for ${data.name}. Consider adjusting your dates.</p>
+                    </div>
+                `;
+            }
+
+            // Render Hotels with click handlers
+            document.getElementById('resultsHotels').innerHTML = data.hotels.map(hotel => `
+                <div class="hotel-card" onclick="openHotelPopupFromResults('${hotel.name}', '${hotel.image}', ${hotel.price}, '${hotel.location}', ${hotel.rating}, '${hotel.desc}')">
+                    <img src="${hotel.image}" alt="${hotel.name}">
+                    <h4>${hotel.name}</h4>
+                    <p>${hotel.desc}</p>
+                    <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 10px; color: #fbbf24; font-size: 14px;">
+                        ${'★'.repeat(Math.floor(hotel.rating))}
+                        <span style="color: #64748b;">${hotel.rating}</span>
+                    </div>
+                    <span style="color: #3b82f6; font-weight: 600;">${hotel.priceText}</span>
+                </div>
+            `).join('');
+
+            // Render Activities with click handlers
+            document.getElementById('resultsActivities').innerHTML = data.activities.map(activity => `
+                <div class="result-activity-card" onclick="openActivityPopupFromResults('${activity.name}', '${activity.image}', ${activity.price}, '${data.name}', '${activity.duration}', '${activity.group}', '${activity.desc}')">
+                    <img src="${activity.image}" alt="${activity.name}">
+                    <div class="result-activity-overlay"></div>
+                    <div class="result-activity-content">
+                        <span class="result-activity-price">${activity.priceText}</span>
+                        <h4 style="font-size: 16px; font-weight: 600;">${activity.name}</h4>
+                        <p style="font-size: 13px; opacity: 0.9;">${activity.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Restaurants with click handlers
+            document.getElementById('resultsRestaurants').innerHTML = data.restaurants.map(rest => `
+                <div class="restaurant-card" onclick="openRestaurantPopupFromResults('${rest.name}', '${rest.image}', '${rest.price}', '${rest.cuisine}', '${rest.location}', ${rest.rating}, '${rest.desc}', '${rest.hours}')">
+                    <img src="${rest.image}" alt="${rest.name}">
+                    <div class="restaurant-card-body">
+                        <h4>${rest.name}</h4>
+                        <p>${rest.desc}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="restaurant-price">${rest.price} • ${rest.cuisine}</span>
+                            <span style="color: #fbbf24; font-size: 14px;">★ ${rest.rating}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            window.scrollTo(0, 0);
+        }
+
+        function goBackToHome() {
+            document.getElementById('searchResultsPage').classList.remove('active');
+            document.getElementById('mainPage').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // ========== HOTEL POPUP FUNCTIONS ==========
+        let currentHotel = null;
+        let hotelGuestCount = 2;
+        let hotelPricePerNight = 0;
+
+        function openHotelPopup(name, image, price, location, rating, description) {
+            currentHotel = { name, image, price, location, rating, description };
+            hotelGuestCount = 2;
+            hotelPricePerNight = price;
+            
+            document.getElementById('hotelPopupImage').src = image;
+            document.getElementById('hotelPopupName').textContent = name;
+            document.getElementById('hotelPopupLocation').textContent = '📍 ' + location;
+            document.getElementById('hotelPopupPrice').innerHTML = '$' + price + '<span>/night</span>';
+            document.getElementById('hotelPopupRating').textContent = rating;
+            document.getElementById('hotelPopupStars').textContent = '★'.repeat(Math.floor(rating));
+            document.getElementById('hotelPopupDescription').textContent = description;
+            document.getElementById('hotelPricePerNight').textContent = '$' + price;
+            
+            // Set dates from search
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('hotelCheckIn').value = searchParams.checkIn || today.toISOString().split('T')[0];
+            document.getElementById('hotelCheckOut').value = searchParams.checkOut || tomorrow.toISOString().split('T')[0];
+            document.getElementById('hotelGuestCount').textContent = hotelGuestCount;
+            
+            updateHotelPricing();
+            
+            document.getElementById('hotelPopup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openHotelPopupFromResults(name, image, price, location, rating, description) {
+            openHotelPopup(name, image, price, location, rating, description);
+        }
+
+        function closeHotelPopup() {
+            document.getElementById('hotelPopup').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function changeHotelGuests(delta) {
+            hotelGuestCount = Math.max(1, Math.min(20, hotelGuestCount + delta));
+            document.getElementById('hotelGuestCount').textContent = hotelGuestCount;
+            updateHotelPricing();
+        }
+
+        function updateHotelPricing() {
+            const checkIn = new Date(document.getElementById('hotelCheckIn').value);
+            const checkOut = new Date(document.getElementById('hotelCheckOut').value);
+            const nights = Math.max(1, Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)));
+            
+            const subtotal = hotelPricePerNight * nights;
+            const taxes = Math.round(subtotal * 0.15);
+            const total = subtotal + taxes;
+            
+            document.getElementById('hotelNights').textContent = nights;
+            document.getElementById('hotelTaxes').textContent = '$' + taxes;
+            document.getElementById('hotelTotal').textContent = '$' + total.toLocaleString();
+            
+            currentBooking.total = total;
+        }
+
+        document.getElementById('hotelCheckIn').addEventListener('change', updateHotelPricing);
+        document.getElementById('hotelCheckOut').addEventListener('change', updateHotelPricing);
+
+        function proceedToHotelPayment() {
+            const checkIn = document.getElementById('hotelCheckIn').value;
+            const checkOut = document.getElementById('hotelCheckOut').value;
+            const name = document.getElementById('hotelGuestName').value;
+            const email = document.getElementById('hotelGuestEmail').value;
+            
+            if (!checkIn || !checkOut || !name || !email) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            currentBooking.type = 'hotel';
+            currentBooking.item = currentHotel;
+            currentBooking.guests = hotelGuestCount;
+            currentBooking.date = checkIn;
+            currentBooking.name = name;
+            currentBooking.email = email;
+            
+            document.getElementById('paymentAmount').textContent = '$' + currentBooking.total.toLocaleString();
+            
+            closeHotelPopup();
+            setTimeout(() => {
+                document.getElementById('paymentModal').classList.add('active');
+            }, 300);
+        }
+
+        // ========== ACTIVITY POPUP FUNCTIONS ==========
+        let currentActivity = null;
+        let activityGuestCount = 1;
+        let activityPricePerPerson = 0;
+
+        function openActivityPopup(name, image, price, location, category, rating, description, duration, groupSize) {
+            currentActivity = { name, image, price, location, category, rating, description, duration, groupSize };
+            activityGuestCount = 1;
+            activityPricePerPerson = price;
+            
+            document.getElementById('activityPopupImage').src = image;
+            document.getElementById('activityPopupTag').textContent = category;
+            document.getElementById('activityPopupName').textContent = name;
+            document.getElementById('activityPopupLocation').textContent = '📍 ' + location;
+            document.getElementById('activityPopupPrice').innerHTML = '$' + price + '<span>/person</span>';
+            document.getElementById('activityPopupRating').textContent = rating;
+            document.getElementById('activityPopupStars').textContent = '★'.repeat(Math.floor(rating));
+            document.getElementById('activityPopupDescription').textContent = description;
+            document.getElementById('activityPopupDuration').textContent = duration;
+            document.getElementById('activityPopupGroup').textContent = groupSize;
+            
+            // Set default includes
+            const includesList = document.getElementById('activityPopupIncludes');
+            includesList.innerHTML = `
+                <li>Professional guide</li>
+                <li>All necessary equipment</li>
+                <li>Safety briefing and insurance</li>
+                <li>Photos of your experience</li>
+                <li>Refreshments</li>
+            `;
+            
+            const today = new Date();
+            document.getElementById('activityDate').value = searchParams.checkIn || today.toISOString().split('T')[0];
+            document.getElementById('activityGuestCount').textContent = activityGuestCount;
+            
+            updateActivityPricing();
+            
+            document.getElementById('activityPopup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openActivityPopupFromResults(name, image, price, location, duration, group, desc) {
+            openActivityPopup(name, image, price, location, 'Adventure', 4.8, desc || 'Amazing experience', duration, group);
+        }
+
+        function closeActivityPopup() {
+            document.getElementById('activityPopup').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function changeActivityGuests(delta) {
+            activityGuestCount = Math.max(1, Math.min(20, activityGuestCount + delta));
+            document.getElementById('activityGuestCount').textContent = activityGuestCount;
+            updateActivityPricing();
+        }
+
+        function updateActivityPricing() {
+            const subtotal = activityPricePerPerson * activityGuestCount;
+            const total = subtotal + 15;
+            document.getElementById('activitySubtotal').textContent = '$' + subtotal;
+            document.getElementById('activityTotal').textContent = '$' + total;
+            currentBooking.total = total;
+        }
+
+        function proceedToActivityPayment() {
+            const date = document.getElementById('activityDate').value;
+            const name = document.getElementById('activityGuestName').value;
+            const email = document.getElementById('activityGuestEmail').value;
+            
+            if (!date || !name || !email) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            currentBooking.type = 'activity';
+            currentBooking.item = currentActivity;
+            currentBooking.guests = activityGuestCount;
+            currentBooking.date = date;
+            currentBooking.name = name;
+            currentBooking.email = email;
+            
+            document.getElementById('paymentAmount').textContent = '$' + currentBooking.total.toLocaleString();
+            
+            closeActivityPopup();
+            setTimeout(() => {
+                document.getElementById('paymentModal').classList.add('active');
+            }, 300);
+        }
+
+        // ========== RESTAURANT POPUP FUNCTIONS ==========
+        let currentRestaurant = null;
+        let restaurantGuestCount = 2;
+
+        function openRestaurantPopup(name, image, price, cuisine, location, rating, description, hours) {
+            currentRestaurant = { name, image, price, cuisine, location, rating, description, hours };
+            restaurantGuestCount = 2;
+            
+            document.getElementById('restaurantPopupImage').src = image;
+            document.getElementById('restaurantPopupTag').textContent = cuisine;
+            document.getElementById('restaurantPopupName').textContent = name;
+            document.getElementById('restaurantPopupLocation').textContent = '📍 ' + location;
+            document.getElementById('restaurantPopupPrice').textContent = price;
+            document.getElementById('restaurantPopupRating').textContent = rating;
+            document.getElementById('restaurantPopupStars').textContent = '★'.repeat(Math.floor(rating));
+            document.getElementById('restaurantPopupDescription').textContent = description;
+            document.getElementById('restaurantPopupCuisine').textContent = cuisine;
+            document.getElementById('restaurantPopupHours').textContent = hours;
+            
+            const today = new Date();
+            document.getElementById('restaurantDate').value = searchParams.checkIn || today.toISOString().split('T')[0];
+            document.getElementById('restaurantGuestCount').textContent = restaurantGuestCount;
+            
+            document.getElementById('restaurantPopup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openRestaurantPopupFromResults(name, image, price, cuisine, location, rating, desc, hours) {
+            openRestaurantPopup(name, image, price, cuisine, location, rating, desc, hours);
+        }
+
+        function closeRestaurantPopup() {
+            document.getElementById('restaurantPopup').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function changeRestaurantGuests(delta) {
+            restaurantGuestCount = Math.max(1, Math.min(20, restaurantGuestCount + delta));
+            document.getElementById('restaurantGuestCount').textContent = restaurantGuestCount;
+        }
+
+        function submitRestaurantBooking() {
+            const date = document.getElementById('restaurantDate').value;
+            const time = document.getElementById('restaurantTime').value;
+            const name = document.getElementById('restaurantGuestName').value;
+            const email = document.getElementById('restaurantGuestEmail').value;
+            
+            if (!date || !name || !email) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            currentBooking.type = 'restaurant';
+            currentBooking.item = currentRestaurant;
+            currentBooking.guests = restaurantGuestCount;
+            currentBooking.date = date;
+            currentBooking.time = time;
+            currentBooking.name = name;
+            currentBooking.email = email;
+            currentBooking.total = 0; // No deposit for restaurants
+            
+            closeRestaurantPopup();
+            setTimeout(() => {
+                showQrModal();
+            }, 300);
+        }
+
+        // ========== PAYMENT MODAL FUNCTIONS ==========
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function selectPayment(element) {
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function processFinalPayment() {
+            const cardName = document.getElementById('cardName').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cardExpiry = document.getElementById('cardExpiry').value;
+            const cardCvv = document.getElementById('cardCvv').value;
+            
+            if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+                alert('Please fill in all card details');
+                return;
+            }
+            
+            const btn = document.querySelector('.pay-btn');
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                closePaymentModal();
+                showQrModal();
+                btn.textContent = 'Pay Now';
+                btn.disabled = false;
+                
+                // Clear payment form
+                document.getElementById('cardName').value = '';
+                document.getElementById('cardNumber').value = '';
+                document.getElementById('cardExpiry').value = '';
+                document.getElementById('cardCvv').value = '';
+            }, 2000);
+        }
+
+        // ========== QR CODE MODAL FUNCTIONS ==========
+        function showQrModal() {
+            currentBooking.ref = 'TRP-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            // Set QR content based on booking type
+            const typeLabels = {
+                'hotel': 'Hotel',
+                'activity': 'Activity',
+                'restaurant': 'Restaurant',
+                'program': 'Program'
+            };
+            
+            document.getElementById('qrItemLabel').textContent = typeLabels[currentBooking.type] || 'Booking';
+            document.getElementById('qrItemName').textContent = currentBooking.item.name;
+            document.getElementById('qrDate').textContent = new Date(currentBooking.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('qrGuests').textContent = currentBooking.guests + ' people';
+            document.getElementById('qrRef').textContent = '#' + currentBooking.ref;
+            
+            // Show/hide time row for restaurants
+            const timeRow = document.getElementById('qrTimeRow');
+            if (currentBooking.type === 'restaurant' && currentBooking.time) {
+                timeRow.style.display = 'flex';
+                document.getElementById('qrTime').textContent = currentBooking.time;
+            } else {
+                timeRow.style.display = 'none';
+            }
+            
+            // Generate unique QR pattern
+            const qrCode = document.getElementById('qrCode');
+            qrCode.style.background = generateQRPattern(currentBooking.ref);
+            
+            document.getElementById('qrModal').classList.add('active');
+        }
+
+        function generateQRPattern(ref) {
+            const colors = ['#0f172a', '#1e293b', '#334155', '#475569'];
+            let pattern = '';
+            for (let i = 0; i < 100; i++) {
+                const color = colors[ref.charCodeAt(i % ref.length) % colors.length];
+                const x = (i % 10) * 20;
+                const y = Math.floor(i / 10) * 20;
+                pattern += `linear-gradient(135deg, ${color} 25%, transparent 25%) ${x}px ${y}px,`;
+            }
+            return pattern.slice(0, -1) + '; background-size: 20px 20px;';
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset forms
+            document.getElementById('hotelGuestName').value = '';
+            document.getElementById('hotelGuestEmail').value = '';
+            document.getElementById('activityGuestName').value = '';
+            document.getElementById('activityGuestEmail').value = '';
+            document.getElementById('restaurantGuestName').value = '';
+            document.getElementById('restaurantGuestEmail').value = '';
+        }
+
+        function downloadQR() {
+            alert('QR Code downloaded! Check your downloads folder.');
+        }
+
+        // ========== PROGRAM MODAL FUNCTIONS ==========
+        function openProgramDetail(programId, guests) {
+            let program = null;
+            for (let key in destinationsData) {
+                const found = destinationsData[key].programs.find(p => p.id === programId);
+                if (found) {
+                    program = found;
+                    break;
+                }
+            }
+
+            if (!program) return;
+
+            selectedProgram = program;
+            const totalPrice = program.price * guests;
+
+            document.getElementById('modalHero').style.backgroundImage = `url(${program.image})`;
+            document.getElementById('modalTitle').textContent = program.title;
+            document.getElementById('modalPrice').textContent = '$' + totalPrice.toLocaleString();
+
+            document.getElementById('modalMeta').innerHTML = `
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    ${program.durationText}
+                </div>
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    ${guests} Guests
+                </div>
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"></path><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"></path><path d="M12 2v10"></path><path d="M12 2l-4 4"></path><path d="M12 2l4 4"></path></svg>
+                    ${program.flight.airline}
+                </div>
+            `;
+
+            document.getElementById('modalDays').innerHTML = program.days.map(day => `
+                <div class="day-item">
+                    <div class="day-number">D${day.day}</div>
+                    <div class="day-content">
+                        <h4>${day.title}</h4>
+                        <p>${day.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('modalIncluded').innerHTML = program.includes.map(item => `
+                <div class="included-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px; color: #10b981;"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                    ${item}
+                </div>
+            `).join('');
+
+            document.getElementById('modalHotel').innerHTML = `
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <img src="${program.hotel.image}" style="width: 120px; height: 90px; object-fit: cover; border-radius: 12px;">
+                    <div>
+                        <h5 style="font-size: 18px; margin-bottom: 5px;">${program.hotel.name}</h5>
+                        <div style="color: #fbbf24; margin-bottom: 5px;">${'★'.repeat(program.hotel.stars)}</div>
+                        <p style="font-size: 14px; color: #64748b; margin-bottom: 8px;">${program.hotel.location}</p>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            ${program.hotel.amenities.map(a => `<span style="background: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; color: #475569;">${a}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modalFlight').innerHTML = `
+                <div style="display: grid; gap: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 12px;">
+                        <div>
+                            <div style="font-weight: 600; color: #0f172a;">Outbound</div>
+                            <div style="font-size: 14px; color: #64748b;">${program.flight.departure} → ${program.flight.arrival}</div>
+                        </div>
+                        <div style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">${program.flight.class}</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 12px;">
+                        <div>
+                            <div style="font-weight: 600; color: #0f172a;">Return</div>
+                            <div style="font-size: 14px; color: #64748b;">${program.flight.returnDep} → ${program.flight.returnArr}</div>
+                        </div>
+                        <div style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">${program.flight.class}</div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('programModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProgramModal() {
+            document.getElementById('programModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function processPayment() {
+            const name = document.getElementById('payName').value;
+            const email = document.getElementById('payEmail').value;
+            const card = document.getElementById('payCard').value;
+
+            if (!name || !email || !card) {
+                alert('Please fill in all payment details');
+                return;
+            }
+
+            const btn = document.querySelector('.pay-now-btn');
+            btn.innerHTML = 'Processing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '✓ Booked Successfully!';
+                btn.style.background = '#059669';
+                
+                setTimeout(() => {
+                    alert(`Booking confirmed for ${selectedProgram.title}! Confirmation sent to ${email}`);
+                    closeProgramModal();
+                    btn.innerHTML = 'Pay Now & Confirm Booking';
+                    btn.disabled = false;
+                    btn.style.background = '#10b981';
+                    
+                    document.getElementById('payName').value = '';
+                    document.getElementById('payEmail').value = '';
+                    document.getElementById('payCard').value = '';
+                }, 1500);
+            }, 2000);
+        }
+
+        // ========== REVIEW FUNCTIONS ==========
+        let newReviews = [];
+        const stars = document.querySelectorAll('.star-icon');
+        let currentRating = 0;
+        
+        function initStars() {
+            stars.forEach((star, index) => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    updateStarDisplay();
+                });
+                
+                star.addEventListener('mouseenter', function() {
+                    const hoverRating = parseInt(this.getAttribute('data-rating'));
+                    highlightStars(hoverRating);
+                });
+            });
+            
+            document.getElementById('starRating').addEventListener('mouseleave', function() {
+                updateStarDisplay();
+            });
+        }
+        
+        function updateStarDisplay() {
+            stars.forEach((star, index) => {
+                if (index < currentRating) {
+                    star.style.fill = '#fbbf24';
+                    star.style.color = '#fbbf24';
+                    star.classList.add('active');
+                } else {
+                    star.style.fill = 'none';
+                    star.style.color = '#cbd5e1';
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        function highlightStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.style.fill = '#fbbf24';
+                    star.style.color = '#fbbf24';
+                } else {
+                    star.style.fill = 'none';
+                    star.style.color = '#cbd5e1';
+                }
+            });
+        }
+        
+        initStars();
+        
+        function generateStars(rating) {
+            let starsHtml = '';
+            for (let i = 0; i < 5; i++) {
+                if (i < rating) {
+                    starsHtml += '<svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>';
+                } else {
+                    starsHtml += '<svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>';
+                }
+            }
+            return starsHtml;
+        }
+        
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        }
+        
+        function getCurrentDate() {
+            const now = new Date();
+            return now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        
+        function displayNewReviews() {
+            const reviewsGrid = document.getElementById('newReviewsGrid');
+            const reviewsSection = document.getElementById('newReviewsSection');
+            
+            if (newReviews.length === 0) {
+                reviewsSection.style.display = 'none';
+                return;
+            }
+            
+            reviewsSection.style.display = 'block';
+            reviewsGrid.innerHTML = '';
+            
+            [...newReviews].reverse().forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'new-review-card';
+                reviewCard.innerHTML = `
+                    <div class="new-review-header">
+                        <div class="new-review-avatar">${getInitials(review.name)}</div>
+                        <div class="new-review-info">
+                            <h4>${review.name}</h4>
+                            <div class="new-review-stars">${generateStars(review.rating)}</div>
+                            <div class="new-review-date">${review.date}</div>
+                        </div>
+                    </div>
+                    <p class="new-review-text">${review.text}</p>
+                `;
+                reviewsGrid.appendChild(reviewCard);
+            });
+        }
+        
+        function submitReview() {
+            const name = document.getElementById('reviewerName').value.trim();
+            const email = document.getElementById('reviewerEmail').value.trim();
+            const text = document.getElementById('reviewText').value.trim();
+            
+            if (currentRating === 0) {
+                alert('Please select a star rating');
+                return;
+            }
+            if (!name || !email || !text) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const newReview = {
+                name: name,
+                email: email,
+                text: text,
+                rating: currentRating,
+                date: getCurrentDate()
+            };
+            
+            newReviews.push(newReview);
+            
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+            
+            displayNewReviews();
+            
+            document.getElementById('reviewerName').value = '';
+            document.getElementById('reviewerEmail').value = '';
+            document.getElementById('reviewText').value = '';
+            currentRating = 0;
+            updateStarDisplay();
+        }
+
+        // Close modals on outside click
+        document.getElementById('programModal').addEventListener('click', function(e) {
+            if (e.target === this) closeProgramModal();
+        });
+        document.getElementById('hotelPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeHotelPopup();
+        });
+        document.getElementById('activityPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeActivityPopup();
+        });
+        document.getElementById('restaurantPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeRestaurantPopup();
+        });
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) closePaymentModal();
+        });
+        document.getElementById('qrModal').addEventListener('click', function(e) {
+            if (e.target === this) closeQrModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeProgramModal();
+                closeHotelPopup();
+                closeActivityPopup();
+                closeRestaurantPopup();
+                closePaymentModal();
+                closeQrModal();
+            }
+        });
+
+        // Initialize
+        initializeDates();
+    </script>
 
 </body>
 </html>
