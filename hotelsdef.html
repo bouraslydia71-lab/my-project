@@ -1,0 +1,2893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels - Trip Pilot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #0f172a;
+            background: #f6f8fb;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* NAVBAR - Matching Home Page Style */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 0 30px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: white;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        .menu a.active {
+            color: white;
+            font-weight: 600;
+        }
+
+        .menu a.active::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #0f172a;
+        }
+
+        /* HERO SECTION - Matching Home Page Hero Style */
+        .hero-wrapper {
+            position: relative;
+            min-height: 500px;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 30px;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&h=1080&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            padding: 120px 80px 80px;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-text span {
+            color: #60a5fa;
+        }
+
+        .hero-text p {
+            color: rgba(255,255,255,0.95);
+            font-size: 16px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+
+        /* SEARCH BAR - Matching Home Page Style */
+        .search-widget {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            max-width: 800px;
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-field {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            padding: 8px 10px;
+            flex: 1;
+            min-width: 0;
+            color: #334155;
+        }
+
+        .search-field::placeholder {
+            color: #94a3b8;
+        }
+
+        .search-btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .search-btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+
+        /* LOCATION DROPDOWN */
+        .location-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            margin-top: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+        }
+
+        .location-dropdown.active {
+            display: block;
+        }
+
+        .location-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .location-item:hover {
+            background: #f8fafc;
+        }
+
+        .location-item:last-child {
+            border-bottom: none;
+        }
+
+        .location-icon {
+            font-size: 24px;
+        }
+
+        .location-info h4 {
+            font-size: 15px;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .location-info p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* CONTENT SECTIONS */
+        .content-section {
+            position: relative;
+            z-index: 10;
+            padding: 60px 5%;
+            background: #f6f8fb;
+        }
+
+        .section-header {
+            text-align: left;
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* FILTERS */
+        .filters {
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-tag {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        /* HOTELS GRID - Matching Home Page Cards */
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hotel-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .hotel-card.hidden {
+            display: none;
+        }
+
+        .hotel-image {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .hotel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .hotel-card:hover .hotel-image img {
+            transform: scale(1.08);
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            color: #94a3b8;
+        }
+
+        .favorite-btn:hover {
+            background: #ff4757;
+            color: white;
+        }
+
+        .rating-badge {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #0f172a;
+        }
+
+        .star {
+            color: #fbbf24;
+        }
+
+        .hotel-info {
+            padding: 20px;
+        }
+
+        .hotel-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .hotel-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hotel-amenities {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .amenity {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .hotel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .price-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .price-value span {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .view-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+
+        /* ANIMATIONS */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* NO RESULTS */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        /* DETAIL PAGE STYLES */
+        .detail-page {
+            display: none;
+            min-height: 100vh;
+            background: #f6f8fb;
+        }
+
+        .detail-page.active {
+            display: block;
+        }
+
+        .detail-hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+        }
+
+        .detail-hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 60px 5%;
+            color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 100px;
+            left: 5%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateX(-5px);
+        }
+
+        .detail-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .detail-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .detail-rating-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .detail-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+        }
+
+        .detail-stars {
+            color: #fbbf24;
+        }
+
+        .detail-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 5%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .detail-main {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .detail-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .booking-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3b82f6;
+        }
+
+        .guest-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .guest-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #64748b;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .guest-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .guest-count {
+            font-size: 16px;
+            font-weight: 700;
+            min-width: 30px;
+            text-align: center;
+            color: #0f172a;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .book-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .info-section {
+            margin-bottom: 40px;
+        }
+
+        .info-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section p {
+            color: #64748b;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .feature-text h4 {
+            font-size: 14px;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .feature-text p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ROOMS SECTION */
+        .rooms-section {
+            margin-top: 30px;
+        }
+
+        .room-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .room-card:hover,
+        .room-card.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .room-image {
+            width: 120px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .room-info {
+            flex: 1;
+        }
+
+        .room-name {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .room-features {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .room-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .room-price span {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        /* SERVICES SECTION */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .service-icon {
+            font-size: 20px;
+        }
+
+        /* REVIEWS SECTION */
+        .reviews-section {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .reviews-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .reviews-summary {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .rating-big {
+            font-size: 48px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .rating-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .bar-bg {
+            width: 100px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #fbbf24;
+            border-radius: 3px;
+        }
+
+        .review-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .reviewer-details h4 {
+            font-size: 16px;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .reviewer-details .review-date {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .review-rating {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+
+        .review-content {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .review-helpful {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .helpful-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .helpful-btn:hover {
+            color: #3b82f6;
+        }
+
+        /* WRITE REVIEW FORM */
+        .write-review-section {
+            background: #f0f9ff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid #dbeafe;
+        }
+
+        .write-review-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .star-rating-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .star-input {
+            font-size: 32px;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star-input:hover,
+        .star-input.active {
+            color: #fbbf24;
+        }
+
+        .review-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .review-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .submit-review-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-review-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        /* PAYMENT MODAL */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .payment-modal.active {
+            display: flex;
+        }
+        
+        .payment-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: paymentSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        @keyframes paymentSlide {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .payment-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .payment-close:hover {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .payment-title {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        
+        .payment-subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .payment-amount {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .payment-amount-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .payment-amount-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .payment-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .payment-form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .payment-form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .payment-form-group input:focus {
+            border-color: #3b82f6;
+        }
+        
+        .payment-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .payment-method {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 24px;
+        }
+        
+        .payment-method:hover,
+        .payment-method.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .pay-btn {
+            width: 100%;
+            padding: 16px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pay-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        /* QR CODE MODAL */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .qr-modal.active {
+            display: flex;
+        }
+        
+        .qr-content {
+            background: white;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            animation: qrSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        @keyframes qrSlide {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .qr-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .qr-close:hover {
+            background: #ff4757;
+            color: white;
+        }
+        
+        .qr-icon {
+            width: 80px;
+            height: 80px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+        
+        .qr-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        
+        .qr-subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        
+        .qr-code-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #0f172a 25%, transparent 25%), 
+                        linear-gradient(225deg, #0f172a 25%, transparent 25%), 
+                        linear-gradient(45deg, #0f172a 25%, transparent 25%), 
+                        linear-gradient(315deg, #0f172a 25%, transparent 25%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 0, 10px -10px, 0px 10px;
+            position: relative;
+            border-radius: 10px;
+        }
+        
+        .qr-code::after {
+            content: "🏨";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            background: white;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        
+        .qr-details {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .qr-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .qr-detail-row:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .qr-download-btn {
+            width: 100%;
+            padding: 14px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .qr-download-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+        
+        .qr-done-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .qr-done-btn:hover {
+            border-color: #0f172a;
+            color: #0f172a;
+        }
+
+        /* REGIONS SECTION */
+        .regions-section {
+            background: white;
+            padding: 60px 5%;
+            margin: 40px 0;
+        }
+
+        .regions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 30px auto 0;
+        }
+
+        .region-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 280px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .region-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .region-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .region-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            padding: 25px;
+            color: white;
+        }
+
+        .region-overlay h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .region-overlay p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* FOOTER - Matching Home Page */
+        footer {
+            position: relative;
+            z-index: 10;
+            background: white;
+            padding: 40px 5%;
+            color: #0f172a;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hotels-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .regions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            .detail-container {
+                grid-template-columns: 1fr;
+            }
+            .detail-sidebar {
+                position: static;
+            }
+            .booking-card {
+                position: static;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+            .hotels-grid {
+                grid-template-columns: 1fr;
+            }
+            .regions-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            .hero-content {
+                padding: 100px 30px 60px;
+            }
+            .search-widget {
+                flex-direction: column;
+                border-radius: 20px;
+                padding: 15px;
+            }
+            .search-field {
+                width: 100%;
+                border-bottom: 1px solid #e2e8f0;
+                padding: 12px;
+            }
+            .search-field:last-of-type {
+                border-bottom: none;
+            }
+            .search-btn {
+                width: 100%;
+                border-radius: 12px;
+                margin-top: 10px;
+                height: 40px;
+            }
+            nav {
+                width: 95%;
+                padding: 0 20px;
+            }
+            .hero-wrapper {
+                border-radius: 0;
+                min-height: 400px;
+            }
+            .detail-hero {
+                height: 350px;
+            }
+            .detail-title {
+                font-size: 32px;
+            }
+            .detail-container {
+                padding: 20px;
+            }
+            .detail-main {
+                padding: 25px;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .room-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .room-image {
+                width: 100%;
+                height: 150px;
+            }
+            .reviews-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .payment-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- MAIN LISTING PAGE -->
+    <div id="listingPage" class="listing-page">
+        <!-- HERO SECTION WITH NAVIGATION -->
+        <div class="hero-wrapper">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+
+            <!-- Navigation -->
+            <nav>
+                <div class="navbar">
+                    <a href="index.html" class="logo">Trip Pilot</a>
+                    <div class="menu">
+                        <a href="flights.html">Flights</a>
+                        <a href="hotels.html" class="active">Hotels</a>
+                        <a href="activities.html">Activities</a>
+                        <a href="restau.html">Restaurants</a>
+                        <a href="role.html" class="login-btn">Sign up</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Hero Content -->
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Find Your Perfect <span>Stay.</span></h1>
+                    <p>Discover handpicked accommodations for comfort and luxury across 150+ destinations worldwide.</p>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-widget" style="position: relative;">
+                        <input type="text" class="search-field" id="locationSearch" placeholder="Search location (Paris, Rome, Tokyo, Santorini...)" autocomplete="off">
+                        <input type="date" class="search-field" id="checkIn" placeholder="Check-in">
+                        <input type="date" class="search-field" id="checkOut" placeholder="Check-out">
+                        <select class="search-field" id="guests">
+                            <option>1 Guest</option>
+                            <option selected>2 Guests</option>
+                            <option>Family</option>
+                        </select>
+                        <button class="search-btn" onclick="searchLocation()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </button>
+                        
+                        <!-- Location Dropdown -->
+                        <div class="location-dropdown" id="locationDropdown">
+                            <div class="location-item" onclick="selectLocation('Paris')">
+                                <span class="location-icon">🗼</span>
+                                <div class="location-info">
+                                    <h4>Paris, France</h4>
+                                    <p>156 hotels available</p>
+                                </div>
+                            </div>
+                            <div class="location-item" onclick="selectLocation('Rome')">
+                                <span class="location-icon">🏛️</span>
+                                <div class="location-info">
+                                    <h4>Rome, Italy</h4>
+                                    <p>189 hotels available</p>
+                                </div>
+                            </div>
+                            <div class="location-item" onclick="selectLocation('Tokyo')">
+                                <span class="location-icon">🗾</span>
+                                <div class="location-info">
+                                    <h4>Tokyo, Japan</h4>
+                                    <p>203 hotels available</p>
+                                </div>
+                            </div>
+                            <div class="location-item" onclick="selectLocation('Santorini')">
+                                <span class="location-icon">🏝️</span>
+                                <div class="location-info">
+                                    <h4>Santorini, Greece</h4>
+                                    <p>42 hotels available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="content-section" style="padding-bottom: 0;">
+            <div class="filters">
+                <div class="filter-tags">
+                    <span class="filter-tag active" data-filter="all">All Hotels</span>
+                    <span class="filter-tag" data-filter="luxury">Luxury (5★)</span>
+                    <span class="filter-tag" data-filter="boutique">Boutique</span>
+                    <span class="filter-tag" data-filter="budget">Budget</span>
+                    <span class="filter-tag" data-filter="resort">Resorts</span>
+                    <span class="filter-tag" data-filter="business">Business</span>
+                    <span class="filter-tag" data-filter="beachfront">Beachfront</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOTELS LIST -->
+        <section class="content-section" id="hotels">
+            <div class="section-header">
+                <h2>Popular Hotels Worldwide</h2>
+                <p id="resultsCount">Showing hotels in Maldives</p>
+            </div>
+
+            <div class="no-results" id="noResults">
+                <h3>No hotels found</h3>
+                <p>Try adjusting your filters to see more results</p>
+            </div>
+
+            <div class="hotels-grid" id="hotelsGrid">
+                <!-- Hotels injected by JS -->
+            </div>
+        </section>
+
+        <!-- REGIONS SECTION -->
+        <section class="regions-section">
+            <div class="section-header" style="text-align: center;">
+                <h2>Browse by Region</h2>
+                <p style="color: #64748b; margin-top: 10px;">Explore hotels in these popular destinations</p>
+            </div>
+            
+            <div class="regions-grid">
+                <div class="region-card" onclick="selectLocation('Paris')">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600" alt="Europe">
+                    <div class="region-overlay">
+                        <h3>Europe</h3>
+                        <p>3,400+ hotels</p>
+                    </div>
+                </div>
+                <div class="region-card" onclick="selectLocation('Tokyo')">
+                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600" alt="Asia">
+                    <div class="region-overlay">
+                        <h3>Asia Pacific</h3>
+                        <p>4,200+ hotels</p>
+                    </div>
+                </div>
+                <div class="region-card" onclick="selectLocation('Rome')">
+                    <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600" alt="Americas">
+                    <div class="region-overlay">
+                        <h3>Americas</h3>
+                        <p>2,800+ hotels</p>
+                    </div>
+                </div>
+                <div class="region-card" onclick="selectLocation('Santorini')">
+                    <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600" alt="Africa">
+                    <div class="region-overlay">
+                        <h3>Africa & Middle East</h3>
+                        <p>1,600+ hotels</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2026 Trip Pilot. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div id="detailPage" class="detail-page">
+        <div class="detail-hero" id="detailHero">
+            <img id="detailHeroImage" src="" alt="">
+            <div class="detail-hero-overlay"></div>
+            <button class="back-btn" onclick="backToListing()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Hotels
+            </button>
+            <div class="detail-hero-content">
+                <span class="detail-tag" id="detailTag">Luxury Resort</span>
+                <h1 class="detail-title" id="detailName">Hotel Name</h1>
+                <div class="detail-location" id="detailLocation">📍 Location</div>
+                <div class="detail-rating-section">
+                    <div class="detail-rating">
+                        <span class="detail-stars" id="detailStars">★★★★★</span>
+                        <span id="detailRating">4.9</span>
+                        <span style="font-size: 16px; opacity: 0.8;">(<span id="detailReviewCount">2,847</span> reviews)</span>
+                    </div>
+                    <div class="detail-price" id="detailPrice">$450/night</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-container">
+            <div class="detail-main">
+                <div class="info-section">
+                    <h3>🏨 About</h3>
+                    <p id="detailDescription">Experience exceptional luxury with world-class amenities and breathtaking views.</p>
+                    
+                    <div class="features-grid" id="detailFeatures">
+                        <!-- Features injected by JS -->
+                    </div>
+                </div>
+
+                <!-- ROOMS SECTION -->
+                <div class="info-section">
+                    <h3>🛏️ Available Rooms</h3>
+                    <div class="rooms-section" id="roomsList">
+                        <!-- Rooms injected by JS -->
+                    </div>
+                </div>
+
+                <!-- SERVICES SECTION -->
+                <div class="info-section">
+                    <h3>✨ Services & Amenities</h3>
+                    <div class="services-grid" id="servicesList">
+                        <!-- Services injected by JS -->
+                    </div>
+                </div>
+
+                <!-- REVIEWS SECTION -->
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <div>
+                            <h3 class="reviews-title">Guest Reviews</h3>
+                            <p style="color: #64748b; margin-top: 5px;">See what others are saying about their stay</p>
+                        </div>
+                        <div class="reviews-summary">
+                            <div class="rating-big" id="avgRating">4.9</div>
+                            <div class="rating-breakdown">
+                                <div class="rating-bar">
+                                    <span>5★</span>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 85%"></div></div>
+                                    <span>85%</span>
+                                </div>
+                                <div class="rating-bar">
+                                    <span>4★</span>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 12%"></div></div>
+                                    <span>12%</span>
+                                </div>
+                                <div class="rating-bar">
+                                    <span>3★</span>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 2%"></div></div>
+                                    <span>2%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="reviewsList">
+                        <!-- Reviews injected by JS -->
+                    </div>
+
+                    <!-- WRITE REVIEW -->
+                    <div class="write-review-section">
+                        <h3 class="write-review-title">Write a Review</h3>
+                        <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;">Share your experience with other travelers</p>
+                        
+                        <div class="star-rating-input" id="starRatingInput">
+                            <span class="star-input" data-rating="1">★</span>
+                            <span class="star-input" data-rating="2">★</span>
+                            <span class="star-input" data-rating="3">★</span>
+                            <span class="star-input" data-rating="4">★</span>
+                            <span class="star-input" data-rating="5">★</span>
+                        </div>
+                        
+                        <textarea class="review-textarea" id="reviewText" placeholder="Tell us about your stay... How was the room? Was the staff helpful? Would you recommend it?"></textarea>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                            <input type="text" id="reviewerName" placeholder="Your name" style="padding: 10px 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-family: inherit;">
+                            <button class="submit-review-btn" onclick="submitReview()">Post Review</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-sidebar">
+                <div class="booking-card">
+                    <h3 class="booking-title">Book Your Stay</h3>
+                    
+                    <div class="form-group">
+                        <label>Check-in Date</label>
+                        <input type="date" id="bookCheckIn" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Check-out Date</label>
+                        <input type="date" id="bookCheckOut" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Guests</label>
+                        <div class="guest-selector">
+                            <button class="guest-btn" onclick="changeGuests(-1)">-</button>
+                            <span class="guest-count" id="guestCount">2</span>
+                            <button class="guest-btn" onclick="changeGuests(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="bookName" placeholder="Full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="bookEmail" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="bookPhone" placeholder="+1 234 567 890">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Special Requests (Optional)</label>
+                        <input type="text" id="bookRequests" placeholder="Early check-in, room preferences...">
+                    </div>
+                    
+                    <div style="background: #f8fafc; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #64748b;">
+                            <span>Room Rate</span>
+                            <span id="rateSummary">$450 x 1 night</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #64748b;">
+                            <span>Taxes & Fees</span>
+                            <span id="taxesSummary">$65</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #0f172a; padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                            <span>Total</span>
+                            <span id="totalSummary">$515</span>
+                        </div>
+                    </div>
+                    
+                    <button class="book-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+                    <p style="text-align: center; color: #94a3b8; font-size: 12px; margin-top: 15px;">
+                        No charges until you confirm • Free cancellation up to 24 hours before
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer style="margin-top: 60px;">
+            <div class="footer-content">
+                <p>&copy; 2026 Trip Pilot. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-content">
+            <button class="payment-close" onclick="closePaymentModal()">&times;</button>
+            <h2 class="payment-title">Complete Your Booking</h2>
+            <p class="payment-subtitle">Enter your payment details to secure your reservation</p>
+            
+            <div class="payment-amount">
+                <div class="payment-amount-label">Total Amount</div>
+                <div class="payment-amount-value" id="paymentAmount">$515</div>
+            </div>
+            
+            <div class="payment-methods">
+                <div class="payment-method active" onclick="selectPayment(this)">💳</div>
+                <div class="payment-method" onclick="selectPayment(this)">📱</div>
+                <div class="payment-method" onclick="selectPayment(this)">💰</div>
+            </div>
+            
+            <div class="payment-form-group">
+                <label>Cardholder Name</label>
+                <input type="text" id="cardName" placeholder="Name on card">
+            </div>
+            
+            <div class="payment-form-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            
+            <div class="payment-row">
+                <div class="payment-form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="payment-form-group">
+                    <label>CVV</label>
+                    <input type="text" id="cardCvv" placeholder="123" maxlength="3">
+                </div>
+            </div>
+            
+            <button class="pay-btn" onclick="processPayment()">Pay Now</button>
+        </div>
+    </div>
+
+    <!-- QR CODE MODAL -->
+    <div id="qrModal" class="qr-modal">
+        <div class="qr-content">
+            <button class="qr-close" onclick="closeQrModal()">&times;</button>
+            <div class="qr-icon">✓</div>
+            <h2 class="qr-title">Booking Confirmed!</h2>
+            <p class="qr-subtitle">Show this QR code at check-in</p>
+            
+            <div class="qr-code-container">
+                <div class="qr-code" id="qrCode"></div>
+            </div>
+            
+            <div class="qr-details">
+                <div class="qr-detail-row">
+                    <span>Hotel</span>
+                    <span id="qrHotelName">Hotel Name</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Check-in</span>
+                    <span id="qrCheckIn">Jan 1, 2026</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Check-out</span>
+                    <span id="qrCheckOut">Jan 3, 2026</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Guests</span>
+                    <span id="qrGuests">2 people</span>
+                </div>
+                <div class="qr-detail-row">
+                    <span>Booking Ref</span>
+                    <span id="qrRef">#TRP-123456</span>
+                </div>
+            </div>
+            
+            <button class="qr-download-btn" onclick="downloadQR()">📥 Download QR Code</button>
+            <button class="qr-done-btn" onclick="closeQrModal()">Done</button>
+        </div>
+    </div>
+
+    <script>
+        // Hotel Data by Location
+        const hotelsData = {
+            'maldives': [
+                { 
+                    id: 1, 
+                    name: "Azure Ocean Resort & Spa", 
+                    location: "Maldives, Indian Ocean", 
+                    price: 450, 
+                    rating: 4.9, 
+                    reviews: "2,847",
+                    type: "resort",
+                    luxury: true,
+                    beachfront: true,
+                    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    amenities: ["🏖️ Private Beach", "🏊 Infinity Pool", "🍽️ 5 Restaurants"],
+                    description: "A sanctuary of serenity floating above turquoise waters. This award-winning resort features overwater villas with glass floors, world-class diving center, and a spa suspended over the lagoon.",
+                    features: ["5-Star Resort", "24/7 Service", "Overwater Villas", "All-Inclusive"],
+                    services: ["🏊 Infinity Pool", "🏖️ Private Beach", "💆 Spa & Wellness", "🍽️ Fine Dining", "🤿 Diving Center", "🏋️ Fitness Center", "🚁 Helipad", "👶 Kids Club"],
+                    rooms: [
+                        { name: "Overwater Villa", features: "King bed • Ocean view • 85m²", price: 450, image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400" },
+                        { name: "Beachfront Suite", features: "King bed • Beach access • 120m²", price: 380, image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400" },
+                        { name: "Presidential Villa", features: "2 Bedrooms • Private pool • 300m²", price: 1200, image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400" }
+                    ]
+                },
+                { 
+                    id: 2, 
+                    name: "Coral Reef Paradise", 
+                    location: "Baa Atoll, Maldives", 
+                    price: 380, 
+                    rating: 4.8, 
+                    reviews: "1,923",
+                    type: "resort",
+                    luxury: true,
+                    beachfront: true,
+                    image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800",
+                    amenities: ["🐠 House Reef", "🚤 Water Sports", "🌅 Sunset Deck"],
+                    description: "An eco-luxury resort nestled in a UNESCO Biosphere Reserve. Each villa has direct access to the house reef, perfect for snorkeling enthusiasts.",
+                    features: ["Eco Resort", "UNESCO Site", "House Reef", "Water Sports"],
+                    services: ["🐠 House Reef", "🚤 Water Sports", "🌅 Sunset Deck", "🍹 Beach Bar", "💆 Spa", "🧘 Yoga", "🎣 Fishing", "🚣 Kayaking"],
+                    rooms: [
+                        { name: "Reef Villa", features: "Queen bed • Reef access • 70m²", price: 380, image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400" },
+                        { name: "Lagoon Suite", features: "King bed • Lagoon view • 95m²", price: 520, image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=400" }
+                    ]
+                }
+            ],
+            'paris': [
+                {
+                    id: 101,
+                    name: "Le Meurice",
+                    location: "Rue de Rivoli, Paris",
+                    price: 890,
+                    rating: 4.9,
+                    reviews: "1,534",
+                    type: "luxury",
+                    luxury: true,
+                    boutique: false,
+                    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+                    amenities: ["🗼 Eiffel View", "🎨 Art Collection", "🍾 Alain Ducasse"],
+                    description: "A palace hotel overlooking the Tuileries Garden, Le Meurice has been a Parisian landmark since 1835. Opulent Louis XVI style meets contemporary art in this Dorchester Collection jewel.",
+                    features: ["Palace Hotel", "Since 1835", "Alain Ducasse", "Art Collection"],
+                    services: ["🗼 Eiffel View", "🎨 Art Collection", "🍾 Alain Ducasse", "💆 Spa Valmont", "🍰 Tea Time", "🚗 Rolls Royce", "🛍️ Shopping Concierge", "🎭 Theater Desk"],
+                    rooms: [
+                        { name: "Superior Room", features: "Queen bed • City view • 35m²", price: 890, image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=400" },
+                        { name: "Deluxe Suite", features: "King bed • Garden view • 65m²", price: 1450, image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400" },
+                        { name: "Belle Etoile Suite", features: "Terrace • 360° view • 200m²", price: 4500, image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400" }
+                    ]
+                },
+                {
+                    id: 102,
+                    name: "Hotel Providence",
+                    location: "Rue René Boulanger, Paris",
+                    price: 220,
+                    rating: 4.6,
+                    reviews: "892",
+                    type: "boutique",
+                    luxury: false,
+                    boutique: true,
+                    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+                    amenities: ["🎨 Design Hotel", "🍸 Speakeasy", "🌿 Garden"],
+                    description: "A boutique gem in the 10th arrondissement with a secret garden and speakeasy bar. Each room is uniquely designed with vintage finds and contemporary art.",
+                    features: ["Boutique", "Design Hotel", "Speakeasy", "Garden"],
+                    services: ["🎨 Design Hotel", "🍸 Speakeasy", "🌿 Garden", "🍳 Breakfast", "📚 Library", "🎵 Vinyl Collection", "🚲 Bike Rental", "🎨 Art Gallery"],
+                    rooms: [
+                        { name: "Classic Room", features: "Double bed • Street view • 22m²", price: 220, image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400" },
+                        { name: "Garden Suite", features: "King bed • Terrace • 40m²", price: 380, image: "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=400" }
+                    ]
+                }
+            ],
+            'rome': [
+                {
+                    id: 201,
+                    name: "Hotel de Russie",
+                    location: "Via del Babuino, Rome",
+                    price: 650,
+                    rating: 4.8,
+                    reviews: "2,103",
+                    type: "luxury",
+                    luxury: true,
+                    boutique: false,
+                    image: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800",
+                    amenities: ["🏛️ Near Spanish Steps", "🌳 Secret Garden", "💆 Spa"],
+                    description: "A Rocco Forte hotel with a legendary secret garden between the Spanish Steps and Piazza del Popolo. A favorite of artists and poets since the 19th century.",
+                    features: ["Rocco Forte", "Secret Garden", "Historic", "Artists' Favorite"],
+                    services: ["🏛️ Near Spanish Steps", "🌳 Secret Garden", "💆 Spa", "🍝 Restaurant", "🍸 Stravinskij Bar", "🏃 Fitness", "🎨 Art Tours", "🚗 Limo Service"],
+                    rooms: [
+                        { name: "Classic Room", features: "Queen bed • Courtyard • 30m²", price: 650, image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400" },
+                        { name: "Deluxe Room", features: "King bed • City view • 45m²", price: 890, image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400" },
+                        { name: "Garden Suite", features: "Terrace • Garden view • 80m²", price: 1400, image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400" }
+                    ]
+                },
+                {
+                    id: 202,
+                    name: "The Beehive",
+                    location: "Via Marghera, Rome",
+                    price: 85,
+                    rating: 4.5,
+                    reviews: "3,421",
+                    type: "budget",
+                    luxury: false,
+                    boutique: true,
+                    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800",
+                    amenities: ["☕ Café", "🌿 Garden", "👥 Social"],
+                    description: "A budget-friendly boutique hostel with a cozy café and garden. Perfect for solo travelers and those seeking a social atmosphere near Termini Station.",
+                    features: ["Boutique Hostel", "Social", "Café", "Garden"],
+                    services: ["☕ Café", "🌿 Garden", "📶 Free WiFi", "🧳 Luggage Storage", "🗺️ City Maps", "☕ Free Coffee", "🎸 Events", "🚿 Shared Kitchen"],
+                    rooms: [
+                        { name: "Dorm Bed", features: "Shared room • Locker • 4-6 beds", price: 35, image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400" },
+                        { name: "Private Room", features: "Double bed • Shared bath • 18m²", price: 85, image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400" },
+                        { name: "Suite", features: "Queen bed • Private bath • 30m²", price: 120, image: "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=400" }
+                    ]
+                }
+            ],
+            'tokyo': [
+                {
+                    id: 301,
+                    name: "Park Hyatt Tokyo",
+                    location: "Shinjuku, Tokyo",
+                    price: 750,
+                    rating: 4.9,
+                    reviews: "2,156",
+                    type: "luxury",
+                    luxury: true,
+                    business: true,
+                    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800",
+                    amenities: ["🗼 City Views", "🎬 Lost in Translation", "🏊 Pool"],
+                    description: "Iconic luxury hotel on the top floors of Shinjuku Park Tower. Famous for its starring role in 'Lost in Translation' and breathtaking views of Mount Fuji.",
+                    features: ["Park Hyatt", "Lost in Translation", "Mount Fuji Views", "Peak of Shinjuku"],
+                    services: ["🗼 City Views", "🎬 Lost in Translation", "🏊 Pool", "💆 Spa", "🍽️ New York Grill", "🍸 Peak Bar", "🏃 Fitness", "🎩 Butler Service"],
+                    rooms: [
+                        { name: "Park Room", features: "King bed • City view • 45m²", price: 750, image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=400" },
+                        { name: "Deluxe Room", features: "King bed • Fuji view • 55m²", price: 950, image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400" },
+                        { name: "Park Suite", features: "Separate living • 90m²", price: 1800, image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400" }
+                    ]
+                },
+                {
+                    id: 302,
+                    name: "Hoshinoya Tokyo",
+                    location: "Otemachi, Tokyo",
+                    price: 1200,
+                    rating: 4.9,
+                    reviews: "876",
+                    type: "luxury",
+                    luxury: true,
+                    boutique: true,
+                    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800",
+                    amenities: ["🏯 Ryokan Style", "♨️ Onsen", "🍱 Kaiseki"],
+                    description: "A ryokan in the sky - traditional Japanese hospitality in a modern tower. Each floor has only two guest rooms and a communal lounge for guests.",
+                    features: ["Ryokan Style", "Onsen", "Kaiseki", "Exclusive"],
+                    services: ["🏯 Ryokan Style", "♨️ Onsen", "🍱 Kaiseki", "🍵 Tea Ceremony", "👘 Yukata", "🎋 Garden", "🎵 Traditional Music", "🌸 Seasonal Events"],
+                    rooms: [
+                        { name: "Sakura Room", features: "Tatami • Garden view • 80m²", price: 1200, image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400" },
+                        { name: "Yuri Suite", features: "Tatami • City view • 100m²", price: 1600, image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=400" }
+                    ]
+                }
+            ],
+            'santorini': [
+                {
+                    id: 401,
+                    name: "Canaves Oia Epitome",
+                    location: "Oia, Santorini",
+                    price: 850,
+                    rating: 5.0,
+                    reviews: "1,234",
+                    type: "luxury",
+                    luxury: true,
+                    boutique: true,
+                    image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800",
+                    amenities: ["🌅 Caldera View", "🏊 Infinity Pool", "🍷 Wine Cave"],
+                    description: "Perched above the picturesque fishing town of Ammoudi, this luxury retreat offers panoramic views of the caldera and Aegean Sea. Each suite has a private pool.",
+                    features: ["Caldera View", "Private Pools", "Wine Cave", "Ammoudi Bay"],
+                    services: ["🌅 Caldera View", "🏊 Infinity Pool", "🍷 Wine Cave", "💆 Spa", "🍽️ Fine Dining", "🚤 Private Yacht", "🌅 Sunset Tours", "🍇 Wine Tasting"],
+                    rooms: [
+                        { name: "Junior Suite", features: "Caldera view • Plunge pool • 45m²", price: 850, image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400" },
+                        { name: "Epitome Suite", features: "Private pool • 80m²", price: 1200, image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400" },
+                        { name: "Villa", features: "2 Bedrooms • Pool • 150m²", price: 2500, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400" }
+                    ]
+                },
+                {
+                    id: 402,
+                    name: "Villa Renos",
+                    location: "Fira, Santorini",
+                    price: 180,
+                    rating: 4.7,
+                    reviews: "2,567",
+                    type: "budget",
+                    luxury: false,
+                    boutique: true,
+                    image: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=800",
+                    amenities: ["🌅 Sea View", "🏊 Pool", "🍳 Breakfast"],
+                    description: "A family-run hotel in the heart of Fira with stunning caldera views. Traditional Cycladic architecture with modern comforts and warm hospitality.",
+                    features: ["Family Run", "Caldera View", "Central Location", "Breakfast"],
+                    services: ["🌅 Sea View", "🏊 Pool", "🍳 Breakfast", "🚌 Airport Transfer", "🗺️ Tour Desk", "🍷 Bar", "📶 Free WiFi", "🧳 Luggage Storage"],
+                    rooms: [
+                        { name: "Standard Room", features: "Double bed • Sea view • 25m²", price: 180, image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400" },
+                        { name: "Superior Room", features: "Queen bed • Balcony • 30m²", price: 240, image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400" }
+                    ]
+                }
+            ]
+        };
+
+        // Sample Reviews Data
+        const reviewsData = {
+            1: [
+                {
+                    name: "Sarah Johnson",
+                    avatar: "SJ",
+                    rating: 5,
+                    date: "2 weeks ago",
+                    content: "Absolutely magical! The overwater villa was beyond expectations. Waking up to the ocean beneath our feet was unforgettable. The staff went above and beyond for our anniversary.",
+                    helpful: 24
+                },
+                {
+                    name: "Michael Chen",
+                    avatar: "MC",
+                    rating: 5,
+                    date: "1 month ago",
+                    content: "Paradise on earth. The infinity pool, the private beach, the spa - everything was perfect. The diving center took us to amazing spots. Worth every penny!",
+                    helpful: 18
+                }
+            ],
+            101: [
+                {
+                    name: "Emma Williams",
+                    avatar: "EW",
+                    rating: 5,
+                    date: "3 weeks ago",
+                    content: "The epitome of Parisian luxury. The Belle Etoile Suite with its 360° view is worth the splurge. Alain Ducasse's restaurant was an unforgettable culinary experience.",
+                    helpful: 32
+                }
+            ],
+            301: [
+                {
+                    name: "David Park",
+                    avatar: "DP",
+                    rating: 5,
+                    date: "1 week ago",
+                    content: "Lost in Translation vibes are real! The New York Grill and Peak Bar are iconic. Waking up to Mount Fuji on a clear day was breathtaking. Impeccable service.",
+                    helpful: 28
+                }
+            ],
+            401: [
+                {
+                    name: "Sophie Martin",
+                    avatar: "SM",
+                    rating: 5,
+                    date: "2 days ago",
+                    content: "The most romantic place I've ever stayed. Private pool overlooking the caldera, amazing sunset views. The wine cave dinner was magical. Perfect honeymoon spot!",
+                    helpful: 45
+                }
+            ]
+        };
+
+        let currentLocation = 'maldives';
+        let currentHotel = null;
+        let guestCount = 2;
+        let selectedRating = 0;
+        let selectedRoom = null;
+        let bookingData = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHotels(hotelsData[currentLocation]);
+            
+            // Set dates
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('checkIn').value = today.toISOString().split('T')[0];
+            document.getElementById('checkOut').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('bookCheckIn').value = today.toISOString().split('T')[0];
+            document.getElementById('bookCheckOut').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('bookCheckIn').min = today.toISOString().split('T')[0];
+            document.getElementById('bookCheckOut').min = tomorrow.toISOString().split('T')[0];
+
+            // Location search dropdown
+            const locationSearch = document.getElementById('locationSearch');
+            const dropdown = document.getElementById('locationDropdown');
+
+            locationSearch.addEventListener('focus', () => {
+                dropdown.classList.add('active');
+            });
+
+            locationSearch.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                if (val.includes('paris')) selectLocation('Paris');
+                else if (val.includes('rome')) selectLocation('Rome');
+                else if (val.includes('tokyo')) selectLocation('Tokyo');
+                else if (val.includes('santorini')) selectLocation('Santorini');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-widget')) {
+                    dropdown.classList.remove('active');
+                }
+            });
+
+            // Star rating input
+            document.querySelectorAll('.star-input').forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.dataset.rating);
+                    document.querySelectorAll('.star-input').forEach((s, i) => {
+                        s.classList.toggle('active', i < selectedRating);
+                    });
+                });
+            });
+
+            // Filter functionality
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    const cards = document.querySelectorAll('.hotel-card');
+                    let visibleCount = 0;
+                    
+                    cards.forEach(card => {
+                        let shouldShow = false;
+                        
+                        if (filter === 'all') {
+                            shouldShow = true;
+                        } else if (filter === 'luxury') {
+                            shouldShow = card.dataset.luxury === 'true';
+                        } else if (filter === 'boutique') {
+                            shouldShow = card.dataset.boutique === 'true';
+                        } else if (filter === 'resort') {
+                            shouldShow = card.dataset.type === 'resort';
+                        } else if (filter === 'business') {
+                            shouldShow = card.dataset.business === 'true';
+                        } else if (filter === 'beachfront') {
+                            shouldShow = card.dataset.beachfront === 'true';
+                        } else if (filter === 'budget') {
+                            shouldShow = card.dataset.luxury === 'false';
+                        }
+                        
+                        if (shouldShow) {
+                            card.classList.remove('hidden');
+                            card.classList.add('fade-in');
+                            visibleCount++;
+                        } else {
+                            card.classList.add('hidden');
+                            card.classList.remove('fade-in');
+                        }
+                    });
+                    
+                    updateResultsCount(visibleCount);
+                });
+            });
+
+            // Date change listeners for pricing
+            document.getElementById('bookCheckIn').addEventListener('change', updatePricing);
+            document.getElementById('bookCheckOut').addEventListener('change', updatePricing);
+        });
+
+        function selectLocation(location) {
+            currentLocation = location.toLowerCase();
+            document.getElementById('locationSearch').value = location;
+            document.getElementById('locationDropdown').classList.remove('active');
+            
+            const data = hotelsData[currentLocation] || hotelsData['maldives'];
+            renderHotels(data);
+            document.getElementById('resultsCount').textContent = `Showing hotels in ${location}`;
+        }
+
+        function searchLocation() {
+            const val = document.getElementById('locationSearch').value.toLowerCase();
+            if (hotelsData[val]) {
+                selectLocation(val.charAt(0).toUpperCase() + val.slice(1));
+            } else {
+                alert('Please select from: Paris, Rome, Tokyo, or Santorini');
+            }
+        }
+
+        function renderHotels(data) {
+            const grid = document.getElementById('hotelsGrid');
+            grid.innerHTML = data.map(h => `
+                <a href="#" class="hotel-card" 
+                   data-luxury="${h.luxury}" 
+                   data-boutique="${h.boutique || false}"
+                   data-type="${h.type}"
+                   data-business="${h.business || false}"
+                   data-beachfront="${h.beachfront || false}"
+                   data-rating="${h.rating}"
+                   onclick="openDetailPage(${h.id}); return false;">
+                    <div class="hotel-image">
+                        <img src="${h.image}" alt="${h.name}">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                        <div class="rating-badge">
+                            <span class="star">★</span>
+                            <span>${h.rating} (${h.reviews})</span>
+                        </div>
+                    </div>
+                    <div class="hotel-info">
+                        <div class="hotel-location">📍 ${h.location}</div>
+                        <h3 class="hotel-name">${h.name}</h3>
+                        <div class="hotel-amenities">
+                            ${h.amenities.map(a => `<span class="amenity">${a}</span>`).join('')}
+                        </div>
+                        <div class="hotel-footer">
+                            <div class="price">
+                                <span class="price-label">per night</span>
+                                <span class="price-value">$${h.price}<span>/night</span></span>
+                            </div>
+                            <button class="view-btn" onclick="event.stopPropagation(); openDetailPage(${h.id})">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+            
+            updateResultsCount(data.length);
+        }
+
+        function updateResultsCount(count) {
+            const location = currentLocation.charAt(0).toUpperCase() + currentLocation.slice(1);
+            document.getElementById('resultsCount').textContent = 
+                count === 0 ? 'No hotels found' : 
+                `Showing ${count} hotels in ${location}`;
+            
+            const noResults = document.getElementById('noResults');
+            if (count === 0) noResults.classList.add('show');
+            else noResults.classList.remove('show');
+        }
+
+        function toggleFavorite(e, btn) {
+            e.stopPropagation();
+            e.preventDefault();
+            btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
+            btn.style.color = btn.textContent === '♥' ? '#ff4757' : '#94a3b8';
+        }
+
+        function openDetailPage(id) {
+            // Find hotel in all locations
+            let hotel = null;
+            for (let loc in hotelsData) {
+                hotel = hotelsData[loc].find(h => h.id === id);
+                if (hotel) break;
+            }
+            
+            if (!hotel) return;
+            
+            currentHotel = hotel;
+            guestCount = 2;
+            selectedRoom = hotel.rooms[0];
+            
+            // Populate detail page
+            document.getElementById('detailHeroImage').src = hotel.image;
+            document.getElementById('detailTag').textContent = hotel.luxury ? 'Luxury Hotel' : 'Boutique Hotel';
+            document.getElementById('detailName').textContent = hotel.name;
+            document.getElementById('detailLocation').textContent = '📍 ' + hotel.location;
+            document.getElementById('detailPrice').textContent = '$' + hotel.price + '/night';
+            document.getElementById('detailRating').textContent = hotel.rating;
+            document.getElementById('detailReviewCount').textContent = hotel.reviews;
+            document.getElementById('detailStars').textContent = '★'.repeat(Math.floor(hotel.rating));
+            document.getElementById('detailDescription').textContent = hotel.description;
+            document.getElementById('avgRating').textContent = hotel.rating;
+            
+            // Features
+            const featuresHtml = hotel.features.map((f, i) => {
+                const icons = ['🏨', '⭐', '📍', '✨'];
+                const labels = ['Type', 'Rating', 'Location', 'Highlight'];
+                return `
+                    <div class="feature-item">
+                        <div class="feature-icon">${icons[i] || '•'}</div>
+                        <div class="feature-text">
+                            <h4>${labels[i] || 'Info'}</h4>
+                            <p>${f}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('detailFeatures').innerHTML = featuresHtml;
+            
+            // Rooms
+            const roomsHtml = hotel.rooms.map((r, i) => `
+                <div class="room-card ${i === 0 ? 'selected' : ''}" onclick="selectRoom(${i}, ${r.price})">
+                    <img src="${r.image}" class="room-image" alt="${r.name}">
+                    <div class="room-info">
+                        <div class="room-name">${r.name}</div>
+                        <div class="room-features">${r.features}</div>
+                    </div>
+                    <div class="room-price">$${r.price}<span>/night</span></div>
+                </div>
+            `).join('');
+            document.getElementById('roomsList').innerHTML = roomsHtml;
+            
+            // Services
+            const servicesHtml = hotel.services.map(s => {
+                const icon = s.split(' ')[0];
+                const text = s.substring(s.indexOf(' ') + 1);
+                return `
+                    <div class="service-item">
+                        <span class="service-icon">${icon}</span>
+                        <span>${text}</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('servicesList').innerHTML = servicesHtml;
+            
+            // Reviews
+            renderReviews(id);
+            
+            // Update pricing
+            updatePricing();
+            
+            // Show detail page
+            document.getElementById('listingPage').style.display = 'none';
+            document.getElementById('detailPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function selectRoom(index, price) {
+            selectedRoom = currentHotel.rooms[index];
+            document.querySelectorAll('.room-card').forEach((card, i) => {
+                card.classList.toggle('selected', i === index);
+            });
+            updatePricing();
+        }
+
+        function updatePricing() {
+            const checkIn = new Date(document.getElementById('bookCheckIn').value);
+            const checkOut = new Date(document.getElementById('bookCheckOut').value);
+            const nights = Math.max(1, Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)));
+            
+            const roomPrice = selectedRoom ? selectedRoom.price : currentHotel.price;
+            const subtotal = roomPrice * nights;
+            const taxes = Math.round(subtotal * 0.15);
+            const total = subtotal + taxes;
+            
+            document.getElementById('rateSummary').textContent = `$${roomPrice} x ${nights} night${nights > 1 ? 's' : ''}`;
+            document.getElementById('taxesSummary').textContent = `$${taxes}`;
+            document.getElementById('totalSummary').textContent = `$${total}`;
+            
+            return total;
+        }
+
+        function renderReviews(hotelId) {
+            const reviews = reviewsData[hotelId] || [
+                {
+                    name: "Alex Thompson",
+                    avatar: "AT",
+                    rating: 5,
+                    date: "3 weeks ago",
+                    content: "Amazing experience! The room was exceptional and the service was top-notch. Would definitely recommend to anyone visiting.",
+                    helpful: 15
+                },
+                {
+                    name: "Maria Garcia",
+                    avatar: "MG",
+                    rating: 4,
+                    date: "1 month ago",
+                    content: "Great atmosphere and beautiful property. The amenities were excellent and the staff was very helpful. Will come back!",
+                    helpful: 8
+                }
+            ];
+            
+            const reviewsHtml = reviews.map(r => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">${r.avatar}</div>
+                            <div class="reviewer-details">
+                                <h4>${r.name}</h4>
+                                <div class="review-date">${r.date}</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">${'★'.repeat(r.rating)}</div>
+                    </div>
+                    <div class="review-content">${r.content}</div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn" onclick="this.textContent = '👍 Helpful (' + (${r.helpful} + 1) + ')'; this.disabled = true;">
+                            👍 Helpful (${r.helpful})
+                        </button>
+                        <button class="helpful-btn">💬 Comment</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('reviewsList').innerHTML = reviewsHtml;
+        }
+
+        function backToListing() {
+            document.getElementById('detailPage').classList.remove('active');
+            document.getElementById('listingPage').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function changeGuests(delta) {
+            guestCount = Math.max(1, Math.min(10, guestCount + delta));
+            document.getElementById('guestCount').textContent = guestCount;
+        }
+
+        function proceedToPayment() {
+            const checkIn = document.getElementById('bookCheckIn').value;
+            const checkOut = document.getElementById('bookCheckOut').value;
+            const name = document.getElementById('bookName').value;
+            const email = document.getElementById('bookEmail').value;
+            
+            if (!checkIn || !checkOut || !name || !email) {
+                alert('Please fill in all required fields (Dates, Name, and Email)');
+                return;
+            }
+            
+            if (new Date(checkOut) <= new Date(checkIn)) {
+                alert('Check-out date must be after check-in date');
+                return;
+            }
+            
+            const total = updatePricing();
+            
+            // Save booking data
+            bookingData = {
+                hotel: currentHotel.name,
+                checkIn: checkIn,
+                checkOut: checkOut,
+                guests: guestCount,
+                room: selectedRoom ? selectedRoom.name : 'Standard Room',
+                name: name,
+                email: email,
+                total: total,
+                ref: 'TRP-' + Math.random().toString(36).substr(2, 9).toUpperCase()
+            };
+            
+            // Update payment modal
+            document.getElementById('paymentAmount').textContent = '$' + total;
+            
+            // Show payment modal
+            document.getElementById('paymentModal').classList.add('active');
+        }
+
+        // Payment Functions
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        function selectPayment(element) {
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function processPayment() {
+            const cardName = document.getElementById('cardName').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cardExpiry = document.getElementById('cardExpiry').value;
+            const cardCvv = document.getElementById('cardCvv').value;
+            
+            if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+                alert('Please fill in all card details');
+                return;
+            }
+            
+            // Simulate processing
+            const btn = document.querySelector('.pay-btn');
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                closePaymentModal();
+                showQrModal();
+                btn.textContent = 'Pay Now';
+                btn.disabled = false;
+                
+                // Clear payment form
+                document.getElementById('cardName').value = '';
+                document.getElementById('cardNumber').value = '';
+                document.getElementById('cardExpiry').value = '';
+                document.getElementById('cardCvv').value = '';
+            }, 2000);
+        }
+
+        // QR Code Functions
+        function showQrModal() {
+            document.getElementById('qrHotelName').textContent = bookingData.hotel;
+            document.getElementById('qrCheckIn').textContent = new Date(bookingData.checkIn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('qrCheckOut').textContent = new Date(bookingData.checkOut).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('qrGuests').textContent = bookingData.guests + ' people';
+            document.getElementById('qrRef').textContent = '#' + bookingData.ref;
+            
+            // Generate unique QR pattern
+            const qrCode = document.getElementById('qrCode');
+            qrCode.style.background = generateQRPattern(bookingData.ref);
+            
+            document.getElementById('qrModal').classList.add('active');
+        }
+
+        function generateQRPattern(ref) {
+            const colors = ['#0f172a', '#1e293b', '#334155', '#475569'];
+            let pattern = '';
+            for (let i = 0; i < 100; i++) {
+                const color = colors[ref.charCodeAt(i % ref.length) % colors.length];
+                const x = (i % 10) * 20;
+                const y = Math.floor(i / 10) * 20;
+                pattern += `linear-gradient(135deg, ${color} 25%, transparent 25%) ${x}px ${y}px,`;
+            }
+            return pattern.slice(0, -1) + '; background-size: 20px 20px;';
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').classList.remove('active');
+            // Reset form
+            document.getElementById('bookName').value = '';
+            document.getElementById('bookEmail').value = '';
+            document.getElementById('bookPhone').value = '';
+            document.getElementById('bookRequests').value = '';
+        }
+
+        function downloadQR() {
+            alert('QR Code downloaded! Check your downloads folder.');
+        }
+
+        function submitReview() {
+            const text = document.getElementById('reviewText').value;
+            const name = document.getElementById('reviewerName').value || 'Anonymous';
+            
+            if (selectedRating === 0) {
+                alert('Please select a star rating');
+                return;
+            }
+            if (!text.trim()) {
+                alert('Please write your review');
+                return;
+            }
+            
+            const newReview = {
+                name: name,
+                avatar: name.split(' ').map(n => n[0]).join('').toUpperCase(),
+                rating: selectedRating,
+                date: 'Just now',
+                content: text,
+                helpful: 0
+            };
+            
+            // Add to reviews list
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card fade-in';
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">${newReview.avatar}</div>
+                        <div class="reviewer-details">
+                            <h4>${newReview.name}</h4>
+                            <div class="review-date">${newReview.date}</div>
+                        </div>
+                    </div>
+                    <div class="review-rating">${'★'.repeat(newReview.rating)}</div>
+                </div>
+                <div class="review-content">${newReview.content}</div>
+                <div class="review-helpful">
+                    <button class="helpful-btn">👍 Helpful (0)</button>
+                    <button class="helpful-btn">💬 Comment</button>
+                </div>
+            `;
+            
+            document.getElementById('reviewsList').insertBefore(reviewCard, document.getElementById('reviewsList').firstChild);
+            
+            // Reset form
+            document.getElementById('reviewText').value = '';
+            document.getElementById('reviewerName').value = '';
+            selectedRating = 0;
+            document.querySelectorAll('.star-input').forEach(s => s.classList.remove('active'));
+            
+            alert('Thank you for your review!');
+        }
+
+        // Close modals on outside click
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) closePaymentModal();
+        });
+
+        document.getElementById('qrModal').addEventListener('click', function(e) {
+            if (e.target === this) closeQrModal();
+        });
+
+        // Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePaymentModal();
+                closeQrModal();
+                if (document.getElementById('detailPage').classList.contains('active')) {
+                    backToListing();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
