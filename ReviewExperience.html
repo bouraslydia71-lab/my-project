@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripPilot - Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Sidebar link with left border animation - for Dashboard, Bookings, Messages */
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #3b82f6;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+        
+.rating-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rating-bar-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 4px;
+}
+
+.review-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    transition: box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.service-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: #f3f4f6;
+    color: #4b5563;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.response-box {
+    background: #f9fafb;
+    border-left: 3px solid #3b82f6;
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 12px;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: #6b7280;
+}
+
+.tab-btn:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.tab-btn.active {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.filter-btn, .sort-btn {
+    padding: 8px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover, .sort-btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.reply-btn {
+    padding: 6px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.reply-btn:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.load-more-btn {
+    padding: 10px 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.load-more-btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.wave-bg {
+    background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100%);
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+</head>
+
+<body class="bg-gray-50 font-sans text-gray-800">
+<div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-xl z-20 flex flex-col transition-all duration-300" id="sidebar">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+                        <i class="fas fa-plane text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-gray-900">Trip Pilot</h1>
+                        <p class="text-xs text-gray-500">Tourism Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                
+                <!-- Dashboard - Code Style (with left border animation) -->
+                <a href="dashboardExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-chart-pie w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <!-- My Place - Photo Style (clean with left border) -->
+                <a href="myplaceExperiene.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-home w-5"></i>
+                    <span>My Place</span>
+                </a>
+        
+                <!-- Bookings - Code Style (with left border animation) -->
+                <a href="bookingExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-calendar-check w-5"></i>
+                    <span>Bookings</span>
+                </a>
+                
+                <!-- Messages - Code Style (with left border animation) -->
+                <a href="messagesExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-comments w-5"></i>
+                    <span>Messages</span>
+                    <span class="ml-auto bg-primary-100 text-primary-700 text-xs font-bold px-2 py-1 rounded-full">3</span>
+                </a>
+                
+                <!-- Reviews - Photo Style (clean with left border) -->
+                <a href="ReviewExperience.html" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-primary-700 bg-primary-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-star w-5"></i>
+                    <span>Reviews</span>
+                </a>
+                
+            </nav>
+
+            
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto wave-bg">
+            <!-- Top Header -->
+            <header class="glass-effect sticky top-0 z-10 px-8 py-4 border-b border-white/50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="fas fa-bars text-gray-600"></i>
+                        </button>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Reviews</h2>
+                            <p class="text-sm text-gray-500">Welcome back, Administrator</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <!-- Search Bar -->
+                        <div class="hidden md:flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                            <i class="fas fa-search text-gray-400"></i>
+                            <input type="text" placeholder="Search destinations, bookings..." class="bg-transparent border-none outline-none text-sm w-64 text-gray-700 placeholder-gray-400">
+                        </div>
+
+                        <!-- Notification Bell -->
+                        <button class="relative p-2 hover:bg-white/80 rounded-full transition-all">
+                            <i class="fas fa-bell text-gray-600 text-xl"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        </button>
+
+                        <!-- User Profile -->
+                        <div class="flex items-center gap-3 pl-6 border-l border-gray-200">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-semibold text-gray-900">ADMIN</p>
+                                <p class="text-xs text-gray-500">Super Admin</p>
+                            </div>
+                            <div class="relative">
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full"> 
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-8 animate-fade-in">
+            <!-- Header Section -->
+            <div class="flex items-start justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Feedback & Reputation</h2>
+                    <p class="text-sm text-gray-500 mt-1">Manage and respond to your customer reviews across all services.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="filter-btn">Filter</button>
+                    <button class="sort-btn flex items-center gap-2">
+                        Sort: Newest
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rating Overview Card -->
+            <div class="bg-white rounded-xl border border-gray-200 p-6 mb-8">
+                <div class="flex items-start gap-12">
+                    <!-- Left: Overall Rating -->
+                    <div class="flex items-center gap-6">
+                        <div class="text-center">
+                            <p class="text-6xl font-bold text-gray-900">4.8</p>
+                            <div class="flex items-center gap-1 my-2">
+                                <i class="fas fa-star text-primary-500 text-sm"></i>
+                                <i class="fas fa-star text-primary-500 text-sm"></i>
+                                <i class="fas fa-star text-primary-500 text-sm"></i>
+                                <i class="fas fa-star text-primary-500 text-sm"></i>
+                                <i class="fas fa-star text-primary-500 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-500">Out of 149 reviews</p>
+                            <p class="text-xs text-green-600 mt-1 flex items-center justify-center gap-1">
+                                <i class="fas fa-arrow-up"></i>
+                                +2.4% this month
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Rating Breakdown -->
+                    <div class="flex-1 max-w-md">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-600 w-8">5 <i class="fas fa-star text-xs text-gray-400"></i></span>
+                                <div class="flex-1 rating-bar">
+                                    <div class="rating-bar-fill" style="width: 83%;"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 w-8">124</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-600 w-8">4 <i class="fas fa-star text-xs text-gray-400"></i></span>
+                                <div class="flex-1 rating-bar">
+                                    <div class="rating-bar-fill" style="width: 12%;"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 w-8">18</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-600 w-8">3 <i class="fas fa-star text-xs text-gray-400"></i></span>
+                                <div class="flex-1 rating-bar">
+                                    <div class="rating-bar-fill" style="width: 3%;"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 w-8">4</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-600 w-8">2 <i class="fas fa-star text-xs text-gray-400"></i></span>
+                                <div class="flex-1 rating-bar">
+                                    <div class="rating-bar-fill" style="width: 1%;"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 w-8">2</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-600 w-8">1 <i class="fas fa-star text-xs text-gray-400"></i></span>
+                                <div class="flex-1 rating-bar">
+                                    <div class="rating-bar-fill" style="width: 1%;"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 w-8">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Response Stats -->
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Response Rate</p>
+                            <p class="text-2xl font-bold text-gray-900">98%</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Avg. Response Time</p>
+                            <p class="text-2xl font-bold text-gray-900">4.2 hrs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Tabs -->
+            <div class="flex items-center gap-2 mb-6">
+                <button class="tab-btn active">All Reviews (149)</button>
+                <button class="tab-btn">Needs Response (12)</button>
+                <button class="tab-btn">Positive (138)</button>
+            </div>
+
+            <!-- Reviews List -->
+            <div class="space-y-4">
+                <!-- Review 1 - Elena Rodriguez (with response) -->
+                <div class="review-card">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-4">
+                            <img src="https://i.pravatar.cc/150?img=1" class="w-12 h-12 rounded-full">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="font-semibold text-gray-900">Elena Rodriguez</h4>
+                                    <span class="verified-badge">
+                                        <i class="fas fa-check-circle text-xs"></i>
+                                        Verified Guest
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-400">•</span>
+                                    <span class="text-sm text-gray-500">Visited: Oct 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-400">2 days ago</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mt-3 leading-relaxed">
+                        "The search tool is incredibly intuitive. I found my dream hotel in Santorini within minutes and the local excursions were the highlight of my year! Highly recommended for anyone looking for a seamless travel planning experience."
+                    </p>
+                    
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="service-tag">Santorini Sunset Bliss</span>
+                        <button class="p-2 hover:bg-gray-100 rounded-lg">
+                            <i class="fas fa-ellipsis-h text-gray-400"></i>
+                        </button>
+                    </div>
+
+                    <!-- Management Response -->
+                    <div class="response-box mt-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-reply text-primary-600 text-sm"></i>
+                            <span class="text-sm font-semibold text-gray-900">PlacePilot Management Response</span>
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Thank you so much Elena! We are thrilled you enjoyed the sunset excursions. Looking forward to hosting you again!
+                        </p>
+                        <button class="text-xs text-primary-600 font-medium mt-2 hover:text-primary-700">Edit Response</button>
+                    </div>
+                </div>
+
+                <!-- Review 2 - Marcus Thorne -->
+                <div class="review-card">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-4">
+                            <img src="https://i.pravatar.cc/150?img=3" class="w-12 h-12 rounded-full">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="font-semibold text-gray-900">Marcus Thorne</h4>
+                                    <span class="verified-badge">
+                                        <i class="fas fa-check-circle text-xs"></i>
+                                        Verified Guest
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="far fa-star text-gray-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-400">•</span>
+                                    <span class="text-sm text-gray-500">Visited: Sep 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-400">1 week ago</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mt-3 leading-relaxed">
+                        "GlobalWander has simplified my business leisure trips. The restaurant recommendations are always spot-on for meeting clients in style. The only minor issue was a slight delay in the booking confirmation for the Zen Gardens, but overall excellent."
+                    </p>
+                    
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="service-tag">Kyoto Zen Gardens</span>
+                        <div class="flex items-center gap-2">
+                            <button class="reply-btn">
+                                <i class="fas fa-comment text-sm"></i>
+                                Reply
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-ellipsis-h text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 - Sarah & James -->
+                <div class="review-card">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-4">
+                            <img src="https://i.pravatar.cc/150?img=5" class="w-12 h-12 rounded-full">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="font-semibold text-gray-900">Sarah & James</h4>
+                                    <span class="verified-badge">
+                                        <i class="fas fa-check-circle text-xs"></i>
+                                        Verified Guest
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-400">•</span>
+                                    <span class="text-sm text-gray-500">Visited: Oct 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-400">Oct 15, 2024</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mt-3 leading-relaxed">
+                        "The weather widget was a lifesaver for our Bali trip. We could plan our kayaking around the sunny windows perfectly. Highly recommend! The Amalfi Coast drive was also spectacular."
+                    </p>
+                    
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="service-tag">Bali Adventure Bundle</span>
+                        <div class="flex items-center gap-2">
+                            <button class="reply-btn">
+                                <i class="fas fa-comment text-sm"></i>
+                                Reply
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-ellipsis-h text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 4 - David Chen -->
+                <div class="review-card">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-4">
+                            <img src="https://i.pravatar.cc/150?img=8" class="w-12 h-12 rounded-full">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="font-semibold text-gray-900">David Chen</h4>
+                                    <span class="verified-badge">
+                                        <i class="fas fa-check-circle text-xs"></i>
+                                        Verified Guest
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="far fa-star text-gray-300 text-xs"></i>
+                                        <i class="far fa-star text-gray-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-400">•</span>
+                                    <span class="text-sm text-gray-500">Visited: Sep 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-400">Oct 10, 2024</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mt-3 leading-relaxed">
+                        "Beautiful location, but the check-in process was a bit confusing. I wish there was more information provided in the initial email about where to meet the guide. The experience itself was 5 stars, but the logistics need work."
+                    </p>
+                    
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="service-tag">Secret Island Kayaking</span>
+                        <div class="flex items-center gap-2">
+                            <button class="reply-btn">
+                                <i class="fas fa-comment text-sm"></i>
+                                Reply
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-ellipsis-h text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 5 - Jessica Miller -->
+                <div class="review-card">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-4">
+                            <img src="https://i.pravatar.cc/150?img=9" class="w-12 h-12 rounded-full">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="font-semibold text-gray-900">Jessica Miller</h4>
+                                    <span class="verified-badge">
+                                        <i class="fas fa-check-circle text-xs"></i>
+                                        Verified Guest
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                        <i class="fas fa-star text-primary-500 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-400">•</span>
+                                    <span class="text-sm text-gray-500">Visited: Sep 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-400">Sep 28, 2024</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mt-3 leading-relaxed">
+                        "Absolutely phenomenal! From the moment we booked until we returned home, PlacePilot made everything so easy. The traditional cooking masterclass was the best part of our vacation."
+                    </p>
+                    
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="service-tag">Traditional Cooking Masterclass</span>
+                        <div class="flex items-center gap-2">
+                            <button class="reply-btn">
+                                <i class="fas fa-comment text-sm"></i>
+                                Reply
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-ellipsis-h text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End of Feed -->
+            <div class="text-center py-12">
+                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="far fa-star text-gray-400 text-xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-1">That's all for now</h4>
+                <p class="text-sm text-gray-500 mb-6">You've reached the end of your recent reviews feed.</p>
+                <button class="load-more-btn">Load Older Reviews</button>
+            </div>
+
+            <!-- Footer -->
+            <footer class="border-t border-gray-200 pt-6 mt-8">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-gray-500">© 2024 PlacePilot Provider Dashboard. All rights reserved.</p>
+                    <div class="flex items-center gap-6">
+                        <a href="#" class="text-sm text-gray-500 hover:text-gray-700">Privacy Policy</a>
+                        <a href="#" class="text-sm text-gray-500 hover:text-gray-700">Terms of Service</a>
+                        <a href="#" class="text-sm text-gray-500 hover:text-gray-700">Help Center</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+</div>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('-translate-x-full');
+}
+</script>
+
+</body>
+</html>
