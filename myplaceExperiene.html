@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Experiences - Trip Pilot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #3b82f6;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .wave-bg {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100%);
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        .form-input {
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .day-btn {
+            transition: all 0.2s ease;
+        }
+
+        .day-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .checkbox-item {
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: #3b82f6;
+        }
+
+        .checkbox-item.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .checkbox-item.selected .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .upload-area {
+            transition: all 0.2s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+
+        .upload-area.dragover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .preview-card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-tooltip {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        }
+
+        .experience-card {
+            transition: all 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .status-badge {
+            transition: all 0.2s ease;
+        }
+
+        .view-toggle {
+            transition: all 0.3s ease;
+        }
+
+        .view-toggle.hidden-view {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+        }
+
+        .view-toggle.active-view {
+            opacity: 1;
+            pointer-events: auto;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-xl z-20 flex flex-col transition-all duration-300" id="sidebar">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+                        <i class="fas fa-plane text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-gray-900">Trip Pilot</h1>
+                        <p class="text-xs text-gray-500">Tourism Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                <!-- Dashboard -->
+                <a href="dashboardExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-chart-pie w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <!-- My Place - Active -->
+                <a href="myplaceExperiene.html" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-primary-700 bg-primary-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-home w-5"></i>
+                    <span>My Place</span>
+                </a>
+        
+                <!-- Bookings -->
+                <a href="bookingExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-calendar-check w-5"></i>
+                    <span>Bookings</span>
+                </a>
+                
+                <!-- Messages -->
+                <a href="messagesExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-comments w-5"></i>
+                    <span>Messages</span>
+                    <span class="ml-auto bg-primary-100 text-primary-700 text-xs font-bold px-2 py-1 rounded-full">3</span>
+                </a>
+                
+                <!-- Reviews -->
+                <a href="ReviewExperience.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium">
+                    <i class="fas fa-star w-5"></i>
+                    <span>Reviews</span>
+                </a>
+            </nav>
+
+            <!-- User Profile at Bottom -->
+            <div class="p-4 border-t border-gray-100">
+                <div class="flex items-center gap-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full">
+                    <div>
+                        <p class="text-sm font-semibold text-gray-900">ADMIN</p>
+                        <p class="text-xs text-gray-500">Super Admin</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto wave-bg relative">
+            <!-- Top Header -->
+            <header class="glass-effect sticky top-0 z-10 px-8 py-4 border-b border-white/50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="fas fa-bars text-gray-600"></i>
+                        </button>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">My Experiences</h2>
+                            <p class="text-sm text-gray-500">Create and manage your activities for tourists</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <!-- Search Bar -->
+                        <div class="hidden md:flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                            <i class="fas fa-search text-gray-400"></i>
+                            <input type="text" placeholder="Search destinations, bookings..." class="bg-transparent border-none outline-none text-sm w-64 text-gray-700 placeholder-gray-400">
+                        </div>
+
+                        <!-- Notification Bell -->
+                        <button class="relative p-2 hover:bg-white/80 rounded-full transition-all">
+                            <i class="fas fa-bell text-gray-600 text-xl"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        </button>
+
+                        <!-- User Profile -->
+                        <div class="flex items-center gap-3 pl-6 border-l border-gray-200">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-semibold text-gray-900">ADMIN</p>
+                                <p class="text-xs text-gray-500">Super Admin</p>
+                            </div>
+                            <div class="relative">
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full"> 
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="p-8">
+                
+                <!-- VIEW 1: Experience List -->
+                <div id="experienceListView" class="view-toggle active-view">
+                    
+
+                    <!-- Header with Add Button -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-4">
+                            <h3 class="text-lg font-semibold text-gray-900">All Experiences</h3>
+                            <div class="flex items-center gap-2 bg-white rounded-lg p-1 border border-gray-200">
+                                <button class="px-3 py-1.5 text-sm font-medium text-primary-600 bg-primary-50 rounded-md">All</button>
+                                <button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md">Active</button>
+                                <button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md">Draft</button>
+                            </div>
+                        </div>
+                        <button onclick="showAddExperienceForm()" class="px-6 py-3 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors flex items-center gap-2 shadow-lg shadow-primary-500/30">
+                            <i class="fas fa-plus"></i>
+                            Add New Experience
+                        </button>
+                    </div>
+
+                    <!-- Experience Grid -->
+                    <div class="grid grid-cols-3 gap-6">
+                        <!-- Experience Card 1 -->
+                        <div class="experience-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                            <div class="relative h-48">
+                                <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&q=80" alt="Amalfi Coast" class="w-full h-full object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="status-badge px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full">Active</span>
+                                </div>
+                                <div class="absolute top-3 right-3 flex gap-2">
+                                    <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                                        <i class="fas fa-edit text-gray-600 text-sm"></i>
+                                    </button>
+                                    <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                                        <i class="fas fa-ellipsis-v text-gray-600 text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-1 bg-primary-50 text-primary-600 text-xs font-medium rounded">Adventure</span>
+                                    <div class="flex items-center gap-1 text-xs text-gray-600">
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <span>4.9 (124)</span>
+                                    </div>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-2 leading-tight">Sunset Boat Tour: Amalfi Coast Hidden Gems</h4>
+                                <div class="flex items-center gap-1 text-sm text-gray-500 mb-4">
+                                    <i class="fas fa-map-marker-alt text-primary-500"></i>
+                                    <span>Positano, Italy</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <div>
+                                        <span class="text-xs text-gray-400">Price per person</span>
+                                        <p class="text-lg font-bold text-primary-600">€85.00</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xs text-gray-400">Bookings</span>
+                                        <p class="text-lg font-semibold text-gray-700">342</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Card 2 -->
+                        <div class="experience-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                            <div class="relative h-48">
+                                <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=400&q=80" alt="Cinque Terre" class="w-full h-full object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="status-badge px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full">Active</span>
+                                </div>
+                                <div class="absolute top-3 right-3 flex gap-2">
+                                    <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                                        <i class="fas fa-edit text-gray-600 text-sm"></i>
+                                    </button>
+                                    <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                                        <i class="fas fa-ellipsis-v text-gray-600 text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-1 bg-primary-50 text-primary-600 text-xs font-medium rounded">Culture & History</span>
+                                    <div class="flex items-center gap-1 text-xs text-gray-600">
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <span>4.8 (89)</span>
+                                    </div>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-2 leading-tight">Cinque Terre Hiking Adventure with Local Guide</h4>
+                                <div class="flex items-center gap-1 text-sm text-gray-500 mb-4">
+                                    <i class="fas fa-map-marker-alt text-primary-500"></i>
+                                    <span>Cinque Terre, Italy</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <div>
+                                        <span class="text-xs text-gray-400">Price per person</span>
+                                        <p class="text-lg font-bold text-primary-600">€65.00</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xs text-gray-400">Bookings</span>
+                                        <p class="text-lg font-semibold text-gray-700">218</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Card 3 -->
+                        <div class="experience-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                            <div class="relative h-48">
+                                <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&q=80" alt="Pasta Workshop" class="w-full h-full object-cover">
+                                <div class="absolute top-3 left-3">
+                                    <span class="status-badge px-3 py-1 bg-yellow-500 text-white text-xs font-medium rounded-full">Draft</span>
+                                </div>
+                                <div class="absolute top-3 right-3 flex gap-2">
+                                    <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                                        <i class="fas fa-edit text-gray-600 text-sm"></i>
+                                    </button>
+                                    <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                                        <i class="fas fa-ellipsis-v text-gray-600 text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-1 bg-primary-50 text-primary-600 text-xs font-medium rounded">Food & Drink</span>
+                                    <div class="flex items-center gap-1 text-xs text-gray-600">
+                                        <i class="fas fa-star text-gray-300"></i>
+                                        <span>No reviews</span>
+                                    </div>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-2 leading-tight">Authentic Pasta Making Workshop in Trastevere</h4>
+                                <div class="flex items-center gap-1 text-sm text-gray-500 mb-4">
+                                    <i class="fas fa-map-marker-alt text-primary-500"></i>
+                                    <span>Rome, Italy</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <div>
+                                        <span class="text-xs text-gray-400">Price per person</span>
+                                        <p class="text-lg font-bold text-primary-600">€95.00</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xs text-gray-400">Bookings</span>
+                                        <p class="text-lg font-semibold text-gray-700">0</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between mt-8">
+                        <p class="text-sm text-gray-500">Showing 3 of 3 experiences</p>
+                        <div class="flex items-center gap-2">
+                            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-white hover:text-gray-600 transition-colors">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-500 text-white font-medium">1</button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-white transition-colors">2</button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-white transition-colors">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="text-center text-xs text-gray-400 pt-8 pb-4">
+                        © 2024 Trip Pilot Management System. All rights reserved.
+                    </div>
+                </div>
+
+                <!-- VIEW 2: Add Experience Form -->
+                <div id="addExperienceForm" class="view-toggle hidden-view">
+                    <!-- Back Button -->
+                    <div class="mb-6">
+                        <button onclick="showExperienceList()" class="flex items-center gap-2 text-gray-600 hover:text-primary-600 transition-colors">
+                            <i class="fas fa-arrow-left"></i>
+                            <span class="font-medium">Back to Experiences</span>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-8">
+                        <!-- Main Form -->
+                        <div class="flex-1 space-y-6">
+                            
+                            <!-- General Information -->
+                            <div class="section-card p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-info-circle text-primary-600 text-sm"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900">General Information</h3>
+                                </div>
+
+                                <div class="space-y-5">
+                                    <!-- Experience Title -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Experience Title</label>
+                                        <input type="text" placeholder="e.g., Authentic Pasta Workshop in Trastevere" class="form-input w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 outline-none">
+                                    </div>
+
+                                    <!-- Category & Language -->
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                                            <div class="relative">
+                                                <select class="form-input w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none appearance-none bg-white">
+                                                    <option value="">Select category</option>
+                                                    <option value="food">Food & Drink</option>
+                                                    <option value="culture">Culture & History</option>
+                                                    <option value="adventure">Adventure</option>
+                                                    <option value="nature">Nature & Wildlife</option>
+                                                    <option value="art">Art & Design</option>
+                                                </select>
+                                                <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                                            <div class="relative">
+                                                <select class="form-input w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none appearance-none bg-white">
+                                                    <option value="">Select language</option>
+                                                    <option value="en">English</option>
+                                                    <option value="it">Italian</option>
+                                                    <option value="es">Spanish</option>
+                                                    <option value="fr">French</option>
+                                                    <option value="de">German</option>
+                                                </select>
+                                                <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Short Description -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+                                        <textarea rows="3" placeholder="Give a brief and exciting summary of what guests will do..." class="form-input w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 outline-none resize-none"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="section-card p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-primary-600 text-sm"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Location</h3>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Meeting Point</label>
+                                        <div class="relative">
+                                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-primary-500"></i>
+                                            <input type="text" placeholder="Search address or pin on map" class="form-input w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 outline-none">
+                                        </div>
+                                    </div>
+
+                                    <!-- Map Placeholder -->
+                                    <div class="relative rounded-xl overflow-hidden h-48 bg-gray-100">
+                                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80" alt="Map" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/20"></div>
+                                        <div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
+                                            <button class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center shadow-lg hover:bg-primary-600 transition-colors">
+                                                <i class="fas fa-map-marker-alt text-white"></i>
+                                            </button>
+                                            <span class="text-xs text-white font-medium bg-black/50 px-2 py-1 rounded">Click to set exact location</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Experience Details -->
+                            <div class="section-card p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-clock text-primary-600 text-sm"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Experience Details</h3>
+                                </div>
+
+                                <div class="space-y-5">
+                                    <!-- Duration & Group Size -->
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration (hours)</label>
+                                            <div class="relative">
+                                                <i class="fas fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                                <input type="number" placeholder="2.5" class="form-input w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Max Group Size</label>
+                                            <div class="relative">
+                                                <i class="fas fa-users absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                                <input type="number" placeholder="12" class="form-input w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- What's Included -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-3">What's Included</label>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div class="checkbox-item border border-gray-200 rounded-xl px-4 py-3 cursor-pointer flex items-center justify-between" onclick="toggleCheckbox(this)">
+                                                <span class="text-sm text-gray-700">Equipment provided</span>
+                                                <div class="check-icon w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center opacity-0 transform scale-50 transition-all">
+                                                    <i class="fas fa-check text-white text-xs"></i>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-item border border-gray-200 rounded-xl px-4 py-3 cursor-pointer flex items-center justify-between" onclick="toggleCheckbox(this)">
+                                                <span class="text-sm text-gray-700">Light snacks</span>
+                                                <div class="check-icon w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center opacity-0 transform scale-50 transition-all">
+                                                    <i class="fas fa-check text-white text-xs"></i>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-item border border-gray-200 rounded-xl px-4 py-3 cursor-pointer flex items-center justify-between" onclick="toggleCheckbox(this)">
+                                                <span class="text-sm text-gray-700">Professional guide</span>
+                                                <div class="check-icon w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center opacity-0 transform scale-50 transition-all">
+                                                    <i class="fas fa-check text-white text-xs"></i>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-item border border-gray-200 rounded-xl px-4 py-3 cursor-pointer flex items-center justify-between" onclick="toggleCheckbox(this)">
+                                                <span class="text-sm text-gray-700">Entrance fees</span>
+                                                <div class="check-icon w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center opacity-0 transform scale-50 transition-all">
+                                                    <i class="fas fa-check text-white text-xs"></i>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-item border border-gray-200 rounded-xl px-4 py-3 cursor-pointer flex items-center justify-between" onclick="toggleCheckbox(this)">
+                                                <span class="text-sm text-gray-700">Private transport</span>
+                                                <div class="check-icon w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center opacity-0 transform scale-50 transition-all">
+                                                    <i class="fas fa-check text-white text-xs"></i>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-item border border-gray-200 rounded-xl px-4 py-3 cursor-pointer flex items-center justify-between" onclick="toggleCheckbox(this)">
+                                                <span class="text-sm text-gray-700">Photos & Videos</span>
+                                                <div class="check-icon w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center opacity-0 transform scale-50 transition-all">
+                                                    <i class="fas fa-check text-white text-xs"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Additional Items -->
+                                    <div>
+                                        <textarea rows="2" placeholder="Add any other specific items included in the price..." class="form-input w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 outline-none resize-none"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Photos -->
+                            <div class="section-card p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-image text-primary-600 text-sm"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Photos</h3>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <!-- Upload Area -->
+                                    <div class="upload-area border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                                        <input type="file" id="fileInput" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                                        <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-cloud-upload-alt text-primary-500 text-xl"></i>
+                                        </div>
+                                        <p class="text-sm font-medium text-gray-700 mb-1">Click to upload or drag & drop</p>
+                                        <p class="text-xs text-gray-400">High resolution JPEG, PNG up to 10MB</p>
+                                    </div>
+
+                                    <!-- Uploaded Images Preview -->
+                                    <div class="flex gap-3 flex-wrap" id="imagePreview">
+                                        <div class="relative w-24 h-24 rounded-xl overflow-hidden group">
+                                            <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=200&q=80" class="w-full h-full object-cover">
+                                            <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <i class="fas fa-times text-white text-xs"></i>
+                                            </button>
+                                        </div>
+                                        <div class="relative w-24 h-24 rounded-xl overflow-hidden group">
+                                            <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=200&q=80" class="w-full h-full object-cover">
+                                            <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <i class="fas fa-times text-white text-xs"></i>
+                                            </button>
+                                        </div>
+                                        <div class="relative w-24 h-24 rounded-xl overflow-hidden group">
+                                            <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=200&q=80" class="w-full h-full object-cover">
+                                            <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <i class="fas fa-times text-white text-xs"></i>
+                                            </button>
+                                        </div>
+                                        <div class="w-24 h-24 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400">
+                                            <span class="text-xs text-center px-2">More images improve booking rates</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Times / Availability -->
+                            <div class="section-card p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-calendar-alt text-primary-600 text-sm"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Times</h3>
+                                </div>
+
+                                <div class="space-y-5">
+                                    <!-- Day Selection -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-3">Recurring Schedule (Select Days)</label>
+                                        <div class="flex gap-2 flex-wrap">
+                                            <button class="day-btn active px-4 py-2 border border-gray-200 rounded-full text-sm font-medium" onclick="toggleDay(this)">Mon</button>
+                                            <button class="day-btn px-4 py-2 border border-gray-200 rounded-full text-sm font-medium text-gray-600" onclick="toggleDay(this)">Tue</button>
+                                            <button class="day-btn active px-4 py-2 border border-gray-200 rounded-full text-sm font-medium" onclick="toggleDay(this)">Wed</button>
+                                            <button class="day-btn px-4 py-2 border border-gray-200 rounded-full text-sm font-medium text-gray-600" onclick="toggleDay(this)">Thu</button>
+                                            <button class="day-btn active px-4 py-2 border border-gray-200 rounded-full text-sm font-medium" onclick="toggleDay(this)">Fri</button>
+                                            <button class="day-btn active px-4 py-2 border border-gray-200 rounded-full text-sm font-medium" onclick="toggleDay(this)">Sat</button>
+                                            <button class="day-btn px-4 py-2 border border-gray-200 rounded-full text-sm font-medium text-gray-600" onclick="toggleDay(this)">Sun</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time Slots -->
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Time Slot Start</label>
+                                            <div class="relative">
+                                                <i class="fas fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                                <input type="time" value="09:00" class="form-input w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Time Slot End</label>
+                                            <div class="relative">
+                                                <i class="fas fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                                <input type="time" value="18:00" class="form-input w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pricing -->
+                            <div class="section-card p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-dollar-sign text-primary-600 text-sm"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Price</h3>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Price per person (€)</label>
+                                        <div class="relative">
+                                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">$</span>
+                                            <input type="number" placeholder="0.00" class="form-input w-full pl-9 pr-16 py-3 border border-gray-200 rounded-xl text-gray-700 outline-none">
+                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">EUR</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 flex items-center gap-1">
+                                        <i class="fas fa-info-circle text-primary-500"></i>
+                                        Suggested price for similar experiences in Positano: €75 - €105
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex items-center justify-end gap-4 pt-4">
+                                <button onclick="showExperienceList()" class="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors">Cancel</button>
+                                <button class="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors">Save as Draft</button>
+                                <button class="px-6 py-3 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors flex items-center gap-2">
+                                    <i class="fas fa-file-export"></i>
+                                    Publish Experience
+                                </button>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="text-center text-xs text-gray-400 pt-8 pb-4">
+                                © 2024 Trip Pilot Management System. All rights reserved.
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        // Toggle Checkbox Items
+        function toggleCheckbox(element) {
+            element.classList.toggle('selected');
+        }
+
+        // Toggle Day Buttons
+        function toggleDay(button) {
+            button.classList.toggle('active');
+            if (button.classList.contains('active')) {
+                button.classList.remove('text-gray-600');
+            } else {
+                button.classList.add('text-gray-600');
+            }
+        }
+
+        // View Toggle Functions
+        function showAddExperienceForm() {
+            document.getElementById('experienceListView').classList.remove('active-view');
+            document.getElementById('experienceListView').classList.add('hidden-view');
+            document.getElementById('addExperienceForm').classList.remove('hidden-view');
+            document.getElementById('addExperienceForm').classList.add('active-view');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showExperienceList() {
+            document.getElementById('addExperienceForm').classList.remove('active-view');
+            document.getElementById('addExperienceForm').classList.add('hidden-view');
+            document.getElementById('experienceListView').classList.remove('hidden-view');
+            document.getElementById('experienceListView').classList.add('active-view');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle File Upload
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('imagePreview');
+            
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'relative w-24 h-24 rounded-xl overflow-hidden group';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                        <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" onclick="this.parentElement.remove()">
+                            <i class="fas fa-times text-white text-xs"></i>
+                        </button>
+                    `;
+                    previewContainer.insertBefore(div, previewContainer.lastElementChild);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Drag and Drop
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFileDrop(files);
+        });
+
+        function handleFileDrop(files) {
+            const previewContainer = document.getElementById('imagePreview');
+            
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'relative w-24 h-24 rounded-xl overflow-hidden group';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" class="w-full h-full object-cover">
+                            <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" onclick="this.parentElement.remove()">
+                                <i class="fas fa-times text-white text-xs"></i>
+                            </button>
+                        `;
+                        previewContainer.insertBefore(div, previewContainer.lastElementChild);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
