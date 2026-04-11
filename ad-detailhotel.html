@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Hotel Submission - Trip Pilot Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #2563eb;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-reject {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-reject:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .wave-bg {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100%);
+        }
+        
+        .image-gallery img {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .amenity-tag {
+            transition: all 0.2s ease;
+        }
+        
+        .amenity-tag:hover {
+            transform: translateY(-2px);
+        }
+        
+        .status-pending {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .status-approved {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .status-rejected {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-xl z-20 flex flex-col transition-all duration-300" id="sidebar">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+                        <i class="fas fa-plane text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-gray-900">Trip Pilot</h1>
+                        <p class="text-xs text-gray-500">Tourism Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                <a href="ad-dashboared.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-chart-pie w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+        
+                <a href="ad-booking.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-calendar-check w-5"></i>
+                    <span>Bookings</span>
+                </a>
+                
+                <a href="ad-cust.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-users w-5"></i>
+                    <span>Customers</span>
+                </a>
+                
+                <!-- Active Hotels Link -->
+                <a href="ad-hotels.html" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-primary-700 bg-primary-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-hotel w-5"></i>
+                    <span>Hotels</span>
+                </a>
+                
+                <a href="ad-rest.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                   <i class="fa fa-utensils w-5"></i>
+                   <span>Restaurant</span>
+                </a>
+                
+                <a href="ad-messagerie.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-comments w-5 text-center"></i>
+                    <span>Messagerie</span>
+                </a>
+                
+                <a href="ad-activity.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span>Activity</span>
+                </a>
+                <a href="ad-travelprogramme.html" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-xl font-medium transition-all">
+                <i class="fas fa-route w-5"></i>
+                <span>Travelprogramme</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto wave-bg">
+            <!-- Top Header -->
+            <header class="glass-effect sticky top-0 z-10 px-8 py-4 border-b border-white/50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <a href="ad-hotels.html" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="fas fa-arrow-left text-gray-600 text-lg"></i>
+                        </a>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Detail Hotel</h2>
+                            
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        
+
+                        <button class="relative p-2 hover:bg-white/80 rounded-full transition-all">
+                            <i class="fas fa-bell text-gray-600 text-xl"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        </button>
+
+                        <div class="flex items-center gap-3 pl-6 border-l border-gray-200">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-semibold text-gray-900">ADMIN</p>
+                                <p class="text-xs text-gray-500">Super Admin</p>
+                            </div>
+                            <div class="relative">
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-10 h-10 rounded-full">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Review Content -->
+            <div class="p-8 space-y-6 animate-fade-in">
+                
+                <!-- Action Bar -->
+                
+                        
+        
+                    
+                    
+                    
+                    <div id="actionMessage" class="hidden">
+                        <span class="text-lg font-bold flex items-center gap-2"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Left Column - Images -->
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <!-- Main Image -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <div class="relative h-96">
+                                <img id="mainImage" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop" 
+                                     alt="Hotel Main" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <h3 class="text-3xl font-bold mb-2">Grand Plaza Hotel</h3>
+                                    <p class="flex items-center gap-2 text-lg">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        123 Broadway Avenue, New York, USA
+                                    </p>
+                                </div>
+                                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl">
+                                    <span class="text-2xl font-bold text-primary-600">€280</span>
+                                    <span class="text-gray-500 text-sm">/night</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Thumbnail Gallery -->
+                            <div class="p-4 grid grid-cols-4 gap-3 image-gallery">
+                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&h=200&fit=crop" 
+                                     class="w-full h-24 object-cover rounded-lg border-2 border-primary-500" 
+                                     onclick="changeMainImage(this)">
+                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=300&h=200&fit=crop" 
+                                     class="w-full h-24 object-cover rounded-lg border-2 border-transparent hover:border-primary-300" 
+                                     onclick="changeMainImage(this)">
+                                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=300&h=200&fit=crop" 
+                                     class="w-full h-24 object-cover rounded-lg border-2 border-transparent hover:border-primary-300" 
+                                     onclick="changeMainImage(this)">
+                                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=300&h=200&fit=crop" 
+                                     class="w-full h-24 object-cover rounded-lg border-2 border-transparent hover:border-primary-300" 
+                                     onclick="changeMainImage(this)">
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- Amenities -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-concierge-bell text-primary-600"></i>
+                                Amenities & Services
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-wifi"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Free WiFi</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-swimming-pool"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Swimming Pool</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-spa"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Spa & Wellness</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Fitness Center</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-utensils"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Restaurant</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-parking"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Free Parking</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-cocktail"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Bar & Lounge</span>
+                                </div>
+                                <div class="amenity-tag bg-primary-50 p-4 rounded-xl flex items-center gap-3 border border-primary-100">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600">
+                                        <i class="fas fa-snowflake"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Air Conditioning</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Policies -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-file-alt text-primary-600"></i>
+                                Hotel Policies
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 flex-shrink-0">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">Check-in / Check-out</p>
+                                        <p class="text-sm text-gray-600">Check-in: 3:00 PM<br>Check-out: 11:00 AM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                                        <i class="fas fa-undo"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">Cancellation</p>
+                                        <p class="text-sm text-gray-600">Free cancellation up to 24 hours before arrival</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
+                                        <i class="fas fa-paw"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">Pets</p>
+                                        <p class="text-sm text-gray-600">Pets are not allowed</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 flex-shrink-0">
+                                        <i class="fas fa-smoking-ban"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">Smoking</p>
+                                        <p class="text-sm text-gray-600">Non-smoking property</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Details -->
+                    <div class="space-y-6">
+                        
+                        <!-- Quick Info -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4">Quick Overview</h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-600">Star Rating</span>
+                                    <div class="flex items-center gap-1 text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="text-gray-800 font-bold ml-1">5.0</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-600">Total Rooms</span>
+                                    <span class="font-bold text-gray-800 text-lg">320</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-600">Hotel Type</span>
+                                    <span class="font-medium text-primary-600 bg-primary-50 px-3 py-1 rounded-full text-sm">Luxury</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-600">Price Range</span>
+                                    <span class="font-bold text-green-600 text-lg">€280/night</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-address-card text-primary-600"></i>
+                                Contact Information
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Email</p>
+                                        <p class="font-medium text-gray-800">contact@grandplaza.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Phone</p>
+                                        <p class="font-medium text-gray-800">+1 212 555 0123</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Website</p>
+                                        <a href="#" class="font-medium text-primary-600 hover:underline">www.grandplaza.com</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location Map -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-map-marked-alt text-primary-600"></i>
+                                Location
+                            </h4>
+                            <div class="aspect-video bg-gray-200 rounded-xl overflow-hidden relative mb-3">
+                                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&h=400&fit=crop" 
+                                     class="w-full h-full object-cover" alt="Map">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg animate-bounce">
+                                        <i class="fas fa-map-marker-alt text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                <i class="fas fa-location-arrow text-primary-600 mr-2"></i>
+                                123 Broadway Avenue, Manhattan, New York, NY 10001, USA
+                            </p>
+                        </div>
+
+                        
+                        
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Reject Modal -->
+    <div id="rejectModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="rejectModalContent">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-red-600 mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Reject Hotel?</h3>
+                <p class="text-gray-500 mt-2">Please provide a reason for rejection</p>
+            </div>
+            
+            <div class="space-y-3 mb-6">
+                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="rejectReason" value="incomplete" class="text-red-600 w-4 h-4">
+                    <span class="text-sm">Incomplete information</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="rejectReason" value="fake" class="text-red-600 w-4 h-4">
+                    <span class="text-sm">Suspicious/Fake listing</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="rejectReason" value="quality" class="text-red-600 w-4 h-4">
+                    <span class="text-sm">Does not meet quality standards</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                    <input type="radio" name="rejectReason" value="other" class="text-red-600 w-4 h-4">
+                    <span class="text-sm">Other reason</span>
+                </label>
+            </div>
+            
+            <textarea id="rejectDetails" rows="3" 
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-red-500 text-sm resize-none mb-6"
+                      placeholder="Additional details..."></textarea>
+            
+            <div class="flex gap-3">
+                <button onclick="closeRejectModal()" class="flex-1 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="confirmReject()" class="flex-1 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors">
+                    Confirm Rejection
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Change main image
+        function changeMainImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = thumbnail.src.replace('w=300&h=200', 'w=1200&h=800');
+            
+            document.querySelectorAll('.image-gallery img').forEach(img => {
+                img.classList.remove('border-primary-500');
+                img.classList.add('border-transparent');
+            });
+            thumbnail.classList.remove('border-transparent');
+            thumbnail.classList.add('border-primary-500');
+        }
+
+        // Handle Action
+        function handleAction(action) {
+            if (action === 'reject') {
+                openRejectModal();
+            } else {
+                approveHotel();
+            }
+        }
+
+        // Approve Hotel
+        function approveHotel() {
+            const actionBar = document.getElementById('actionBar');
+            const actionButtons = document.getElementById('actionButtons');
+            const actionMessage = document.getElementById('actionMessage');
+            const statusBadge = document.getElementById('statusBadge');
+            
+            actionButtons.style.display = 'none';
+            
+            actionMessage.innerHTML = `
+                <span class="text-green-600 flex items-center gap-2">
+                    <i class="fas fa-check-circle text-2xl"></i>
+                    <span class="text-xl font-bold">Hotel Approved!</span>
+                </span>
+            `;
+            actionMessage.classList.remove('hidden');
+            
+            statusBadge.className = 'status-approved text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2';
+            statusBadge.innerHTML = '<i class="fas fa-check"></i> Approved';
+            
+            actionBar.classList.add('border-green-500', 'border-2');
+            
+            showNotification('Hotel has been approved and published!', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'ad-hotels.html';
+            }, 3000);
+        }
+
+        // Reject Modal
+        function openRejectModal() {
+            const modal = document.getElementById('rejectModal');
+            const content = document.getElementById('rejectModalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeRejectModal() {
+            const modal = document.getElementById('rejectModal');
+            const content = document.getElementById('rejectModalContent');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function confirmReject() {
+            const reason = document.querySelector('input[name="rejectReason"]:checked');
+            
+            if (!reason) {
+                alert('Please select a rejection reason');
+                return;
+            }
+            
+            closeRejectModal();
+            
+            const actionBar = document.getElementById('actionBar');
+            const actionButtons = document.getElementById('actionButtons');
+            const actionMessage = document.getElementById('actionMessage');
+            const statusBadge = document.getElementById('statusBadge');
+            
+            actionButtons.style.display = 'none';
+            
+            actionMessage.innerHTML = `
+                <span class="text-red-600 flex items-center gap-2">
+                    <i class="fas fa-times-circle text-2xl"></i>
+                    <span class="text-xl font-bold">Hotel Rejected</span>
+                </span>
+            `;
+            actionMessage.classList.remove('hidden');
+            
+            statusBadge.className = 'status-rejected text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2';
+            statusBadge.innerHTML = '<i class="fas fa-times"></i> Rejected';
+            
+            actionBar.classList.add('border-red-500', 'border-2');
+            
+            showNotification('Hotel has been rejected', 'error');
+            
+            setTimeout(() => {
+                window.location.href = 'ad-hotels.html';
+            }, 3000);
+        }
+
+        // Notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500'
+            };
+            
+            notification.className = `fixed top-24 right-8 px-6 py-4 rounded-xl shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex items-center gap-3 ${colors[type]} text-white`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'} text-xl"></i>
+                <span class="font-medium">${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(120%)';
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        // Close modal on outside click
+        document.getElementById('rejectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRejectModal();
+            }
+        });
+    </script>
+</body>
+</html>
